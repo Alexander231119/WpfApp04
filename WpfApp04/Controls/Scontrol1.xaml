@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="WpfApp04.Scontrol1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="14">
+    <Grid MouseRightButtonDown="Grid_MouseRightButtonDown">
+        <Ellipse Fill="White" Margin="0,0,0,6" StrokeThickness="1" Stroke="#FF565555" />
+        <Polygon Points="0.1,8, 13.9,8, 12,20, 2,20" Fill="White" ></Polygon>
+
+        <Polygon Points="1.05,14, 12.95,14, 12,20, 2,20" Fill="Green" ></Polygon>
+
+        <Polygon Points="0.1,8, 1.1,8, 3,20, 2,20" Fill="#FF565555" ></Polygon>
+        <Polygon Points="12.9,8, 13.9,8, 12,20, 11,20" Fill="#FF565555" ></Polygon>
+        <Polygon Points="2,19, 12,19, 12,20, 2,20" Fill="#FF565555" ></Polygon>
+        
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="C" VerticalAlignment="Top" Width="8" Height="12" FontWeight="Bold" FontFamily="Bahnschrift" Background="{x:Null}" Margin="0,1,0,0"/>
+
+    </Grid>
+</UserControl>

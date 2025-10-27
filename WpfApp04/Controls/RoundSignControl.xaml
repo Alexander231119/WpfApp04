@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="WpfApp04.Controls.RoundSignControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04"
+             mc:Ignorable="d" 
+             d:DesignHeight="12" d:DesignWidth="12">
+    <Grid Name="controlGrid" MouseRightButtonDown="controlGrid_MouseRightButtonDown">
+
+        <Ellipse Name="ellipse1" Fill="Black" Margin="0,0,0,0" />
+        <Ellipse Name="ellipse2" Fill="White" Margin="2,2,2,2" />
+        <Rectangle Name="rectangle1" Fill="Black" Margin="1,5,1,5" RenderTransformOrigin="0.5,0.5">
+        </Rectangle>
+        <Rectangle Name="rectangle2" Fill="Black" Margin="5,1,5,1" RenderTransformOrigin="0.5,0.5">
+
+        </Rectangle>
+    </Grid>
+</UserControl>

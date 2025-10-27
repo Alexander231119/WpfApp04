@@ -1,0 +1,58 @@
+﻿<Window x:Class="LampFrame01.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LampFrame01"
+        mc:Ignorable="d"
+        
+        WindowStartupLocation="Manual" Left="0" Top= "0"
+        
+        Title="LampFrame" Height="600" Width="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button x:Name="OpenInputButton" Content="Открыть БД для импорта" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" Click="OpenInputButton_Click"/>
+        <Button x:Name="OpenOutputButton" Content="Открыть БД для экспорта" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="155" Click="OpenOutputButton_Click" />
+        <TextBlock Background="#FFEAEAEA" x:Name="Inputfilenametextblock" HorizontalAlignment="Left" Margin="170,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="620"/>
+        <TextBlock Background="#FFEAEAEA" x:Name="Outputfilenametextblock" HorizontalAlignment="Left" Margin="170,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="620"/>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <DataGrid Name="grid1" Grid.Column="0" AutoGenerateColumns="False" Width="Auto" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="TrackObjectID" Width="60" Binding="{Binding Path=TrackObjectID}" />
+                        <DataGridTextColumn Header="TrackObjectName" Width="200" Binding="{Binding Path=TrackObjectName}" />
+                        <DataGridTextColumn Header="trafficLightLampInFramesCount" Width="90" Binding="{Binding Path=trafficLightLampInFramesCount}" />
+                        <DataGridTextColumn Header="trafficLightInFramesCount" Width="90" Binding="{Binding Path=trafficLightInFramesCount}" />
+                        <DataGridTextColumn Header="tliCount" Width="90" Binding="{Binding Path=tliRestrictionsCount}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <DataGrid x:Name="grid2" Grid.Column="1" AutoGenerateColumns="False" Width="Auto" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="TrackObjectID" Width="60" Binding="{Binding Path=TrackObjectID}" />
+                        <DataGridTextColumn Header="TrackObjectName" Width="200" Binding="{Binding Path=TrackObjectName}" />
+                        <DataGridTextColumn Header="trafficLightLampInFramesCount" Width="90" Binding="{Binding Path=trafficLightLampInFramesCount}" />
+                        <DataGridTextColumn Header="trafficLightInFramesCount" Width="90" Binding="{Binding Path=trafficLightInFramesCount}" />
+                        <DataGridTextColumn Header="tliCount" Width="90" Binding="{Binding Path=tliRestrictionsCount}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+
+        </ScrollViewer>
+        <Button x:Name="ExportButton" Content="Копировать Раскраску" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="143" Click="ExportButton_Click"/>
+        <Button x:Name="ExportTliButton" Content="Копировать Ограничения" HorizontalAlignment="Left" Margin="185,70,0,0" VerticalAlignment="Top" Width="161" Click="ExportTliButton_Click"/>
+        <Button x:Name="MoveFramesButton" Content="Сместить" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="78" Click="MoveFramesButton_Click"/>
+        <TextBox x:Name="MoveFramesTextBox" HorizontalAlignment="Left" Margin="93,111,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+        <TextBlock x:Name="ProcessTextBlock"  HorizontalAlignment="Left" Margin="900,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="90" Background="#FFEAEAEA" />
+
+
+    </Grid>
+</Window>

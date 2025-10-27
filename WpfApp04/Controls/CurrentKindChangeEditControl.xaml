@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="WpfApp04.Controls.CurrentKindChangeEditControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="280">
+    <Grid Background="White">
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Точка смены рода тока" VerticalAlignment="Top" Width="180"/>
+        <ComboBox x:Name="DicCurrentKindNamesStartComboBox" 
+                  HorizontalAlignment="Left" Margin="10,56,0,0" 
+                  VerticalAlignment="Top" Width="115"
+                  SelectionChanged="DicCurrentKindNamesStartComboBox_SelectionChanged"/>
+
+        <ComboBox x:Name="DicCurrentKindNamesEndComboBox" 
+                  HorizontalAlignment="Left" Margin="140,56,0,0" 
+                  VerticalAlignment="Top" Width="115"
+                  SelectionChanged="DicCurrentKindNamesEndComboBox_SelectionChanged"/>
+        <TextBlock Background="LightGray" HorizontalAlignment="Left" Margin="10,33,0,0" TextWrapping="Wrap" Text="начало" VerticalAlignment="Top" Width="115"/>
+        <TextBlock Background="LightGray" HorizontalAlignment="Left" Margin="140,33,0,0" TextWrapping="Wrap" Text="Конец" VerticalAlignment="Top" Width="115"/>
+
+    </Grid>
+</UserControl>

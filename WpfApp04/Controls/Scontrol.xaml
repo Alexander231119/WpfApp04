@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="WpfApp04.Scontrol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04"
+             mc:Ignorable="d" 
+             d:DesignHeight="10" d:DesignWidth="8">
+    <Grid x:Name="ScontrolGrid1">
+        <Ellipse Fill="White" Margin="1,2,1,2" StrokeThickness="0.4" Stroke="Black"></Ellipse>
+        <Polygon Fill="white" Points="1.1,5.75, 6.9,5.75, 6,10, 2,10"   />
+        <Polygon Fill="black" Points="1.1,5.75, 1.5,5.75, 2.4,10, 2,10"   />
+        <Polygon Fill="Black" Points="6.5,5.75, 6.9,5.75, 6,10, 5.6,10"   />
+        <Polygon Fill="Black" Points="2,9.6, 6,9.6, 6,10, 2,10"   />
+        <Polygon Fill="green" Points="1.85,7.5, 6.15,7.5, 5.7,9.6, 2.3,9.6"   />
+        <TextBlock Text="C" FontSize="5" Height="6" Width="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" />
+    </Grid>
+</UserControl>

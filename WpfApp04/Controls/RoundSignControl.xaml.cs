@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace WpfApp04.Controls
+{
+    /// <summary>
+    /// Interaction logic for RoundSignControl.xaml
+    /// </summary>
+    public partial class RoundSignControl : UserControl
+    {
+        public string name;
+        public string description;
+        public RoundSignControl()
+        {
+            InitializeComponent();
+        }
+
+        private void controlGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string message = name + "\n" + description;
+            MessageBox.Show(message);
+        }
+    }
+}

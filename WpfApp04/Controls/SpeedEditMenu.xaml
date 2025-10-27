@@ -1,0 +1,37 @@
+﻿<Window x:Class="WpfApp04.SpeedEditMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp04"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Постоянное ограничение скорости" Height="400" Width="421">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="57" Height="16"><Run Language="ru-ru" Text="Величина"/><LineBreak/><Run Language="ru-ru"/></TextBlock>
+        <TextBox Name="Value" HorizontalAlignment="Left" Margin="67,10,0,0" TextWrapping="Wrap" Text="v = км.ч" VerticalAlignment="Top" Width="51" Height="16"/>
+        <Button x:Name="SpeedOk" Content="Ok" HorizontalAlignment="Left" Margin="260,10,0,0" VerticalAlignment="Top" Width="47" Click="SpeedOk_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,72,0,0" TextWrapping="Wrap" Text="Координаты" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="39,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="начало"/></TextBlock>
+        <TextBox Name="StartKm" HorizontalAlignment="Left" Margin="84,92,0,0" TextWrapping="Wrap" Text="КМ" VerticalAlignment="Top" Width="46"/>
+        <TextBox Name="StartPk" HorizontalAlignment="Left" Margin="130,92,0,0" TextWrapping="Wrap" Text="Пк" VerticalAlignment="Top" Width="30"/>
+        <TextBox Name="StartM" HorizontalAlignment="Left" Margin="160,92,0,0" TextWrapping="Wrap" Text="М" VerticalAlignment="Top" Width="46"/>
+        <TextBlock HorizontalAlignment="Left" Margin="39,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="ru-ru" Text="конец"/></TextBlock>
+        <TextBox x:Name="EndKm" HorizontalAlignment="Left" Margin="84,110,0,0" TextWrapping="Wrap" Text="КМ" VerticalAlignment="Top" Width="46"/>
+        <TextBox x:Name="EndPk" HorizontalAlignment="Left" Margin="130,110,0,0" TextWrapping="Wrap" Text="Пк" VerticalAlignment="Top" Width="30"/>
+        <TextBox x:Name="EndM" HorizontalAlignment="Left" Margin="160,110,0,0" TextWrapping="Wrap" Text="М" VerticalAlignment="Top" Width="46"/>
+        <TextBox x:Name="StartRouteCoordinate" HorizontalAlignment="Left" Margin="211,92,0,0" TextWrapping="Wrap" Text="М" VerticalAlignment="Top" Width="96"/>
+        <TextBox x:Name="EndRouteCoordinate" HorizontalAlignment="Left" Margin="211,110,0,0" TextWrapping="Wrap" Text="М" VerticalAlignment="Top" Width="96"/>
+        <TextBlock HorizontalAlignment="Left" Margin="44,140,0,0" TextWrapping="Wrap" Text="Длина" VerticalAlignment="Top"/>
+        <TextBox x:Name="Length" HorizontalAlignment="Left" Margin="84,139,0,0" TextWrapping="Wrap" Text="длина" VerticalAlignment="Top" Width="99"/>
+        <CheckBox Name="ForEmptytrainCheckBox" Content="для порожнего поезда&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" Width="168" Height="15" />
+        <CheckBox Name="OnlyHeaderCheckBox" Content="только головой" HorizontalAlignment="Left" Margin="10,189,0,0" VerticalAlignment="Top" Width="168" Height="15" Checked="OnlyHeader_Checked" Unchecked="OnlyHeader_Unchecked"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,217,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Height="16"><Run Language="ru-ru" Text="Segment Id"/><LineBreak/><Run Language="ru-ru"/></TextBlock>
+        <TextBox x:Name="SegmentId" HorizontalAlignment="Left" Margin="72,217,0,0" TextWrapping="Wrap" Text="Id" VerticalAlignment="Top" Width="46"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,238,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Height="16" TextAlignment="Center"><Run Language="ru-ru" Text="путь"/><LineBreak/><Run Language="ru-ru"/></TextBlock>
+        <TextBlock x:Name="TrackName" HorizontalAlignment="Left" Margin="72,238,0,0" TextWrapping="Wrap" Text="путь" VerticalAlignment="Top" Width="235" Height="16"/>
+        <TextBlock Name="Station" HorizontalAlignment="Left" Margin="10,48,0,0" TextWrapping="Wrap" Text="станция/перегон" VerticalAlignment="Top" Width="297"/>
+        <Button x:Name="Delete_button" Content="Удалить" HorizontalAlignment="Left" Margin="10,288,0,0" VerticalAlignment="Top" Width="62" Click="Delete_Click"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="WpfApp04.SpeedRestrictionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="200">
+    <Grid >
+        <StackPanel VerticalAlignment="Bottom">
+            <Grid x:Name="GridTop">
+                <Rectangle Name="rectangle2" HorizontalAlignment="Center" Height="100" Stroke="White" Fill="White" Opacity="1" VerticalAlignment="Center" Width="271"/>
+
+                <TextBlock x:Name="Value" HorizontalAlignment="Center" TextWrapping="Wrap" Text="value" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
+            </Grid>
+                <Grid x:Name="GridBottom">
+                <Rectangle Name="rectangle1" HorizontalAlignment="Center" Height="100" Stroke="White" Fill="#FFDADADA" Width="242" MouseRightButtonDown="rectangle1_MouseRightButtonDown" MouseLeftButtonDown="rectangle1_MouseLeftButtonDown" />
+                <Rectangle Name="rectangle3" HorizontalAlignment="Center" Height="100" Stroke="White" Fill="#FFA3AFE8" Width="242" MouseRightButtonDown="rectangle1_MouseRightButtonDown" MouseLeftButtonDown="rectangle1_MouseLeftButtonDown" />
+
+                 </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="WpfApp04.userControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04"
+             mc:Ignorable="d" 
+             >
+    <Grid MouseRightButtonDown="rectangle_MouseRightButtonDown">
+        <StackPanel VerticalAlignment="Bottom">
+            <TextBlock Name="Name" Text="1259-1" />
+            <Grid>
+                <Rectangle Name="rectangle" Stroke="Black" Fill="LightBlue" Width="100" Height="80" />
+                <TextBlock Name="Value" Text="80" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

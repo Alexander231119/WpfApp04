@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="WpfApp04.StationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04"
+             mc:Ignorable="d" >
+
+    <Grid>
+        <StackPanel VerticalAlignment="Bottom">
+            <Grid>
+                <TextBlock Name="StartKM" Text="начКМ" HorizontalAlignment="Left" Visibility="Visible" />
+                <TextBlock Name="EndKM" Text="конКМ" HorizontalAlignment="Right" Visibility="Visible" />
+            </Grid>
+
+            <Grid >
+                <TextBlock Name="StartCoord"  Text="нач" HorizontalAlignment="Left" Margin="0,0,10,0"  Visibility="Collapsed" />
+                <TextBlock Name="EndCoord" Text="кон" HorizontalAlignment="Right" Visibility="Collapsed" />
+            </Grid>
+
+            <Grid>
+                <Rectangle Name="rectangle" Stroke="Gray" Fill="#FFE2E2E2" Width="100" Height="80" MouseEnter="rectangle_MouseEnter" MouseLeave="rectangle_MouseLeave" >
+                </Rectangle>
+                <TextBlock Name="StationName" Text="Имя станции" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,18 @@
+﻿<Window x:Class="WpfApp04.KmEditMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp04"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="KmEditMenu" Height="150" Width="250">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="КМ" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="KmNameTextBox" HorizontalAlignment="Left" Margin="33,10,0,0" TextWrapping="Wrap" Text="9281" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Длина, м" VerticalAlignment="Top" FontSize="14"/>
+        <Button Name="SetLengthButton" Content="Задать длину" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Height="25" Click="SetLengthButton_Click"/>
+        <TextBox x:Name="KmLengthTextBox" HorizontalAlignment="Left" Margin="72,31,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="62" FontSize="14" Height="19"/>
+
+    </Grid>
+</Window>
