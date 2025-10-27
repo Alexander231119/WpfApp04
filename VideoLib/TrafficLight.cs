@@ -285,36 +285,7 @@ namespace WpfApp04
             get => TrafficLightNames.TryGetValue(DicTrafficLightKindID, out var name)
                 ? name
                 : string.Empty;
-            //{
-            //    if (DicTrafficLightKindID == 0) return "проходной 3-значная";
-            //    else if (DicTrafficLightKindID == 1) return "входной 3-значная";
-            //    else if (DicTrafficLightKindID == 2) return "выходной 3-значная";
-            //    else if (DicTrafficLightKindID == 3) return "маршрутный 3-значная";
-            //    else if (DicTrafficLightKindID == 4) return "прикрытия";
-            //    else if (DicTrafficLightKindID == 5) return "заградительный";
-            //    else if (DicTrafficLightKindID == 6) return "предупредительный";
-            //    else if (DicTrafficLightKindID == 7) return "повторительный";
-            //    else if (DicTrafficLightKindID == 8) return "маневровый";
-            //    else if (DicTrafficLightKindID == 9) return "горочный";
-            //    else if (DicTrafficLightKindID == 10) return "проходной 4-значная";
-            //    else if (DicTrafficLightKindID == 11) return "выходной 4-значная";
-            //    else if (DicTrafficLightKindID == 12) return "предвходной 3-значная";
-            //    else if (DicTrafficLightKindID == 13) return "предвходной 4-значная";
-            //    else if (DicTrafficLightKindID == 14) return "входной 4-значная";
-            //    else if (DicTrafficLightKindID == 15) return "маршрутный 4-значная";
-            //    else if (DicTrafficLightKindID == 16) return "входной с неправильного пути";
-            //    else if (DicTrafficLightKindID == 20) return "сигнальная точка тональной АЛС";
-            //    else if (DicTrafficLightKindID == 21) return "входной с коротким блок-участком";
-            //    else if (DicTrafficLightKindID == 22) return "выходной полуавтоблокировка";
-            //    else if (DicTrafficLightKindID == 23) return "выходной без желтого огня";
-            //    else if (DicTrafficLightKindID == 24) return "предвходной с коротким блок-участком";
-            //    else if (DicTrafficLightKindID == 25) return "входной, проследуемый в маневровом режиме";
-            //    else if (DicTrafficLightKindID == 26) return "маршрутный, проследуемый в маневровом режиме";
-            //    else if (DicTrafficLightKindID == 27) return "выходной, проследуемый в маневровом режиме";
-            //    else return "";
-
-
-            //}
+            
             set { }
         }
 
