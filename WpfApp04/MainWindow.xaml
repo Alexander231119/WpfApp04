@@ -516,6 +516,8 @@ HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                                                 <TextBlock Text="Route Coordinate" TextWrapping="Wrap" />
                                             </DataGridTextColumn.Header>
                                         </DataGridTextColumn>
+                                        <DataGridTextColumn Header="LightInFrame" Binding="{Binding Path=trafficLightInFramesCount}" Width="70"/>
+                                        <DataGridTextColumn Header="LampInFrame" Binding="{Binding Path=trafficLightLampInFramesCount}" Width="70"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="1" ShowsPreview="False" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />

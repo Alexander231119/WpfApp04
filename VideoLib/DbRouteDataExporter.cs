@@ -712,6 +712,55 @@ namespace WpfApp04
             }
         }
 
+        public static void InsertTrafficLightLampInFrame(double trackObjectID, TrafficLightLampInFrame tllf,
+            OleDbConnection _myConnection)
+        { 
+            string query4 = "INSERT INTO TrafficLightLampInFrame ( TrackObjectID, FilmID, FrameTime, DicLampUsageID, X, Y, DX, DY, DarkDX, DarkDY, A, R, G, B, LightInFilm ) " +
+                          "VALUES (" + trackObjectID
+                          + ", " + tllf.FilmID
+                          + ", " + tllf.FrameTime.ToString("G", CultureInfo.InvariantCulture)
+                          + ", " + tllf.DicLampUsageID
+                          + ", " + tllf.X.ToString("G", CultureInfo.InvariantCulture)
+                          + ", " + tllf.Y.ToString("G", CultureInfo.InvariantCulture)
+                          + ", " + tllf.DX.ToString("G", CultureInfo.InvariantCulture)
+                          + ", " + tllf.DY.ToString("G", CultureInfo.InvariantCulture)
+                          + ", " + tllf.DarkDX.ToString("G", CultureInfo.InvariantCulture)
+                          + ", " + tllf.DarkDY.ToString("G", CultureInfo.InvariantCulture)
+                          + ", " + tllf.A
+                          + ", " + tllf.R
+                          + ", " + tllf.G
+                          + ", " + tllf.B
+                          + ", " + tllf.LightInFilm + " )";
+            OleDbCommand command4 = new OleDbCommand(query4, _myConnection);
+            command4.ExecuteNonQuery();
+        }
+
+
+        public static void InsertTrafficLightInFrame(
+            double TrackObjectID,
+            TrafficLightInFrame tlf,
+            OleDbConnection _myConnection)
+        {
+
+            
+            string query4 = "INSERT INTO TrafficLightInFrame ( TrackObjectID, FilmID, FrameTime, [Left], [Top], [Height], [Width], Visible, BackgroundA, BackgroundR, BackgroundG, BackgroundB ) " +
+                            "VALUES (" + TrackObjectID
+                            + ", " + tlf.FilmID
+                            + ", " + tlf.FrameTime.ToString("G", CultureInfo.InvariantCulture)
+                            + ", " + tlf.Left.ToString("G", CultureInfo.InvariantCulture)
+                            + ", " + tlf.Top.ToString("G", CultureInfo.InvariantCulture)
+                            + ", " + tlf.Height.ToString("G", CultureInfo.InvariantCulture)
+                            + ", " + tlf.Width.ToString("G", CultureInfo.InvariantCulture)
+                            + ", " + tlf.Visible
+                            + ", " + tlf.BackgroundA
+                            + ", " + tlf.BackgroundR
+                            + ", " + tlf.BackgroundG
+                            + ", " + tlf.BackgroundB
+                            + " )";
+            OleDbCommand command5 = new OleDbCommand(query4, _myConnection);
+            command5.ExecuteNonQuery();
+        }
+
         public static void InsertTliRestriction(TliRestriction tli, double TrackObjectID, OleDbConnection _myConnection)
         {
 

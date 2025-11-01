@@ -24,23 +24,26 @@
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <DataGrid Name="grid1" Grid.Column="0" AutoGenerateColumns="False" Width="Auto" CanUserResizeRows="False">
+                <DataGrid Name="grid1" Grid.Column="0" AutoGenerateColumns="False" Width="Auto" CanUserResizeRows="False" CanUserAddRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="TrackObjectID" Width="60" Binding="{Binding Path=TrackObjectID}" />
                         <DataGridTextColumn Header="TrackObjectName" Width="200" Binding="{Binding Path=TrackObjectName}" />
                         <DataGridTextColumn Header="trafficLightLampInFramesCount" Width="90" Binding="{Binding Path=trafficLightLampInFramesCount}" />
                         <DataGridTextColumn Header="trafficLightInFramesCount" Width="90" Binding="{Binding Path=trafficLightInFramesCount}" />
-                        <DataGridTextColumn Header="tliCount" Width="90" Binding="{Binding Path=tliRestrictionsCount}" />
+                        <DataGridTextColumn Header="tliCount" Width="20" Binding="{Binding Path=tliRestrictionsCount}" />
+                        <DataGridTextColumn Header="routeCoordinate" Width="50" Binding="{Binding Path=StartRouteCoordinate}" />
                     </DataGrid.Columns>
+                    
                 </DataGrid>
 
-                <DataGrid x:Name="grid2" Grid.Column="1" AutoGenerateColumns="False" Width="Auto" CanUserResizeRows="False">
+                <DataGrid x:Name="grid2" Grid.Column="1" AutoGenerateColumns="False" Width="Auto" CanUserResizeRows="False" CanUserAddRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="TrackObjectID" Width="60" Binding="{Binding Path=TrackObjectID}" />
                         <DataGridTextColumn Header="TrackObjectName" Width="200" Binding="{Binding Path=TrackObjectName}" />
                         <DataGridTextColumn Header="trafficLightLampInFramesCount" Width="90" Binding="{Binding Path=trafficLightLampInFramesCount}" />
                         <DataGridTextColumn Header="trafficLightInFramesCount" Width="90" Binding="{Binding Path=trafficLightInFramesCount}" />
-                        <DataGridTextColumn Header="tliCount" Width="90" Binding="{Binding Path=tliRestrictionsCount}" />
+                        <DataGridTextColumn Header="tliCount" Width="20" Binding="{Binding Path=tliRestrictionsCount}" />
+                        <DataGridTextColumn Header="routeCoordinate" Width="50" Binding="{Binding Path=StartRouteCoordinate}" />
                     </DataGrid.Columns>
                 </DataGrid>
 

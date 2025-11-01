@@ -30,6 +30,9 @@ namespace WpfApp04
             {
                 LoadSegmentsFromBase();
                 LoadPointOnTracksFromBase();
+
+                LoadTrackObjectsFromBase();
+
                 FillSegmentsStartEnd();
                 _route.PointOnTracks.Sort(_pcr);
                 LoadTracks();
@@ -52,7 +55,10 @@ namespace WpfApp04
                 LoadTrafficLights();
                 FillTrafficLightsPointOntracks();
                 LoadTliRestrictions();
-                
+
+                LoadTrafficLightLamps(_connection, _route);
+
+
                 LoadTrackCircuits();
                 FillTrackCircuitsPointOntracks();
                 FillTrackCircuitsAls();
@@ -66,6 +72,8 @@ namespace WpfApp04
                 LoadCurrentKindChange();
                 FillUkspsKtsm();
                 FillNeutralSections();
+
+
             }
             finally
             {
@@ -130,6 +138,27 @@ namespace WpfApp04
                     _route.PointOnTracks.Add(point);
                 }
             }
+        }
+
+        private void LoadTrackObjectsFromBase()
+        {
+            const string query = "SELECT TrackObjectID, DicTrackObjectKindID, TrackObjectName FROM TrackObject";
+
+            using (var command = new OleDbCommand(query, _connection))
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var trackObject = new TrackObject();
+
+                    trackObject.TrackObjectID = Convert.ToDouble(reader[0]);
+                    trackObject.DicTrackObjectKindID = Convert.ToDouble(reader[1]);
+                    trackObject.TrackObjectName = Convert.ToString(reader[2]);
+                    
+                    _route.TrackObjects.Add(trackObject);
+                }
+            }
+
         }
 
         private void FillSegmentsStartEnd()
@@ -344,6 +373,83 @@ namespace WpfApp04
             }
         }
 
+        public static void LoadTrafficLightLamps(OleDbConnection connection, DbRoute route)
+        {
+            string queryTrafficLightLampInFrame =
+                "SELECT TrackObjectID, FilmID, FrameTime, DicLampUsageID, X, Y, DX, DY, DarkDX, DarkDY, A, R, G, B, LightInFilm " +
+                "FROM TrafficLightLampInFrame";
+
+            OleDbCommand command7 = new OleDbCommand(queryTrafficLightLampInFrame, connection);
+
+            OleDbDataReader reader7 = command7.ExecuteReader();
+
+            while (reader7.Read())
+            {
+
+                TrafficLightLampInFrame lightLampInFrame = new TrafficLightLampInFrame();
+                lightLampInFrame.TrackObjectID = Convert.ToDouble(reader7[0]);
+                lightLampInFrame.FilmID = Convert.ToDouble(reader7[1]);
+                lightLampInFrame.FrameTime = Convert.ToDouble(reader7[2]);
+                lightLampInFrame.DicLampUsageID = Convert.ToDouble(reader7[3]);
+                lightLampInFrame.X = Convert.ToDouble(reader7[4]);
+                lightLampInFrame.Y = Convert.ToDouble(reader7[5]);
+                lightLampInFrame.DX = Convert.ToDouble(reader7[6]);
+                lightLampInFrame.DY = Convert.ToDouble(reader7[7]);
+                lightLampInFrame.DarkDX = Convert.ToDouble(reader7[8]);
+                lightLampInFrame.DarkDY = Convert.ToDouble(reader7[9]);
+                lightLampInFrame.A = Convert.ToDouble(reader7[10]);
+                lightLampInFrame.R = Convert.ToDouble(reader7[11]);
+                lightLampInFrame.G = Convert.ToDouble(reader7[12]);
+                lightLampInFrame.B = Convert.ToDouble(reader7[13]);
+                lightLampInFrame.LightInFilm = Convert.ToBoolean(reader7[14]);
+
+                TrafficLight l = route.TrafficLights.Find(l => l.TrackObjectID == lightLampInFrame.TrackObjectID);
+
+                if (l != null)
+                {
+                    l.trafficLightLampInFrames.Add(lightLampInFrame);
+                    l.trafficLightLampInFramesCount = l.trafficLightLampInFrames.Count;
+                }
+                
+            }
+
+            string queryTrafficLightInFrame =
+                "SELECT TrackObjectID, FilmID, FrameTime, Left, Top, Height, Width, Visible, BackgroundA, BackgroundR, BackgroundG, BackgroundB " +
+                "FROM TrafficLightInFrame";
+
+
+            OleDbCommand command8 = new OleDbCommand(queryTrafficLightInFrame, connection);
+
+            OleDbDataReader reader8 = command8.ExecuteReader();
+
+            while (reader8.Read())
+            {
+
+                TrafficLightInFrame lightInFrame = new TrafficLightInFrame();
+
+                lightInFrame.TrackObjectID = Convert.ToDouble(reader8[0]);
+                lightInFrame.FilmID = Convert.ToDouble(reader8[1]);
+                lightInFrame.FrameTime = Convert.ToDouble(reader8[2]);
+                lightInFrame.Left = Convert.ToDouble(reader8[3]);
+                lightInFrame.Top = Convert.ToDouble(reader8[4]);
+                lightInFrame.Height = Convert.ToDouble(reader8[5]);
+                lightInFrame.Width = Convert.ToDouble(reader8[6]);
+                lightInFrame.Visible = Convert.ToBoolean(reader8[7]);
+                lightInFrame.BackgroundA = Convert.ToDouble(reader8[8]);
+                lightInFrame.BackgroundR = Convert.ToDouble(reader8[9]);
+                lightInFrame.BackgroundG = Convert.ToDouble(reader8[10]);
+                lightInFrame.BackgroundB = Convert.ToDouble(reader8[11]);
+
+                TrafficLight l = route.TrafficLights.Find(l => l.TrackObjectID == lightInFrame.TrackObjectID);
+
+                l.trafficLightInFrames.Add(lightInFrame);
+                l.trafficLightInFramesCount = l.trafficLightInFrames.Count;
+
+            }
+
+
+        }
+
         private void LoadCurrentKindChange()
         {
             const string query = "SELECT TrackObjectID, DicCurrentKindIDLeft, DicCurrentKindIDRight " +
@@ -411,19 +517,12 @@ namespace WpfApp04
                     while (reader.Read())
                     {
                         var tli = new TliRestriction();
-
                         if (reader[0].ToString() != "") tli.TrafficLightID = Convert.ToDouble(reader[0]);
-
                         if (reader[1].ToString() != "") tli.kind = (TliRestrictionKind)Convert.ToInt32(reader[1]);
-
                         tli.routeKind = ALSRouteKind.Dummy;
-
                         if (reader[3].ToString() != "") tli.blockCount = (sbyte)Convert.ToDouble(reader[3]);
-
                         if (reader[4].ToString() != "") tli.speed = (short)Convert.ToDouble(reader[4]);
-
                         if (reader[5].ToString() != "") tli.showBlockCount = (sbyte)Convert.ToInt32(reader[5]);
-
                         if (reader[6].ToString() != "") { tli.autoBlockCode = (AutoBlockInternalControlCode)Convert.ToInt32(reader[6]); }
                         else
                         {
@@ -684,6 +783,12 @@ namespace WpfApp04
                 {
                     t.Start = _route.PointOnTracks[index];
                     t.Start.RefreshRouteCoordinate(_route.Segments);
+                }
+
+                TrackObject trackobject = _route.TrackObjects.Find(y => y.TrackObjectID == t.TrackObjectID);
+                if (trackobject !=null)
+                {
+                    t.TrackObjectName = trackobject.TrackObjectName;
                 }
             }
         }

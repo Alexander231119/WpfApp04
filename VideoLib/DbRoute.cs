@@ -10,6 +10,7 @@ namespace WpfApp04
     
     public class DbRoute
     {
+        public List<TrackObject> TrackObjects = new List<TrackObject>();
         public List<SpeedRestriction> SpeedRestrictions = new List<SpeedRestriction>();
         public List<PointOnTrack> PointOnTracks = new List<PointOnTrack>();
         public List<Segment> Segments = new List<Segment>();

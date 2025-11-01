@@ -270,9 +270,6 @@ namespace WpfApp04
 
         public double tliRestrictionsCount
         {
-            //get;
-            //set;
-
             get
             {
              return TliRestrictions.Count;
@@ -326,24 +323,5 @@ namespace WpfApp04
             }
             // Для default-case ничего не делаем (оставляем текущее значение)
         }
-
-        //public void GetDicTrafficLightKindIDFromEgis()
-        //{
-        //    switch (EgisTrafficLightKindValue)
-        //    {                
-        //        case 21: DicTrafficLightKindID = 1; break;
-        //        case 22: DicTrafficLightKindID = 2; break;
-        //        case 23: DicTrafficLightKindID = 3; break;
-        //        case 24: DicTrafficLightKindID = 0; break;
-        //        case 25: DicTrafficLightKindID = 4; break;
-        //        case 26: DicTrafficLightKindID = 5; break;
-        //        case 27: DicTrafficLightKindID = 6; break;
-        //        case 28: DicTrafficLightKindID = 7; break;
-        //        case 29: DicTrafficLightKindID = 8; break;
-        //        case 30: DicTrafficLightKindID = 9; break;
-
-        //        default: break;
-        //    }
-        //}
     }
 }
