@@ -172,10 +172,6 @@ namespace LampFrame01
 
             ConnectString1 = ConnectSrting0 + fileName1 + ";";
 
-            //TrafficLights1.Clear();
-            //LoadTrafficlights(ConnectString1, TrafficLights1);
-            //grid1.Items.Refresh();
-
 
             LoadRouteDataBase(inputRoute,ref fileName1,ref ConnectString1, grid1);
             Inputfilenametextblock.Text = fileName1;
@@ -189,13 +185,8 @@ namespace LampFrame01
 
             
             fileName2 = openFileDialog.FileName;
-
-
             ConnectString2 = ConnectSrting0 + fileName2 + ";";
 
-            // TrafficLights2.Clear();
-            //LoadTrafficlights(ConnectString2, TrafficLights2);
-            //grid2.Items.Refresh();
 
             LoadRouteDataBase(outputRoute,ref fileName2,ref ConnectString2, grid2);
             Outputfilenametextblock.Text = fileName2;
@@ -203,13 +194,7 @@ namespace LampFrame01
 
         void LoadRouteDataBase(DbRoute route,ref string fileName,ref string connectstring, DataGrid trafficLightDataGrid )
         {
-            //var openFileDialog = new OpenFileDialog { };
-            //var result = openFileDialog.ShowDialog();
-            //if (result != true) return;
-
-            //fileName = openFileDialog.FileName;
-            //connectstring = ConnectSrting0 + fileName + ";";
-
+            
 
             route.DbRouteClear();
             DbDataLoader dbrouteLoader = new DbDataLoader(connectstring, route);
@@ -224,13 +209,7 @@ namespace LampFrame01
 
             trafficLightDataGrid.Items.Refresh();
 
-            //foreach (var item in trafficLightDataGrid.Items)
-            //{
-
-            //    var row = trafficLightDataGrid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
-            //   if (row!=null) row.Background = new SolidColorBrush(Colors.LightGreen);
-            //}
-
+            
             Dispatcher.BeginInvoke(() =>
             {
                 foreach (var item in trafficLightDataGrid.Items)
@@ -240,226 +219,12 @@ namespace LampFrame01
                 }
             });
         }
-
-        public void LoadTrafficlights(string cstring, List<TrafficLight> TrafficLights)
-        {
-            myConnection = new OleDbConnection(cstring);
-            myConnection.Open();
-
-            
-            string queryspeed =
-                "SELECT TrafficLight.TrackObjectID, TrafficLightName, DicTrafficLightKindID, StationID, T.TrackObjectName " +
-                "FROM TrafficLight " +
-                "LEFT JOIN TrackObject AS [T] ON TrafficLight.TrackObjectID = T.TrackObjectID";
-
-
-            OleDbCommand command6 = new OleDbCommand(queryspeed, myConnection);
-
-            OleDbDataReader reader6 = command6.ExecuteReader();
-
-            while (reader6.Read())
-            {
-
-                TrafficLight light = new TrafficLight();
-                light.TrackObjectID = Convert.ToDouble(reader6[0]);
-                light.Start.TrackObjectID = Convert.ToDouble(reader6[0]);
-
-                light.TrafficLightName = reader6[1].ToString();
-                light.DicTrafficLightKindID = Convert.ToDouble(reader6[2]);
-                light.TrackObjectName = reader6[4].ToString();
-                
-                
-                TrafficLights.Add(light);
-
-                /*TrafficLights.Add(new TrafficLight(
-                    Convert.ToDouble(reader6[0]),
-                    reader6[1].ToString(),
-                    Convert.ToDouble(reader6[2]))
-                );
-                TrafficLights[TrafficLights.Count - 1].Start.TrackObjectID = Convert.ToDouble(reader6[0]);
-                */
-            }
-            reader6.Close();
-
-            foreach (TrafficLight l in TrafficLights)
-            {
-                string querylightlamp =
-                        "SELECT TrackObjectID, FilmID, FrameTime, DicLampUsageID, X, Y, DX, DY, DarkDX, DarkDY, A, R, G, B, LightInFilm " +
-                        "FROM TrafficLightLampInFrame " +
-                        "WHERE TrackObjectID = " + l.TrackObjectID.ToString("G", CultureInfo.InvariantCulture);
-                
-                OleDbCommand command7 = new OleDbCommand(querylightlamp, myConnection);
-
-                OleDbDataReader reader7 = command7.ExecuteReader();
-
-                while (reader7.Read())
-                {
-
-                    TrafficLightLampInFrame lightLampInFrame = new TrafficLightLampInFrame();
-                    lightLampInFrame.TrackObjectID = Convert.ToDouble(reader7[0]);
-                    lightLampInFrame.FilmID = Convert.ToDouble(reader7[1]); 
-                    lightLampInFrame.FrameTime = Convert.ToDouble(reader7[2]);  
-                    lightLampInFrame.DicLampUsageID = Convert.ToDouble(reader7[3]);
-                    lightLampInFrame.X = Convert.ToDouble(reader7[4]);
-                    lightLampInFrame.Y = Convert.ToDouble(reader7[5]);
-                    lightLampInFrame.DX = Convert.ToDouble(reader7[6]);
-                    lightLampInFrame.DY = Convert.ToDouble(reader7[7]);
-                    lightLampInFrame.DarkDX = Convert.ToDouble(reader7[8]);
-                    lightLampInFrame.DarkDY = Convert.ToDouble(reader7[9]);
-                    lightLampInFrame.A = Convert.ToDouble(reader7[10]);
-                    lightLampInFrame.R = Convert.ToDouble(reader7[11]);
-                    lightLampInFrame.G = Convert.ToDouble(reader7[12]);
-                    lightLampInFrame.B = Convert.ToDouble(reader7[13]);
-                    lightLampInFrame.LightInFilm = Convert.ToBoolean(reader7[14]);
-
-                    l.trafficLightLampInFrames.Add(lightLampInFrame);
-
-
-                }
-
-                string querylight =
-                        "SELECT TrackObjectID, FilmID, FrameTime, Left, Top, Height, Width, Visible, BackgroundA, BackgroundR, BackgroundG, BackgroundB " +
-                        "FROM TrafficLightInFrame " +
-                        "WHERE TrackObjectID = " + l.TrackObjectID.ToString("G", CultureInfo.InvariantCulture);
-
-
-                OleDbCommand command8 = new OleDbCommand(querylight, myConnection);
-
-                OleDbDataReader reader8 = command8.ExecuteReader();
-
-                while (reader8.Read())
-                {
-
-                    TrafficLightInFrame lightInFrame = new TrafficLightInFrame();
-
-                    lightInFrame.TrackObjectID = Convert.ToDouble(reader8[0]);
-                    lightInFrame.FilmID = Convert.ToDouble(reader8[1]);
-                    lightInFrame.FrameTime = Convert.ToDouble(reader8[2]);
-                    lightInFrame.Left = Convert.ToDouble(reader8[3]);
-                    lightInFrame.Top = Convert.ToDouble(reader8[4]);
-                    lightInFrame.Height = Convert.ToDouble(reader8[5]);
-                    lightInFrame.Width = Convert.ToDouble(reader8[6]);
-                    lightInFrame.Visible = Convert.ToBoolean(reader8[7]);
-                    lightInFrame.BackgroundA = Convert.ToDouble(reader8[8]);
-                    lightInFrame.BackgroundR = Convert.ToDouble(reader8[9]);
-                    lightInFrame.BackgroundG = Convert.ToDouble(reader8[10]);
-                    lightInFrame.BackgroundB = Convert.ToDouble(reader8[11]);
-
-                    
-
-                    l.trafficLightInFrames.Add(lightInFrame);
-
-
-                }
-
-
-                l.trafficLightInFramesCount = l.trafficLightInFrames.Count;
-                l.trafficLightLampInFramesCount = l.trafficLightLampInFrames.Count;
-            }
-
-            myConnection.Close();
-
-            DbRoute route1 = new DbRoute();
-            route1.TrafficLights = TrafficLights;
-            DbDataLoader dataLoader = new DbDataLoader(cstring, route1);
-
-            dataLoader._connection.Open();
-            dataLoader.LoadTliRestrictions();
-            dataLoader._connection.Close();
-
-            //foreach (TrafficLight t in TrafficLights)
-            //{
-              //  t.tliRestrictionsCount = t.TliRestrictions.Count;
-            //}
-
-        }
-
-        //void InsertTrafficLightLampInFrame(
-        // double TrackObjectID,
-        // double FilmID,
-        // double FrameTime,
-        // double DicLampUsageID,
-        // double X,
-        // double Y,
-        // double DX,
-        // double DY,
-        // double DarkDX,
-        // double DarkDY,
-        // double A,
-        // double R,
-        // double G,
-        // double B,
-        // bool LightInFilm,
-        //OleDbConnection _myConnection)
-        //{
-        //    string query4 = "INSERT INTO TrafficLightLampInFrame ( TrackObjectID, FilmID, FrameTime, DicLampUsageID, X, Y, DX, DY, DarkDX, DarkDY, A, R, G, B, LightInFilm ) " +
-        //    "VALUES (" + TrackObjectID 
-        //    + ", " + FilmID 
-        //    + ", " + FrameTime.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + DicLampUsageID 
-        //    + ", " + X.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + Y.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + DX.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + DY.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + DarkDX.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + DarkDY.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + A
-        //    + ", " + R
-        //    + ", " + G
-        //    + ", " + B
-        //    + ", " + LightInFilm + " )";
-        //    OleDbCommand command4 = new OleDbCommand(query4, _myConnection);
-        //    command4.ExecuteNonQuery();
-        //}
-
-        //void InsertTrafficLightInFrame(
-        // double TrackObjectID,
-        // double FilmID,
-        // double FrameTime,
-        // double Left,
-        // double Top,
-        // double Height,
-        // double Width,
-        // bool Visible,
-        // double BackgroundA,
-        // double BackgroundR,
-        // double BackgroundG,
-        // double BackgroundB,
-        // OleDbConnection _myConnection
-        //    )
-        //{
-
-        //    string query40 = "INSERT INTO TrafficLightInFrame ( TrackObjectID, FilmID, FrameTime, [Top], Visible ) " +
-        //    "VALUES (" + TrackObjectID
-        //    + ", " + FilmID
-        //    + ", " + FrameTime.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + Left.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", -1 )";
-
-        //    string query4 = "INSERT INTO TrafficLightInFrame ( TrackObjectID, FilmID, FrameTime, [Left], [Top], [Height], [Width], Visible, BackgroundA, BackgroundR, BackgroundG, BackgroundB ) " +
-        //    "VALUES (" + TrackObjectID
-        //    + ", " + FilmID
-        //    + ", " + FrameTime.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + Left.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + Top.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + Height.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + Width.ToString("G", CultureInfo.InvariantCulture)
-        //    + ", " + Visible
-        //    + ", " + BackgroundA
-        //    + ", " + BackgroundR
-        //    + ", " + BackgroundG
-        //    + ", " + BackgroundB
-        //    + " )";
-        //    OleDbCommand command5 = new OleDbCommand(query4, _myConnection);
-        //    command5.ExecuteNonQuery();
-        //}
-
-
+        
         private void ExportTliButton_Click(object sender, RoutedEventArgs e)
         {
             myConnection = new OleDbConnection(ConnectString2);
             myConnection.Open();
-            //foreach (var item1 in TrafficLights1)
+            
             foreach (var item1 in outputRoute.TrafficLights)
             {
 
@@ -474,18 +239,15 @@ namespace LampFrame01
                 {
                     DbRouteDataExporter.InsertTliRestriction(tllf, trafficLight2.TrackObjectID, myConnection);
                 }
-                
 
             }
             myConnection.Close();
             MessageBox.Show("ok");
 
-            //TrafficLights1.Clear();
-            //LoadTrafficlights(ConnectString1, TrafficLights1);
+            
             grid1.Items.Refresh();
 
-            //TrafficLights2.Clear();
-            //LoadTrafficlights(ConnectString2, TrafficLights2);
+            
             LoadRouteDataBase(outputRoute, ref fileName2, ref ConnectString2, grid2);
             grid2.Items.Refresh();
 
@@ -501,80 +263,29 @@ namespace LampFrame01
             { 
                 
 
-                //int index = TrafficLights1.IndexOf( item1 );
-
                 int index = grid1.Items.IndexOf(griditem);
-                TrafficLight trafficLight1 = (TrafficLight)griditem;//item1;
+                TrafficLight trafficLight1 = (TrafficLight)griditem;
 
-                var item2 = grid2.Items[index]; // TrafficLights2[index];
+                var item2 = grid2.Items[index]; 
                 TrafficLight trafficLight2 = ( TrafficLight )item2;
-
-                
 
                 foreach (TrafficLightLampInFrame tllf in trafficLight1.trafficLightLampInFrames )
                 {
-                        //InsertTrafficLightLampInFrame(
-                        //   trafficLight2.TrackObjectID,
-                        //   tllf.FilmID,
-                        //   tllf.FrameTime,
-                        //   tllf.DicLampUsageID,
-                        //   tllf.X,
-                        //   tllf.Y,
-                        //   tllf.DX,
-                        //   tllf.DY,
-                        //   tllf.DarkDX,
-                        //   tllf.DarkDY,
-                        //   tllf.A,
-                        //   tllf.R,
-                        //   tllf.G,
-                        //   tllf.B,
-                        //   tllf.LightInFilm,
-                        //   myConnection
-                        //    );
-
-                        //TrafficLightLampInFrame tllf2 = new TrafficLightLampInFrame();
-                        //tllf2.TrackObjectID = trafficLight2.TrackObjectID;
-
                         DbRouteDataExporter.InsertTrafficLightLampInFrame(trafficLight2.TrackObjectID,tllf, myConnection);
-                            
                 }
 
                 foreach (TrafficLightInFrame tlf in trafficLight1.trafficLightInFrames )
                 {
-                    //InsertTrafficLightInFrame(
-                    //   trafficLight2.TrackObjectID,
-                    //    tlf.FilmID,
-                    //    tlf.FrameTime,
-                    //    tlf.Left,
-                    //    tlf.Top,
-                    //    tlf.Height,
-                    //    tlf.Width,
-                    //    tlf.Visible,
-                    //    tlf.BackgroundA,
-                    //    tlf.BackgroundR,
-                    //    tlf.BackgroundG,
-                    //    tlf.BackgroundB,
-                    //   myConnection
-                    //    );
-                    
-
                     DbRouteDataExporter.InsertTrafficLightInFrame(trafficLight2.TrackObjectID, tlf, myConnection);
                 }
-
             }
             myConnection.Close();
 
-
-
-
             MessageBox.Show("ok");
 
-            //TrafficLights1.Clear();
-            //LoadTrafficlights(ConnectString1, TrafficLights1);
+            
             grid1.Items.Refresh();
-
-            //TrafficLights2.Clear();
-            //LoadTrafficlights(ConnectString2, TrafficLights2);
+            
             LoadRouteDataBase(outputRoute,ref fileName2,ref ConnectString2, grid2);
             grid2.Items.Refresh();
         }

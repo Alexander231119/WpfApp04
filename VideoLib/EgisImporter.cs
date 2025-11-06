@@ -1260,6 +1260,14 @@ namespace WpfApp04
                     l.GetDicTrafficLightKindIDFromEgis();
 
 
+                        // Убрать символы >> из названий светофоров
+                    if (!string.IsNullOrEmpty(l.TrafficLightName))
+                    {
+
+                        l.TrafficLightName = l.TrafficLightName.Replace(">", "");
+                    }
+
+
                     //для предвходных светофоров
                     if (l.DicTrafficLightKindID == 0 && ((l.TrafficLightName == "1") || (l.TrafficLightName == "2")))
                     {

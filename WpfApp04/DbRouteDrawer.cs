@@ -534,7 +534,8 @@ namespace WpfApp04
                 tControl.TrafficLightName.Text = k.TrafficLightName;
                 tControl.rectangle1.Width = k.TrafficLightName.Length * 8;
 
-                if (k.DicTrafficLightKindID == 5 || k.DicTrafficLightKindID == 6)
+                // если 5 заградительный, 6 предупредительный, 7 повторительный 
+                if (k.DicTrafficLightKindID == 5 || k.DicTrafficLightKindID == 7)
                 {
                     tControl.trafficLighrBorder.Visibility = Visibility.Hidden;
                     tControl.ellipse1.Visibility = Visibility.Hidden;

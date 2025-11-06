@@ -10,8 +10,8 @@ namespace WpfApp04
 {
     public class TliRestriction
     {
+
         public double TrafficLightID;
-        
 
         public TliRestrictionKind kind { get; set; }
         public ALSRouteKind routeKind { get; set; }

@@ -79,10 +79,12 @@ namespace WpfApp04
                     // s.SegmentID = id;
                     s.SegmentID = 1;
 
-                    dbRoute.Segments.Add(s);
+                    //dbRoute.Segments.Add(s);
+
+
                     // список километров общий для всех путей данной карты
                     //dbRoute.Kilometers = WayKilometers;
-
+                    if (way.objs.Count == 0) return;
 
                     // определение длины сегмента и его координат
                     double minLinAddr = way.objs.Min(p => p.LinAddr);
@@ -100,7 +102,7 @@ namespace WpfApp04
                     s.End.PointOnTrackCoordinate = s.SegmentLength;
                     s.End.RouteCoordinate = s.SegmentLength;
 
-
+                    dbRoute.Segments.Add(s);
 
                     foreach (var obj in way.objs) // преобразование обьектов
                     {

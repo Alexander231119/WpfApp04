@@ -242,7 +242,7 @@ namespace WpfApp04
             routesElectronicMap.RoutesEkklubsList?.Clear();
             routesElectronicMap.DbRouteFromEkRoute(map1);
 
-            ekDbRoute = routesElectronicMap.RoutesEkklubsList[9].RoutesList[2];
+            //ekDbRoute = routesElectronicMap.RoutesEkklubsList[9].RoutesList[2];
             //ekDbRoute = routesElectronicMap.RoutesEkklubsList[9].RoutesList[DbRouteEmapControl_1.routeId];
             
             DbRouteEmapControl_1.UpdatedbElectronicMapListBox();

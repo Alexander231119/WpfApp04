@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="WpfApp04.Controls.MainToolBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Menu>
+            <MenuItem Header="Файл">
+
+                <MenuItem Header="Открыть" Click="OpenFile_Click" />
+                <MenuItem Header="Открыть для импорта" Name="OpenForImport_menuItem" Click="OpenForImport_menuItem_Click" />
+                <MenuItem Header="Закрыть" Click="CloseFile_Click" />
+                <MenuItem x:Name="ElectonicMap_menuItem" Header="Открыть ElectonicMap" Click="ElectonicMap_menuItem_Click" />
+
+
+            </MenuItem>
+            <MenuItem Header="Инструменты">
+                <MenuItem Name="EmapShowMenuItem" Header="показать Екарту" Click="EmapShowMenuItem_Click"/>
+                <MenuItem Header="Проверить" Click="Test_Click"/>
+                <MenuItem Header="ЕГИСТПС">
+                    <MenuItem Name="EgisConnectMenuItem" Header="Connect" Click="EgisConnectMenuItem_Click" />
+                    <MenuItem Name="EgisDisconnectMenuItem" Header="Disconnect" Click="EgisDisconnectMenuItem_Click" />
+                </MenuItem>
+                <MenuItem Header="Экспорт Скорости" Click ="ExportSpeedsClick" />
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="масштаб " />
+                    <TextBox x:Name="ScaletextBox" Width="Auto" Text="100"  KeyDown="ScaletextBox_KeyDown" Background="{x:Null}" />
+                    <TextBlock Text="%" />
+
+                </StackPanel>
+                <MenuItem Header="Incline Control" Click="ShowInclineItemCLick" />
+
+                <MenuItem x:Name="DeleteNopointSign" Header="Удалить знаки С без точек на пути" Click="DeleteNopointSign_Click"/>
+
+
+                <MenuItem Header="Удалить непроставленные обьекты">
+                    <MenuItem x:Name="DelerteNoPointUksps" Header="Укспс" Click="DelerteNoPointUksps_Click" />
+                    <MenuItem x:Name="DelerteNoPointKtsm" Header="Ктсм" Click="DelerteNoPointKtsm_Click" />
+                    <MenuItem x:Name="DelerteNoPointCrossing" Header="Переезд" Click="DelerteNoPointCrossing_Click" />
+                    <MenuItem x:Name="DeleteNopointSign2" Header="знаки С" Click="DeleteNopointSign2_Click"/>
+                </MenuItem>
+
+                <MenuItem x:Name="DeleteAllInclines" Header="Удалить все уклоны" Click="DeleteAllInclines_Click"/>
+                <MenuItem x:Name="FrogModelMenuItem" Header="Марка крестовины 11" Click="FrogModelMenuItem_Click"/>
+                <MenuItem Header="Установить частоту АЛС">
+                    <MenuItem Name="AutoBlockFrequency1" Header="25 ГЦ - 1" Click="AutoBlockFrequency1_Click" />
+                    <MenuItem Name="AutoBlockFrequency2" Header="50 ГЦ - 2" Click="AutoBlockFrequency2_Click" />
+                </MenuItem>
+
+            </MenuItem>
+
+        </Menu>
+    </Grid>
+</UserControl>

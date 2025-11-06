@@ -58,7 +58,6 @@ namespace WpfApp04
 
                 LoadTrafficLightLamps(_connection, _route);
 
-
                 LoadTrackCircuits();
                 FillTrackCircuitsPointOntracks();
                 FillTrackCircuitsAls();
@@ -789,7 +788,15 @@ namespace WpfApp04
                 if (trackobject !=null)
                 {
                     t.TrackObjectName = trackobject.TrackObjectName;
+
+                    if (!string.IsNullOrEmpty(t.TrackObjectName))
+                    {
+                        t.TrackObjectName = t.TrackObjectName.Replace("светофор", "свет.");
+                        trackobject.TrackObjectName = trackobject.TrackObjectName.Replace("светофор", "свет.");
+                    }
                 }
+
+
             }
         }
 
