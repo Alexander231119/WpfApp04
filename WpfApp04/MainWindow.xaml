@@ -23,56 +23,27 @@
 
         </Grid.RowDefinitions>
 
-        <ToolBar Grid.Row="0" Grid.ColumnSpan="3" Margin="0,0,0,0" Grid.RowSpan="1">
-            <Menu>
-                <MenuItem Header="Файл">
-
-                    <MenuItem Header="Открыть" Click="OpenFile_Click" />
-                    <MenuItem Header="Открыть для импорта" Name="OpenForImport_menuItem" Click="OpenForImport_menuItem_Click" />
-                    <MenuItem Header="Закрыть" Click="CloseFile_Click" />
-                    <MenuItem x:Name="ElectonicMap_menuItem" Header="Открыть ElectonicMap" Click="ElectonicMap_menuItem_Click" />
-
-
-                </MenuItem>
-                <MenuItem Header="Инструменты">
-                    <MenuItem Name="EmapShowMenuItem" Header="показать Екарту" Click="EmapShowMenuItem_Click"/>
-                    <MenuItem Header="Проверить" Click="Test_Click"/>
-                    <MenuItem Header="ЕГИСТПС">
-                        <MenuItem Name="EgisConnectMenuItem" Header="Connect" Click="EgisConnectMenuItem_Click" />
-                        <MenuItem Name="EgisDisconnectMenuItem" Header="Disconnect" Click="EgisDisconnectMenuItem_Click" />
-                    </MenuItem>
-                    <MenuItem Header="Экспорт Скорости" Click ="ExportSpeedsClick" />
-                    <StackPanel Orientation="Horizontal" >
-                        <TextBlock Text="масштаб " />
-                        <TextBox x:Name="ScaletextBox" Width="Auto" Text="100"  KeyDown="ScaletextBox_KeyDown" Background="{x:Null}" />
-                        <TextBlock Text="%" />
-
-                    </StackPanel>
-                    <MenuItem Header="Incline Control" Click="ShowInclineItemCLick" />
-
-                    <MenuItem x:Name="DeleteNopointSign" Header="Удалить знаки С без точек на пути" Click="DeleteNopointSign_Click"/>
-
-                    
-                    <MenuItem Header="Удалить непроставленные обьекты">
-                        <MenuItem x:Name="DelerteNoPointUksps" Header="Укспс" Click="DelerteNoPointUksps_Click" />
-                        <MenuItem x:Name="DelerteNoPointKtsm" Header="Ктсм" Click="DelerteNoPointKtsm_Click" />
-                        <MenuItem x:Name="DelerteNoPointCrossing" Header="Переезд" Click="DelerteNoPointCrossing_Click" />
-                        <MenuItem x:Name="DeleteNopointSign2" Header="знаки С" Click="DeleteNopointSign2_Click"/>
-                    </MenuItem>
-
-                    <MenuItem x:Name="DeleteAllInclines" Header="Удалить все уклоны" Click="DeleteAllInclines_Click"/>
-                    <MenuItem x:Name="FrogModelMenuItem" Header="Марка крестовины 11" Click="FrogModelMenuItem_Click"/>
-                    <MenuItem Header="Установить частоту АЛС">
-                        <MenuItem Name="AutoBlockFrequency1" Header="25 ГЦ - 1" Click="AutoBlockFrequency1_Click" />
-                        <MenuItem Name="AutoBlockFrequency2" Header="50 ГЦ - 2" Click="AutoBlockFrequency2_Click" />
-                    </MenuItem>
-
-                </MenuItem>
-
-            </Menu>
-
-
-        </ToolBar>
+        <local:MainToolBar x:Name="MainToolBarControl"
+                           OpenFileClicked="OpenFile_Click"
+                           OpenForImport_menuItemClicked="OpenForImport_menuItem_Click"
+                           CloseFileClicked="CloseFile_Click"
+                           ElectonicMapClicked="ElectonicMap_menuItem_Click"
+                           EmapShowClicked="EmapShowMenuItem_Click"
+                           TestClicked="Test_Click"
+                           EgisConnectClicked="EgisConnectMenuItem_Click"
+                           EgisDisconnectClicked="EgisDisconnectMenuItem_Click"
+                           ExportSpeedsClicked="ExportSpeedsClick"
+                           ScaleKeyDown="ScaletextBox_KeyDown"
+                           ShowInclineControlClicked="ShowInclineItemCLick"
+                           DeleteNopointSignClicked="DeleteNopointSign_Click"
+                           DelerteNoPointUkspsClicked="DelerteNoPointUksps_Click"
+                           DelerteNoPointKtsmClicked="DelerteNoPointKtsm_Click"
+                           DelerteNoPointCrossingClicked="DelerteNoPointCrossing_Click"
+                           DeleteNopointSign2Clicked="DeleteNopointSign2_Click"
+                           DeleteAllInclinesClicked="DeleteAllInclines_Click"
+                           FrogModelMenuItemClicked="FrogModelMenuItem_Click"
+                           AutoBlockFrequency1Clicked="AutoBlockFrequency1_Click"
+                           AutoBlockFrequency2Clicked="AutoBlockFrequency2_Click" />
 
 
         <GridSplitter x:Name="HorisontalSplitter" Grid.Column="0"  Grid.Row="2" Grid.ColumnSpan="3" ShowsPreview="False" Height="6"
@@ -698,18 +669,12 @@ HorizontalAlignment="Center" VerticalAlignment="Stretch" />
             </TabItem>
             <TabItem Header ="ElectronicMap">
                 <Grid Name="DbRouteEmapGrid">
-
-
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <local:DbRouteEmapControl  x:Name="DbRouteEmapControl_1" />
-
-
                 </Grid>
-
             </TabItem>
-
         </TabControl>
 
 

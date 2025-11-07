@@ -438,7 +438,7 @@ namespace WpfApp04
         {
             if (e.Key == Key.Enter) 
             {
-                widtscale = Convert.ToDouble(ScaletextBox.Text)/1000;
+                widtscale = Convert.ToDouble(MainToolBarControl.ScaletextBox.Text)/1000;
                 wrapPanel.Children.Clear();
                 DrawRoute(wrapPanel, route1, toAddRoute);
             }
