@@ -140,9 +140,9 @@ namespace WpfApp04
 
             SpeedDataGrid.ItemsSource = route1.SpeedRestrictions;
             KmGrid.ItemsSource = route1.Kilometers;
-            EgisStationsGrid.ItemsSource= EgisSelectedStations;
-            StationDataGridSourceRadioButtonEgis.IsChecked = true;
-            EgisTrackGrid.ItemsSource = EgisSelectedTracks;
+            EgisSearchControl1.EgisStationsGrid.ItemsSource= EgisSelectedStations;
+            EgisSearchControl1.StationDataGridSourceRadioButtonEgis.IsChecked = true;
+            EgisSearchControl1.EgisTrackGrid.ItemsSource = EgisSelectedTracks;
             EgisKmGrid.ItemsSource = egisRoute1.Kilometers;
             EgisPlatformsGrid.ItemsSource = egisRoute1.Platforms;
             SegmentsToFillFromEgisGrid.ItemsSource = route1.Segments;
@@ -160,7 +160,7 @@ namespace WpfApp04
             // В конструкторе MainWindow подписываемся на событие изменения фильтров 
             ImportOptionsControl2.FilterChanged += () =>
             {
-                var source = StationDataGridSourceRadioButtonEgis.IsChecked == true ?
+                var source = EgisSearchControl1.StationDataGridSourceRadioButtonEgis.IsChecked == true ?
                     egisRoute1.PointOnTracks :
                     route1.PointOnTracks;
 
@@ -273,7 +273,7 @@ namespace WpfApp04
 
             string message1 = "";
             message1 = egisRoute1.Kilometers.Count.ToString() + "  " + egisRoute1.PointOnTracks.Count.ToString();
-            EgisTrackTextBlock.Text = message1;
+            EgisSearchControl1.EgisTrackTextBlock.Text = message1;
             message1 = "";
 
 
@@ -890,27 +890,27 @@ namespace WpfApp04
         }
         private void EgisFindStationButton_Click(object sender, RoutedEventArgs e)
         {
-            StaitonToFindTextBox.Text = DbRouteHelper.ConvertEngToRus(StaitonToFindTextBox.Text);
+            EgisSearchControl1.StaitonToFindTextBox.Text = DbRouteHelper.ConvertEngToRus(EgisSearchControl1.StaitonToFindTextBox.Text);
             EgisSelectStations();
 
         }
         void EgisSelectStations()
         {
-            EgisImporter.SelectStations(StaitonToFindTextBox.Text, egisconnection, EgisSelectedStations);
-            EgisStationsGrid.Items.Refresh();
-            EgisStationsGrid.SelectedIndex = 0;
+            EgisImporter.SelectStations(EgisSearchControl1.StaitonToFindTextBox.Text, egisconnection, EgisSelectedStations);
+            EgisSearchControl1.EgisStationsGrid.Items.Refresh();
+            EgisSearchControl1.EgisStationsGrid.SelectedIndex = 0;
         }
         void EgisSelectTrack()
         {
-            Station item = (Station)EgisStationsGrid.SelectedItem;
-            EgisImporter.SelectTrack(item,(bool)MaintrackRadioButton.IsChecked, egisconnection, EgisSelectedTracks);
-            EgisTrackGrid.Items.Refresh();
+            Station item = (Station)EgisSearchControl1.EgisStationsGrid.SelectedItem;
+            EgisImporter.SelectTrack(item,(bool)EgisSearchControl1.MaintrackRadioButton.IsChecked, egisconnection, EgisSelectedTracks);
+            EgisSearchControl1.EgisTrackGrid.Items.Refresh();
         }
 
         //найти обьект в егис по названию обьекта и станции
         void EgisFindPointObject()
         {
-            Station item = (Station)EgisStationsGrid.SelectedItem;
+            Station item = (Station)EgisSearchControl1.EgisStationsGrid.SelectedItem;
             string EgisStationID;
             if (item == null)
             {
@@ -921,13 +921,13 @@ namespace WpfApp04
                 EgisStationID = item.EgisStationID.ToString();
             }
             string ObjectNameToFind = PointObjectToFindTextBox.Text;
-            string stationnametofind = StaitonToFindTextBox.Text;
+            string stationnametofind = EgisSearchControl1.StaitonToFindTextBox.Text;
 
             EgisSelectedTracks.Clear();
             EgisFoundPointObjects.Clear();
 
             EgisImporter.EgisFindPointObject(EgisStationID, ObjectNameToFind, stationnametofind, egisconnectionString, EgisSelectedTracks, EgisFoundPointObjects);
-            EgisTrackGrid.Items.Refresh();
+            EgisSearchControl1.EgisTrackGrid.Items.Refresh();
             EgisFoundPointObjectsGrid.Items.Refresh();
         }
 
@@ -957,7 +957,7 @@ namespace WpfApp04
 
                 string message1 = "";
                 message1 = egisRoute1.Kilometers.Count.ToString() + "  " + egisRoute1.PointOnTracks.Count.ToString();
-                EgisTrackTextBlock.Text = message1;
+                EgisSearchControl1.EgisTrackTextBlock.Text = message1;
                 message1 = "";
                 EgisPtNormsGridLock = false;
             }
@@ -993,7 +993,7 @@ namespace WpfApp04
 
         private void EgisTrackGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            egisSelectedTrack = (Track)EgisTrackGrid.SelectedItem;
+            egisSelectedTrack = (Track)EgisSearchControl1.EgisTrackGrid.SelectedItem;
         }
 
         private void DownUsageDirectionToFindRadioButton_Checked(object sender, RoutedEventArgs e)
@@ -1024,9 +1024,9 @@ namespace WpfApp04
         private void EgisLoadDataButton_Click(object sender, RoutedEventArgs e)
         {
             
-            if ((Track)EgisTrackGrid.SelectedItem != null)
+            if ((Track)EgisSearchControl1.EgisTrackGrid.SelectedItem != null)
             {
-                egisSelectedTrack = (Track)EgisTrackGrid.SelectedItem;
+                egisSelectedTrack = (Track)EgisSearchControl1.EgisTrackGrid.SelectedItem;
                 LoadEgisData();
             }
         }
@@ -1036,9 +1036,9 @@ namespace WpfApp04
             if (e.Key == Key.Enter)
             {
                 //EgisSelectStations();
-                EgisImporter.SelectStations(StaitonToFindTextBox.Text, egisconnection, EgisSelectedStations);
-                EgisStationsGrid.Items.Refresh();
-                EgisStationsGrid.SelectedIndex = 0;
+                EgisImporter.SelectStations(EgisSearchControl1.StaitonToFindTextBox.Text, egisconnection, EgisSelectedStations);
+                EgisSearchControl1.EgisStationsGrid.Items.Refresh();
+                EgisSearchControl1.EgisStationsGrid.SelectedIndex = 0;
 
             }
         }
@@ -1111,7 +1111,7 @@ namespace WpfApp04
             wrapPanel.Children.Clear();
             DrawRoute(wrapPanel,route1,toAddRoute);
 
-            EgisStationsGrid.Items.Refresh();
+            EgisSearchControl1.EgisStationsGrid.Items.Refresh();
             EgisToExportTrafficLightsGrid.Items.Refresh();
 
         }
