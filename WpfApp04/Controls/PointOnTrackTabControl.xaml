@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="WpfApp04.Controls.PointOnTrackTabControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1200">
+    <Grid Background="White">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="491*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="411*"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="1" 
+              IsReadOnly="False"
+              CanUserAddRows="False"
+              x:Name="PointOnTrackEditGrid" 
+              AutoGenerateColumns="False" SelectionChanged="PointOnTrackEditGrid_SelectionChanged">
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Тип точки на пути" Binding="{Binding Path=DicPointOnTrackKindName}" Width="180"/>
+
+                <DataGridTextColumn Header="Км" Binding="{Binding Path=PointOnTrackKm}" Width="45"/>
+                <DataGridTextColumn Header="Пк" Binding="{Binding Path=PointOnTrackPk}" Width="35"/>
+                <DataGridTextColumn Header="М" Binding="{Binding Path=PointOnTrackM}" Width="45"/>
+                <DataGridTextColumn Header="Segment" Binding="{Binding Path=SegmentID}" Width="58"/>
+                <DataGridTextColumn Header="Коорд. по маршруту" Binding="{Binding Path=RouteCoordinate}" Width="1*"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.RowSpan="2" ShowsPreview="False" Width="5"
+                  HorizontalAlignment="Center" />
+
+        <Button Grid.Column="2" Name="SaveToDbButton1" Content="Внести в базу данных" HorizontalAlignment="Left" Margin="10,30,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" Click="SaveToDbButton1_Click"/>
+        <Button Grid.Column="2" Name="AddPointOnTrackButton1" Content="Добавить точку на пути" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" Click="AddPointOnTrackButton1_Click"/>
+        <local:ImportOptionsControl x:Name="ImportOptionsControl2" 
+                                Grid.Column="2" 
+                                Grid.Row="1"
+                                HorizontalAlignment="Left" 
+                                Margin="10,50,0,0" 
+                                VerticalAlignment="Top"/>
+
+        <local:PointOnTrackMenuControl 
+        x:Name="pointOnTrackMenuControl1"
+        Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="180,0,0,0"></local:PointOnTrackMenuControl>
+        <Grid x:Name="PointOnTrackEditControlsContainer" Grid.Row="2" Grid.Column="4">
+            <!-- Здесь будут динамически отображаться контролы -->
+        </Grid>
+
+    </Grid>
+</UserControl>

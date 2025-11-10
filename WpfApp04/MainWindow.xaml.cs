@@ -145,8 +145,8 @@ namespace WpfApp04
             EgisSearchControl1.EgisTrackGrid.ItemsSource = EgisSelectedTracks;
             EgisKmGrid.ItemsSource = egisRoute1.Kilometers;
             EgisPlatformsGrid.ItemsSource = egisRoute1.Platforms;
-            SegmentsToFillFromEgisGrid.ItemsSource = route1.Segments;
-            EgisFoundPointObjectsGrid.ItemsSource = EgisFoundPointObjects;
+            TabImportControl1.SegmentsToFillFromEgisGrid.ItemsSource = route1.Segments;
+            ObjectSearchTabControl1.EgisFoundPointObjectsGrid.ItemsSource = EgisFoundPointObjects;
             EgisToExportTrafficLightsGrid.ItemsSource = egisRoute1.TrafficLights;
             EgisToExportStationsGrid.ItemsSource = egisRoute1.Stations;
             EgisToExportInclinesGrid.ItemsSource = egisRoute1.Inclines;
@@ -321,7 +321,7 @@ namespace WpfApp04
                 }
             }
 
-            SegmentsToFillFromEgisGrid.Items.Refresh();
+            TabImportControl1.SegmentsToFillFromEgisGrid.Items.Refresh();
         }
 
         void ClearDataAndCanvas() 
@@ -920,7 +920,7 @@ namespace WpfApp04
             {
                 EgisStationID = item.EgisStationID.ToString();
             }
-            string ObjectNameToFind = PointObjectToFindTextBox.Text;
+            string ObjectNameToFind = ObjectSearchTabControl1.PointObjectToFindTextBox.Text;
             string stationnametofind = EgisSearchControl1.StaitonToFindTextBox.Text;
 
             EgisSelectedTracks.Clear();
@@ -928,7 +928,7 @@ namespace WpfApp04
 
             EgisImporter.EgisFindPointObject(EgisStationID, ObjectNameToFind, stationnametofind, egisconnectionString, EgisSelectedTracks, EgisFoundPointObjects);
             EgisSearchControl1.EgisTrackGrid.Items.Refresh();
-            EgisFoundPointObjectsGrid.Items.Refresh();
+            ObjectSearchTabControl1.EgisFoundPointObjectsGrid.Items.Refresh();
         }
 
         
@@ -1049,15 +1049,15 @@ namespace WpfApp04
             TextBlock targetTextBlock;
             string message = "";
 
-            if (SegmentsToFillFromEgisGrid.ItemsSource == route1.Segments)
+            if (TabImportControl1.SegmentsToFillFromEgisGrid.ItemsSource == route1.Segments)
             {
                 targetCollection = segmentsToFillFromEgis;
-                targetTextBlock = SegmentsToFillFromEgisTextBlock;
+                targetTextBlock = TabImportControl1.SegmentsToFillFromEgisTextBlock;
             }
-            else if (SegmentsToFillFromEgisGrid.ItemsSource == egisRoute1.Segments)
+            else if (TabImportControl1.SegmentsToFillFromEgisGrid.ItemsSource == egisRoute1.Segments)
             {
                 targetCollection = segmentsSourseFromEgis;
-                targetTextBlock = SegmentsSourceFromEgisTextBlock;
+                targetTextBlock = TabImportControl1.SegmentsSourceFromEgisTextBlock;
             }
             else
             {
@@ -1066,9 +1066,9 @@ namespace WpfApp04
 
             targetCollection.Clear();
 
-            if (SegmentsToFillFromEgisGrid.SelectedItems.Count > 0)
+            if (TabImportControl1.SegmentsToFillFromEgisGrid.SelectedItems.Count > 0)
             {
-                foreach (var item in SegmentsToFillFromEgisGrid.SelectedItems)
+                foreach (var item in TabImportControl1.SegmentsToFillFromEgisGrid.SelectedItems)
                 {
                     Segment s = (Segment)item;
                     targetCollection.Add(s);
@@ -1131,8 +1131,8 @@ namespace WpfApp04
 
         public void ApplyImportCheckBoxes(RouteExportCheckBoxList _list)
         {
-            _list._DeleteTrackCircuitsChickBox = DeleteTrackCircuitsChickBox.IsChecked ?? false;
-            ImportOptionsControl1.ApplyToCheckBoxList(_list);
+            _list._DeleteTrackCircuitsChickBox = TabImportControl1.DeleteTrackCircuitsChickBox.IsChecked ?? false;
+            TabImportControl1.ImportOptionsControl1.ApplyToCheckBoxList(_list);
         }
         
         private void EgisFindPointObjectsButton_Click(object sender, RoutedEventArgs e)
@@ -1142,7 +1142,7 @@ namespace WpfApp04
 
         private void EgisFoundPointObjectsGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            PointOnTrack p = (PointOnTrack)EgisFoundPointObjectsGrid.SelectedItem;
+            PointOnTrack p = (PointOnTrack)ObjectSearchTabControl1.EgisFoundPointObjectsGrid.SelectedItem;
             egisSelectedTrack.TrackID = p.TrackID;
             LoadEgisData();
         }
@@ -1254,8 +1254,8 @@ namespace WpfApp04
             SpeedDataGrid.Items.SortDescriptions.Add(new SortDescription("StartRouteCoordinate", ListSortDirection.Ascending));
             EgisPtGrid.ItemsSource = routeToShowInDataGrids.BrakeCheckPlaces;
             EgisPtGrid.Items.Refresh();
-            SegmentsToFillFromEgisGrid.ItemsSource = routeToShowInDataGrids.Segments;
-            SegmentsToFillFromEgisGrid.Items.Refresh();
+            TabImportControl1.SegmentsToFillFromEgisGrid.ItemsSource = routeToShowInDataGrids.Segments;
+            TabImportControl1.SegmentsToFillFromEgisGrid.Items.Refresh();
 
 
 

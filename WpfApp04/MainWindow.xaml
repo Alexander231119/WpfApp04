@@ -103,67 +103,19 @@
                     <TabControl Grid.Column="2">
                         <TabItem Header="Импорт">
                             <Grid Background="#FFE5E5E5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="1*"/>
-
-                                </Grid.ColumnDefinitions>
-                                <DataGrid 
-                                    x:Name="SegmentsToFillFromEgisGrid" 
-                                    AutoGenerateColumns="False"
-                                    CanUserAddRows="False" CanUserDeleteRows="False" >
-
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="ID" Binding="{Binding Path=SegmentID}" Width="60"/>
-                                        <DataGridTextColumn Header="Имя сегмента" Binding="{Binding Path=SegmentName}" Width="1*"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="1" ShowsPreview="False" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-                                <Button Name="AddSegmentsToFillFromEgisButton" Grid.Column="2" Content="Выбрать" HorizontalAlignment="Left" Margin="4,4,0,0" VerticalAlignment="Top" Click="AddSegmentsToFillFromEgisButton_Click" Width="63"/>
-                                <TextBlock Name="SegmentsToFillFromEgisTextBlock" Background="LightGray" Grid.Column="2" HorizontalAlignment="Left" Margin="90,40,0,0" TextWrapping="Wrap" Text="ResultSegmentID" VerticalAlignment="Top" Height="20" Width="148"/>
-                                <Button Name="FillFromEgisButton" Grid.Column="2" Content="Загрузить" HorizontalAlignment="Left" Margin="4,67,0,0" VerticalAlignment="Top" Width="63" Click="FillFromEgisButton_Click"/>
-                                <Button x:Name="InsertFromEgisToBaseButton" Grid.Column="2" Content="Внести в базу" HorizontalAlignment="Left" Margin="4,95,0,0" VerticalAlignment="Top" Width="85" Click="InsertFromEgisToBaseButton_Click"/>
-                                <CheckBox x:Name="DeleteTrackCircuitsChickBox" Grid.Column="2" Content="Удалить РЦ" HorizontalAlignment="Left" Margin="94,98,0,0" VerticalAlignment="Top"/>
-                                <CheckBox x:Name="KmShortenCheckBox" Grid.Column="2" Content="поправка длины КМ" HorizontalAlignment="Left" Margin="94,69,0,0" VerticalAlignment="Top"/>
-                                <Button x:Name="ClearToAddListsButtony" Grid.Column="2" Content="Очистить" HorizontalAlignment="Left" Margin="269,40,0,0" VerticalAlignment="Top" Width="63" Click="ClearToAddListsButtony_Click"/>
-
-                                <local:ImportOptionsControl x:Name="ImportOptionsControl1" 
-                                                            Grid.Column="2" 
-                                                            HorizontalAlignment="Left" 
-                                                            Margin="4,120,0,0" 
-                                                            VerticalAlignment="Top"/>
-
-                                <TextBlock x:Name="SegmentsSourceFromEgisTextBlock" Background="LightGray" Grid.Column="2" HorizontalAlignment="Left" Margin="90,4,0,0" TextWrapping="Wrap" Text="SourceSegmentID" VerticalAlignment="Top" Height="20" Width="148"/>
-
-
+                                <local:TabImportControl x:Name="TabImportControl1"
+                                    AddSegmentsToFillFromEgisClicked="AddSegmentsToFillFromEgisButton_Click"
+                                    FillFromEgisClicked="FillFromEgisButton_Click"
+                                    InsertFromEgisToBaseClicked="InsertFromEgisToBaseButton_Click"
+                                    ClearToAddListsClicked="ClearToAddListsButtony_Click" />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Поиск объекта">
                             <Grid Grid.Column="2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="140"/>
-                                    <RowDefinition Height="5"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Поиск объекта" VerticalAlignment="Center"/>
-                                <TextBox Name="PointObjectToFindTextBox" HorizontalAlignment="Left" Margin="97,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="57"/>
-                                <DataGrid Grid.Row="3" 
-                                          IsReadOnly="True"
-                                          x:Name="EgisFoundPointObjectsGrid" 
-                                          AutoGenerateColumns="False" 
-                                          MouseDoubleClick="EgisFoundPointObjectsGrid_MouseDoubleClick">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="TrackObjectName" Binding="{Binding Path=TrackObjectName}" Width="2*"/>
-                                        <DataGridTextColumn Header="Км" Binding="{Binding Path=PointOnTrackKm}" Width="45"/>
-                                        <DataGridTextColumn Header="Пк" Binding="{Binding Path=PointOnTrackPk}" Width="35"/>
-                                        <DataGridTextColumn Header="М" Binding="{Binding Path=PointOnTrackM}" Width="45"/>
-                                        <DataGridTextColumn Header="Путь" Binding="{Binding Path=TrackNumber}" Width="1*"/>
-
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <Button x:Name="EgisFindPointObjectsButton" Content="Найти" HorizontalAlignment="Left" Margin="159,0,0,0" VerticalAlignment="Center" Width="60" Click="EgisFindPointObjectsButton_Click"/>
+                                <local:ObjectSearchTabControl x:Name="ObjectSearchTabControl1"
+                                                              EgisFindPointObjectsClicked="EgisFindPointObjectsButton_Click"
+                                                              EgisFoundPointObjectsGridDoubleClick="EgisFoundPointObjectsGrid_MouseDoubleClick">
+                                </local:ObjectSearchTabControl>
                             </Grid>
 
                         </TabItem>
