@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="WpfApp04.Controls.StationsTabControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp04.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="EgisToExportStationsGrid"  
+
+              AutoGenerateColumns="False" 
+              Background="#FFF0F0F0" 
+              HorizontalGridLinesBrush="Gray" 
+              VerticalGridLinesBrush="Gray" 
+              ColumnHeaderHeight="60" 
+              CanUserResizeRows="False" 
+              HorizontalAlignment="Left" 
+              CanUserAddRows="False" 
+              SelectionUnit="FullRow"  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Станция" Binding="{Binding Path=StationName}" Width="100"/>
+
+                <DataGridTextColumn Binding="{Binding Path=StartPointOnTrackKm}" Width="60" >
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="нач КМ" TextWrapping="Wrap" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="нач Пк" Binding="{Binding Path=StartPointOnTrackPk}" Width="60"/>
+                <DataGridTextColumn Header="нач М" Binding="{Binding Path=StartPointOnTrackM}" Width="60"/>
+                <DataGridTextColumn Header="кон Км" Binding="{Binding Path=EndPointOnTrackKm}" Width="60"/>
+                <DataGridTextColumn Header="кон Пк" Binding="{Binding Path=EndPointOnTrackPk}" Width="60"/>
+                <DataGridTextColumn Header="кон М" Binding="{Binding Path=EndPointOnTrackM}" Width="60"/>
+                <DataGridTextColumn Header="координата" Binding="{Binding Path=StartRouteCoordinate}" Width="60"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="ImportInitialStationNamesToBaseButton" 
+            Content="Загрузить имена станций в БД" 
+            HorizontalAlignment="Left" 
+            Margin="33,10,0,0" 
+            VerticalAlignment="Top" Width="174" 
+            Click="ImportInitialStationNamesToBaseButton_Click" Grid.Column="1"/>
+
+    </Grid>
+</UserControl>

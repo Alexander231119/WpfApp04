@@ -30,8 +30,8 @@ namespace WpfApp04.Controls
         //public Grid PointOnTrackEditControlsContainer => PointOnTrackEditControlsContainer;
 
         // для прямого доступа из вне контрола
-        public DataGrid PointOnTrackGrid => PointOnTrackEditGrid;
-        public Grid EditControlsContainer => PointOnTrackEditControlsContainer;
+        //public DataGrid PointOnTrackGrid => PointOnTrackEditGrid;
+        //public Grid EditControlsContainer => PointOnTrackEditControlsContainer;
 
         public PointOnTrackTabControl()
         {

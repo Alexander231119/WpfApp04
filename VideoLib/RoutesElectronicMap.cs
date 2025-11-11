@@ -82,9 +82,8 @@ namespace WpfApp04
                     //dbRoute.Segments.Add(s);
 
 
-                    // список километров общий для всех путей данной карты
-                    //dbRoute.Kilometers = WayKilometers;
-                    if (way.objs.Count == 0) return;
+                    // не открывается карта октябрьской жд
+                    //if (way.objs.Count == 0) return;
 
                     // определение длины сегмента и его координат
                     double minLinAddr = way.objs.Min(p => p.LinAddr);

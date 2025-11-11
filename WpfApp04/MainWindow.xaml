@@ -119,439 +119,77 @@
                             </Grid>
 
                         </TabItem>
-
-
                         <TabItem Header="PointOntrack">
-                            <Grid Grid.Column="0">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="491*"/>
-                                    <ColumnDefinition Width="5"/>
-                                    <ColumnDefinition Width="180*"/>
-                                    <ColumnDefinition Width="300*"/>
-                                    <ColumnDefinition Width="411*"/>
-
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
-
-                                <DataGrid Grid.Row="1" 
-                                          IsReadOnly="False"
-                                          CanUserAddRows="False"
-                                          x:Name="PointOnTrackEditGrid" 
-                                          AutoGenerateColumns="False" SelectionChanged="PointOnTrackEditGrid_SelectionChanged">
-                                    <DataGrid.Columns>
-
-                                        <DataGridTextColumn Header="Тип точки на пути" Binding="{Binding Path=DicPointOnTrackKindName}" Width="180"/>
-
-                                        <DataGridTextColumn Header="Км" Binding="{Binding Path=PointOnTrackKm}" Width="45"/>
-                                        <DataGridTextColumn Header="Пк" Binding="{Binding Path=PointOnTrackPk}" Width="35"/>
-                                        <DataGridTextColumn Header="М" Binding="{Binding Path=PointOnTrackM}" Width="45"/>
-                                        <DataGridTextColumn Header="Segment" Binding="{Binding Path=SegmentID}" Width="58"/>
-                                        <DataGridTextColumn Header="Коорд. по маршруту" Binding="{Binding Path=RouteCoordinate}" Width="1*"/>
-
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.RowSpan="2" ShowsPreview="False" Width="5"
-                                              HorizontalAlignment="Center" />
-
-                                <Button Grid.Column="2" Name="SaveToDbButton1" Content="Внести в базу данных" HorizontalAlignment="Left" Margin="10,30,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" Click="SaveToDbButton1_Click"/>
-                                <Button Grid.Column="2" Name="AddPointOnTrackButton1" Content="Добавить точку на пути" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" Click="AddPointOnTrackButton1_Click"/>
-                                <local:ImportOptionsControl x:Name="ImportOptionsControl2" 
-                                                            Grid.Column="2" 
-                                                            Grid.Row="1"
-                                                            HorizontalAlignment="Left" 
-                                                            Margin="10,50,0,0" 
-                                                            VerticalAlignment="Top"/>
-
-                                <local:PointOnTrackMenuControl 
-                                    x:Name="pointOnTrackMenuControl1"
-                                    Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="180,0,0,0"></local:PointOnTrackMenuControl>
-                                <Grid x:Name="PointOnTrackEditControlsContainer" Grid.Row="2" Grid.Column="4">
-                                    <!-- Здесь будут динамически отображаться контролы -->
-                                </Grid>
+                            <Grid >
+                                <local:PointOnTrackTabControl x:Name="PointOnTrackTabControl1"
+                                    PointOnTrackEditGridSelectionChanged="PointOnTrackEditGrid_SelectionChanged"
+                                    SaveToDbClicked="SaveToDbButton1_Click"
+                                    AddPointOnTrackClicked="AddPointOnTrackButton1_Click" />
 
                             </Grid>
-
                         </TabItem>
                         <TabItem Header="Скорость">
                             <Grid  Background="#FFE5E5E5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2.5*"/>
-                                    <ColumnDefinition Width="5"/>
-                                    <ColumnDefinition Width="3*"/>
-
-                                </Grid.ColumnDefinitions>
-                                <DataGrid x:Name="SpeedDataGrid"  
-      AutoGenerateColumns="False" 
-      Background="#FFF0F0F0" 
-      HorizontalGridLinesBrush="Gray"
-      SelectionMode="Single"
-      SelectionUnit="FullRow" 
-      VerticalGridLinesBrush="Gray" ColumnHeaderHeight="60" CanUserResizeRows="False" SelectionChanged="SpeedDataGrid_SelectionChanged" RowEditEnding="SpeedDataGrid_RowEditEnding"  >
-                                    <DataGrid.Resources>
-                                        <Style TargetType="{x:Type DataGridCell}">
-                                            <Style.Triggers>
-                                                <Trigger Property="DataGridCell.IsSelected" Value="True" >
-                                                    <Setter Property="Background" Value="LightBlue" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-
-                                    </DataGrid.Resources>
-                                    <DataGrid.Columns>
-
-                                        <DataGridTextColumn Header="станция / перегон" Width="120" Binding="{Binding Path=Station}" />
-                                        <DataGridTextColumn Header="путь" Width="35" Binding="{Binding Path=TrackNumber}"/>
-                                        <DataGridTextColumn Header="нач Км" Binding="{Binding Path=StartPointOnTrackKm}"/>
-                                        <DataGridTextColumn Header="нач Пк" Binding="{Binding Path=StartPointOnTrackPk}"/>
-                                        <DataGridTextColumn Header="нач М" Binding="{Binding Path=StartPointOnTrackM}"/>
-                                        <DataGridTextColumn Header="кон Км" Binding="{Binding Path=EndPointOnTrackKm}"/>
-                                        <DataGridTextColumn Header="кон Пк" Binding="{Binding Path=EndPointOnTrackPk}"/>
-                                        <DataGridTextColumn Header="кон М" Binding="{Binding Path=EndPointOnTrackM}"/>
-                                        <DataGridTextColumn Header="Км/ч" Binding="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                        <DataGridCheckBoxColumn  Binding="{Binding Path=ForEmptytrainBool}" Width="55" >
-                                            <DataGridCheckBoxColumn.Header>
-                                                <TextBlock Text="для порожнего поезда" Width="65" TextWrapping="Wrap" />
-                                            </DataGridCheckBoxColumn.Header>
-                                        </DataGridCheckBoxColumn>
-
-                                        <DataGridCheckBoxColumn Binding="{Binding Path=OnlyHeaderBool}" Width="60" >
-                                            <DataGridCheckBoxColumn.Header>
-                                                <TextBlock Text="только головой" Width="60" TextWrapping="Wrap" />
-                                            </DataGridCheckBoxColumn.Header>
-                                        </DataGridCheckBoxColumn>
-                                        <DataGridTextColumn Binding="{Binding Path=StartRouteCoordinate}" Visibility="Hidden" >
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="Координата по маршруту" Width="100" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding Path=ObjectLength}" Visibility="Visible" >
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="длина" Width="100" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                    </DataGrid.Columns>
-
-                                </DataGrid>
-
-                                <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="1" ShowsPreview="False" Width="5"
-HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-
-
-                                <Button Name="AddSpeedButton" Grid.Column="2" Content="Добавить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="84" Click="AddSpeedButton_Click"/>
-                                <Button Name="DeleteSpeedButton" Grid.Column="2" Content="Удалить" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="84" Click="DeleteSpeedButton_Click"/>
-                                <Button x:Name="DeleteAllSpeedButton" Grid.Column="2" Content="Удалить все" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="84" Click="DeleteAllSpeedButton_Click"/>
-                                <CheckBox Name="RouteCoordinateCheckBox" Grid.Column="2" Content="Координата по маршруту" HorizontalAlignment="Left" Margin="118,12,0,0" VerticalAlignment="Top" Checked="RouteCoordinateCheckBox_Checked" Unchecked="RouteCoordinateCheckBox_Unchecked" IsChecked="False" />
-                                <TextBox Grid.Column="2" Name="SegmentIdTextBox" HorizontalAlignment="Left" Margin="187,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="51" Height="20" KeyDown="SegmentIdTextBox_KeyDown"/>
-                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="119,35,0,0" TextWrapping="Wrap" Text="Segment Id:" VerticalAlignment="Top" Height="20"/>
-                                <Button x:Name="SetSpeedSegmentIdButton" Grid.Column="2" Content="Задать" HorizontalAlignment="Left" Margin="243,35,0,0" VerticalAlignment="Top" Width="47" Click="SetSpeedSegmentIdButton_Click"/>
-                                <Button x:Name="FillEmptySpeedsButton" 
-                                        Grid.Column="2" 
-                                        HorizontalAlignment="Left" 
-                                        Margin="10,88,0,0" 
-                                        VerticalAlignment="Top" Width="203" 
-                                        Click="FillEmptySpeedsButton_Click" Height="22">
-                                    <TextBlock Text="Заполнить пустые сегменты" 
-                                               TextWrapping="Wrap" 
-                                               TextAlignment="Center"/>
-                                </Button>
-                                <Button x:Name="SaveSpeedButton" Grid.Column="2" Content="Сохранить скорости" HorizontalAlignment="Left" Margin="323,10,0,0" VerticalAlignment="Top" Width="121" Click="SaveSpeedButton_Click"/>
-
-
+                                <local:SpeedEditTabControl x:Name="SpeedEditTabControl1"
+                                    SpeedDataGridSelectionChanged="SpeedDataGrid_SelectionChanged"
+                                    SpeedDataGridRowEditEnding="SpeedDataGrid_RowEditEnding"
+                                    AddSpeedClicked="AddSpeedButton_Click"
+                                    DeleteSpeedClicked="DeleteSpeedButton_Click"
+                                    DeleteAllSpeedClicked="DeleteAllSpeedButton_Click"
+                                    RouteCoordinateCheckBoxChecked="RouteCoordinateCheckBox_Checked"
+                                    RouteCoordinateCheckBoxUnchecked="RouteCoordinateCheckBox_Unchecked"
+                                    SegmentIdTextBoxKeyDown="SegmentIdTextBox_KeyDown"
+                                    SetSpeedSegmentIdClicked="SetSpeedSegmentIdButton_Click"
+                                    FillEmptySpeedsClicked="FillEmptySpeedsButton_Click"
+                                    SaveSpeedClicked="SaveSpeedButton_Click" />
                             </Grid>
 
                         </TabItem>
                         <TabItem Header="Километры">
                             <Grid Background="#FFE5E5E5">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="5"/>
-                                        <ColumnDefinition Width="3*"/>
-
-                                    </Grid.ColumnDefinitions>
-
-                                    <DataGrid x:Name="EgisKmGrid"  
-                                              AutoGenerateColumns="False" 
-                                              Background="#FFF0F0F0" 
-                                              HorizontalGridLinesBrush="Gray" 
-                                              VerticalGridLinesBrush="Gray" 
-                                              ColumnHeaderHeight="60" 
-                                              CanUserResizeRows="False" 
-                                              HorizontalAlignment="Left" 
-                                              CanUserAddRows="False" 
-                                              CanUserDeleteRows="False" Margin="141,20,0,0"  >
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Км" Binding="{Binding Path=Km}" Width="60"/>
-                                            <DataGridTextColumn Header="Длина" Binding="{Binding Path=Length}" Width="60"/>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-
-                                    <DataGrid x:Name="KmGrid"  
-                                              AutoGenerateColumns="False" 
-                                              Background="#FFF0F0F0" 
-                                              HorizontalGridLinesBrush="Gray" 
-                                              VerticalGridLinesBrush="Gray" ColumnHeaderHeight="60" CanUserResizeRows="False" HorizontalAlignment="Left" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="KmGrid_SelectionChanged" Margin="0,20,0,0"  >
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Км" Binding="{Binding Km}" Width="60"/>
-                                            <DataGridTextColumn Header="Длина" Binding="{Binding Length}" Width="60"/>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-
-                                    <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="1" ShowsPreview="False" Width="5"
-                                                  HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-                                    <TextBlock Background="WhiteSmoke" x:Name="KmTextBlock1" Grid.Column="2" HorizontalAlignment="Left" Margin="10,33,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="783" Height="63" />
-                                    <TextBlock x:Name="KmTextBlock2" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Длина:" VerticalAlignment="Top" Width="43" Height="17" />
-                                    <TextBox x:Name="DbKmTextBox" Grid.Column="2" HorizontalAlignment="Left" Margin="58,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60"/>
-                                    <Button x:Name="DbKmSetLengthButton" Grid.Column="2" Content="Задать длину" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top" Height="18" Width="108" Click="DbKmSetLengthButton_Click"/>
-                                    <Button x:Name="DbKmSegmentGroupSetLengthButton" Grid.Column="2" Content="Задать общую длину" HorizontalAlignment="Left" Margin="256,10,0,0" VerticalAlignment="Top" Height="18" Width="146" Click="DbKmSegmentGroupSetLengthButton_Click"/>
-                                </Grid>
+                                <local:KmEditTabControl x:Name="KmEditTabControl1"
+                                    KmGridSelectionChanged="KmGrid_SelectionChanged"
+                                    DbKmSetLengthClicked="DbKmSetLengthButton_Click"
+                                    DbKmSegmentGroupSetLengthClicked="DbKmSegmentGroupSetLengthButton_Click" />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Платформы">
                             <Grid Background="#FFE5E5E5">
-                                <Grid>
-                                    <DataGrid x:Name="EgisPlatformsGrid"  
-                                    AutoGenerateColumns="False" 
-                                    Background="#FFF0F0F0" 
-                                    HorizontalGridLinesBrush="Gray" 
-                                    VerticalGridLinesBrush="Gray" 
-                                    ColumnHeaderHeight="60" 
-                                    CanUserResizeRows="False" 
-                                    HorizontalAlignment="Left" 
-                                        CanUserAddRows="False"  >
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Имя платформы" Binding="{Binding Path=PlatformName}" Width="160"/>
-                                            <DataGridTextColumn Header="Нач Км" Binding="{Binding Path=StartPointOnTrackKm}" Width="60"/>
-                                            <DataGridTextColumn Header="Нач Пк" Binding="{Binding Path=StartPointOnTrackPk}" Width="60"/>
-                                            <DataGridTextColumn Header="Нач М" Binding="{Binding Path=StartPointOnTrackM}" Width="60"/>
-                                            <DataGridTextColumn Header="Кон Км" Binding="{Binding Path=EndPointOnTrackKm}" Width="60"/>
-                                            <DataGridTextColumn Header="Кон Пк" Binding="{Binding Path=EndPointOnTrackPk}" Width="60"/>
-                                            <DataGridTextColumn Header="Кон М" Binding="{Binding Path=EndPointOnTrackM}" Width="60"/>
-
-
-
-
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-                                </Grid>
+                                <local:PlatformsTabControl x:Name="PlatformsTabControl1"></local:PlatformsTabControl>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Светофоры">
                             <Grid Background="#FFE5E5E5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"></ColumnDefinition>
-                                    <ColumnDefinition Width="5"/>
-                                    <ColumnDefinition Width="4*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-
-                                <DataGrid x:Name="EgisToExportTrafficLightsGrid"  
-                                            AutoGenerateColumns="False" 
-                                            Background="#FFF0F0F0" 
-                                            HorizontalGridLinesBrush="Gray" 
-                                            VerticalGridLinesBrush="Gray" 
-                                            ColumnHeaderHeight="60" 
-                                            CanUserResizeRows="False"
-                                            CanUserAddRows="False" SelectionChanged="EgisToExportTrafficLightsGrid_SelectionChanged" Margin="0,0,0,0" Grid.ColumnSpan="2"   >
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn  Binding="{Binding Path=TrafficLightName}" Width="70">
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="Имя светофора" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn Header="тип" Binding="{Binding Path=DicTrafficLightKindName}" Width="100"/>
-                                        <DataGridTextColumn Header="Км" Binding="{Binding Path=StartPointOnTrackKm}" Width="40"/>
-                                        <DataGridTextColumn Header="Пк" Binding="{Binding Path=StartPointOnTrackPk}" Width="40"/>
-                                        <DataGridTextColumn Header="М" Binding="{Binding Path=StartPointOnTrackM}" Width="40"/>
-                                        <DataGridTextColumn Header="KindID" Binding="{Binding Path=DicTrafficLightKindID}" Width="60"/>
-                                        <DataGridTextColumn Header="EgisABValue" Binding="{Binding Path=EgisABValue}" Width="70"/>
-                                        <DataGridTextColumn Binding="{Binding Path=StartRouteCoordinate}">
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="Route Coordinate" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn Header="LightInFrame" Binding="{Binding Path=trafficLightInFramesCount}" Width="70"/>
-                                        <DataGridTextColumn Header="LampInFrame" Binding="{Binding Path=trafficLightLampInFramesCount}" Width="70"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="1" ShowsPreview="False" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-                                <Button Name="AddTrafficLightToAddList" 
-                                            Grid.Column="2"
-                                            Content="Добавить светофор" HorizontalAlignment="Left" 
-                                            Margin="10,10,0,0" 
-                                            VerticalAlignment="Top" 
-                                            Width="117" 
-                                            Click="AddTrafficLightToAddList_Click" Height="20"/>
-                                <Button Name="InsertTrafficLightsToDb_button" Grid.Column="2" Content="внести в БД" HorizontalAlignment="Left" Margin="137,10,0,0" VerticalAlignment="Top" Width="90" Click="InsertTrafficLightsToDb_button_Click"/>
-                                <Grid Name="Trafficlightgrid2" Grid.Column="2" 
-                                      Background="White" 
-                                      Margin="0,53,0,0">
-                                    <local:TrafficLightEditControl  x:Name="trafficLightEditControlMenu" HorizontalAlignment="Left"></local:TrafficLightEditControl>
-                                </Grid >
-                                <Button x:Name="SetAll4AbValue_button" Grid.Column="2" Content="Задать 4АБ" HorizontalAlignment="Left" Margin="242,10,0,0" VerticalAlignment="Top" Width="90" Click="SetAll4AbValue_button_Click"/>
-
+                                <local:TrafficLightsTabControl x:Name="TrafficLightsTabControl1"
+                                    EgisToExportTrafficLightsGridSelectionChanged="EgisToExportTrafficLightsGrid_SelectionChanged"
+                                    AddTrafficLightToAddListClicked="AddTrafficLightToAddList_Click"
+                                    InsertTrafficLightsToDbClicked="InsertTrafficLightsToDb_button_Click"
+                                    SetAll4AbValueClicked="SetAll4AbValue_button_Click" />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Станции">
                             <Grid Background="#FFE5E5E5">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <DataGrid x:Name="EgisToExportStationsGrid"  
-
-                                              AutoGenerateColumns="False" 
-                                              Background="#FFF0F0F0" 
-                                              HorizontalGridLinesBrush="Gray" 
-                                              VerticalGridLinesBrush="Gray" 
-                                              ColumnHeaderHeight="60" 
-                                              CanUserResizeRows="False" 
-                                              HorizontalAlignment="Left" 
-                                              CanUserAddRows="False" 
-                                              SelectionUnit="FullRow"  >
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Станция" Binding="{Binding Path=StationName}" Width="100"/>
-
-                                            <DataGridTextColumn Binding="{Binding Path=StartPointOnTrackKm}" Width="60" >
-                                                <DataGridTextColumn.Header>
-                                                    <TextBlock Text="нач КМ" TextWrapping="Wrap" />
-                                                </DataGridTextColumn.Header>
-                                            </DataGridTextColumn>
-                                            <DataGridTextColumn Header="нач Пк" Binding="{Binding Path=StartPointOnTrackPk}" Width="60"/>
-                                            <DataGridTextColumn Header="нач М" Binding="{Binding Path=StartPointOnTrackM}" Width="60"/>
-                                            <DataGridTextColumn Header="кон Км" Binding="{Binding Path=EndPointOnTrackKm}" Width="60"/>
-                                            <DataGridTextColumn Header="кон Пк" Binding="{Binding Path=EndPointOnTrackPk}" Width="60"/>
-                                            <DataGridTextColumn Header="кон М" Binding="{Binding Path=EndPointOnTrackM}" Width="60"/>
-                                            <DataGridTextColumn Header="координата" Binding="{Binding Path=StartRouteCoordinate}" Width="60"/>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-                                    <Button Name="ImportInitialStationNamesToBaseButton" 
-                                            Content="Загрузить имена станций в БД" 
-                                            HorizontalAlignment="Left" 
-                                            Margin="33,10,0,0" 
-                                            VerticalAlignment="Top" Width="174" 
-                                            Click="ImportInitialStationNamesToBaseButton_Click" Grid.Column="1"/>
-
-                                </Grid>
-
+                                <local:StationsTabControl  x:Name="StationsTabControl1"
+                                    ImportInitialStationNamesToBaseClicked="ImportInitialStationNamesToBaseButton_Click" />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Уклоны">
 
                             <Grid >
-                                <Grid.ColumnDefinitions >
-                                    <ColumnDefinition Width="22*"></ColumnDefinition>
-                                    <ColumnDefinition Width="5*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <DataGrid x:Name="EgisToExportInclinesGrid"  
-                                    AutoGenerateColumns="False" 
-                                    Background="#FFF0F0F0" 
-                                    HorizontalGridLinesBrush="Gray" 
-                                    VerticalGridLinesBrush="Gray" 
-                                    ColumnHeaderHeight="60" 
-                                    CanUserResizeRows="False" 
-                                    HorizontalAlignment="Left" 
-                                    CanUserAddRows="False" Width="1129"  >
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Уклон" Binding="{Binding Path=Value}" Width="100"/>
-
-                                        <DataGridTextColumn Binding="{Binding Path=StartPointOnTrackKm}" Width="45" >
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="нач КМ" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn Header="нач Пк" Binding="{Binding Path=StartPointOnTrackPk}" Width="50"/>
-                                        <DataGridTextColumn Header="нач М" Binding="{Binding Path=StartPointOnTrackM}" Width="60"/>
-                                        <DataGridTextColumn Header="кон Км" Binding="{Binding Path=EndPointOnTrackKm}" Width="45"/>
-                                        <DataGridTextColumn Header="кон Пк" Binding="{Binding Path=EndPointOnTrackPk}" Width="60"/>
-                                        <DataGridTextColumn Header="кон М" Binding="{Binding Path=EndPointOnTrackM}" Width="60"/>
-                                        <DataGridTextColumn Header="координата" Binding="{Binding Path=StartRouteCoordinate}" Width="80"/>
-                                        <DataGridTextColumn Header="TrackObjectName" Binding="{Binding Path=TrackObjectName}" Width="280"/>
-                                        <DataGridTextColumn Binding="{Binding Path=StartElevation}" Width="55" >
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="нач высота" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding Path=EndElevation}" Width="55" >
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="кон высота" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <Button x:Name="ExportInclinesToExcelButton" Grid.Column="1" Content="сохранить в *csv" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" Height="20" Click="ExportInclinesToExcelButton_Click"/>
-
+                                <local:InclinesTabControl x:Name="InclinesTabControl1"
+                                    ExportInclinesToExcelClicked="ExportInclinesToExcelButton_Click" />
                             </Grid>
 
                         </TabItem>
                         <TabItem Header="ПТ">
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="5"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-
-                                </Grid.ColumnDefinitions>
-                                <DataGrid x:Name="EgisPtGrid"  
-
-                                          AutoGenerateColumns="False" 
-                                          Background="#FFF0F0F0" 
-                                          HorizontalGridLinesBrush="Gray" 
-                                          VerticalGridLinesBrush="Gray" 
-                                          ColumnHeaderHeight="60" 
-                                          CanUserResizeRows="False" 
-                                          HorizontalAlignment="Left" 
-                                          CanUserAddRows="False" 
-                                          SelectionUnit="FullRow" SelectionChanged="EgisPtGrid_SelectionChanged"  >
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Вид Проверки" Binding="{Binding Path=TrackObjectName}" Width="100"/>
-
-                                        <DataGridTextColumn Binding="{Binding Path=StartPointOnTrackKm}" Width="60" >
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="КМ" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn Header="Пк" Binding="{Binding Path=StartPointOnTrackPk}" Width="60"/>
-                                        <DataGridTextColumn Header="М" Binding="{Binding Path=StartPointOnTrackM}" Width="60"/>
-
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <DataGrid Name="EgisPtNormsGrid" 
-                                          Grid.Column="2"
-                                          AutoGenerateColumns="False" 
-                                          Background="#FFF0F0F0" 
-                                          HorizontalGridLinesBrush="Gray" 
-                                          VerticalGridLinesBrush="Gray" 
-                                          ColumnHeaderHeight="60" 
-                                          CanUserResizeRows="False" 
-                                          HorizontalAlignment="Left" 
-                                          CanUserAddRows="False" 
-                                          SelectionUnit="Cell"  >
-                                    <DataGrid.Columns>
-
-                                        <DataGridTextColumn Header="скорость" Binding="{Binding Path=BrakeCheckNormSpeed}" Width="60"/>
-                                        <DataGridTextColumn Binding="{Binding Path=BrakeCheckNormPath}" Width="50" >
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="норма пути" TextWrapping="Wrap" />
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                        <DataGridTextColumn Header="Id" Binding="{Binding Path=BrakeCheckPlaceID}" Width="60"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                <local:BrakeChecksTabControl x:Name="BrakeChecksTabControl1"
+                                    EgisPtGridSelectionChanged="EgisPtGrid_SelectionChanged" />
 
                             </Grid>
                         </TabItem>
                     </TabControl>
-                    
-
                 </Grid>
-
-
-
             </TabItem>
             <TabItem Header ="ElectronicMap">
                 <Grid Name="DbRouteEmapGrid">
@@ -562,7 +200,5 @@ HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                 </Grid>
             </TabItem>
         </TabControl>
-
-
     </Grid>
 </Window>
