@@ -12,7 +12,7 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="EgisToExportStationsGrid"  
-
+              ItemsSource="{Binding Stations}"
               AutoGenerateColumns="False" 
               Background="#FFF0F0F0" 
               HorizontalGridLinesBrush="Gray" 

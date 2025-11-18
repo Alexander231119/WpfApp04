@@ -21,6 +21,7 @@ namespace WpfApp04.Controls
     public partial class StationsTabControl : UserControl
     {
         public event RoutedEventHandler ImportInitialStationNamesToBaseClicked;
+
         public StationsTabControl()
         {
             InitializeComponent();

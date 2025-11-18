@@ -619,8 +619,11 @@ namespace WpfApp04
 
                 if (k.DicTrafficSignalKindID == 1)
                 {
+                    //знак газ
                     userControl tControl = new userControl();
                     tControl.Value.Text = "!газ";
+                    tControl.Value.FontWeight = FontWeights.Bold;
+                    tControl.Value.VerticalAlignment= VerticalAlignment.Center;
 
                     tControl.rectangle.Stroke = System.Windows.Media.Brushes.DarkGray;
                     tControl.description = "газ\n"
@@ -628,11 +631,11 @@ namespace WpfApp04
                                            + k.TrackObjectID;
 
                     tControl.Name.Text = "";
-                    tControl.rectangle.Height = 17;
+                    tControl.rectangle.Height = 26;
                     tControl.rectangle.Width = 26;
                     tControl.rectangle.Fill = System.Windows.Media.Brushes.White;
 
-                    Canvas.SetBottom(tControl, trafficSignalsBottom-17);
+                    Canvas.SetBottom(tControl, trafficSignalsBottom-20);
                     Canvas.SetLeft(tControl, (k.Start.RouteCoordinate * widtscale - 1));
                     canvas.Children.Add(tControl);
                 }
@@ -640,6 +643,8 @@ namespace WpfApp04
                 {
                     userControl tControl = new userControl();
                     tControl.Value.Text = "нефть";
+                    tControl.Value.FontWeight = FontWeights.Bold;
+                    tControl.Value.VerticalAlignment = VerticalAlignment.Center;
 
                     tControl.rectangle.Stroke = System.Windows.Media.Brushes.DarkGray;
                     tControl.description = "нефть\n"
@@ -651,7 +656,7 @@ namespace WpfApp04
                     tControl.rectangle.Width = 34;
                     tControl.rectangle.Fill = System.Windows.Media.Brushes.White;
 
-                    Canvas.SetBottom(tControl, trafficSignalsBottom-17);
+                    Canvas.SetBottom(tControl, trafficSignalsBottom-30);
                     Canvas.SetLeft(tControl, (k.Start.RouteCoordinate * widtscale - 1));
                     canvas.Children.Add(tControl);
                 }

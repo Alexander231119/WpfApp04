@@ -25,7 +25,9 @@ namespace WpfApp04.Controls
         public RoutesElectronicMap dbElectronicMap = new();
         public int mapId; 
         public int routeId;
-        public Window _window;
+
+            //public Window _window;
+
         public event Action<int, int> RouteSelected;
 
         public List<Station> SelectedStations = new List<Station>();

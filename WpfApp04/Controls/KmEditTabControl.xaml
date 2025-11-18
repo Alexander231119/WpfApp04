@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp04.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="900">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-
+        <TextBlock Grid.Column="0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="база mdb*" VerticalAlignment="Top" Width="80" Height="20" />
         <DataGrid x:Name="EgisKmGrid"  
               AutoGenerateColumns="False" 
               Background="#FFF0F0F0" 
@@ -22,20 +22,22 @@
               VerticalGridLinesBrush="Gray" 
               ColumnHeaderHeight="60" 
               CanUserResizeRows="False" 
-              HorizontalAlignment="Left" 
               CanUserAddRows="False" 
-              CanUserDeleteRows="False" Margin="4,20,0,0" Grid.Column="2"  >
+              CanUserDeleteRows="False" Margin="0,20,0,0" Grid.Column="2"  >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Км" Binding="{Binding Path=Km}" Width="60"/>
                 <DataGridTextColumn Header="Длина" Binding="{Binding Path=Length}" Width="60"/>
+                <DataGridTextColumn Header="коорд" Binding="{Binding Path=StartRouteCoordinate}" Width="60"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-
+        <GridSplitter Grid.Column="1"  Grid.Row="0" ShowsPreview="False" Width="5"
+                      HorizontalAlignment="Center" />
+        <TextBlock Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Егис" VerticalAlignment="Top" Width="80" Height="20" />
         <DataGrid x:Name="KmGrid"  
               AutoGenerateColumns="False" 
               Background="#FFF0F0F0" 
               HorizontalGridLinesBrush="Gray" 
-              VerticalGridLinesBrush="Gray" ColumnHeaderHeight="60" CanUserResizeRows="False" HorizontalAlignment="Left" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="KmGrid_SelectionChanged" Margin="0,20,0,0"  >
+              VerticalGridLinesBrush="Gray" ColumnHeaderHeight="60" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="KmGrid_SelectionChanged" Margin="0,20,0,0"  >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Км" Binding="{Binding Km}" Width="60"/>
                 <DataGridTextColumn Header="Длина" Binding="{Binding Length}" Width="60"/>
@@ -44,10 +46,11 @@
 
         <GridSplitter Grid.Column="3"  Grid.Row="0" ShowsPreview="False" Width="5"
                   HorizontalAlignment="Center" />
-        <TextBlock Background="WhiteSmoke" x:Name="KmTextBlock1" Grid.Column="4" HorizontalAlignment="Left" Margin="10,33,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="783" Height="63" />
+        <TextBlock Background="WhiteSmoke" x:Name="KmTextBlock1" Grid.Column="4" HorizontalAlignment="Left" Margin="10,33,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="485" Height="63" />
         <TextBlock x:Name="KmTextBlock2" Grid.Column="4" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Длина:" VerticalAlignment="Top" Width="43" Height="17" />
         <TextBox x:Name="DbKmTextBox" Grid.Column="4" HorizontalAlignment="Left" Margin="58,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60"/>
         <Button x:Name="DbKmSetLengthButton" Grid.Column="4" Content="Задать длину" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top" Height="18" Width="108" Click="DbKmSetLengthButton_Click"/>
-        <Button x:Name="DbKmSegmentGroupSetLengthButton" Grid.Column="4" Content="Задать общую длину" HorizontalAlignment="Left" Margin="256,10,0,0" VerticalAlignment="Top" Height="18" Width="146" Click="DbKmSegmentGroupSetLengthButton_Click"/>
+        <Button x:Name="DbKmSegmentGroupSetLengthButton" Grid.Column="4" Content="Задать общую длину" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="18" Width="167" Click="DbKmSegmentGroupSetLengthButton_Click"/>
+        <Button x:Name="SetKmGroupLengthWithEgisButton" Grid.Column="4" Content="Задать общую длину из Егис" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Height="18" Width="167" Click="SetKmGroupLengthWithEgisButton_Click"/>
     </Grid>
 </UserControl>

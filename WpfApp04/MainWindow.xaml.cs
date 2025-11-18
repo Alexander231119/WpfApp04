@@ -27,12 +27,14 @@ using System.Windows.Ink;
 using System.Data;
 using System.ComponentModel;
 using WpfApp04.Controls;
+using WpfApp04.ViewModels;
 using System.Windows.Media.Animation;
 using Pen = System.Windows.Media.Pen;
 using Brushes = System.Windows.Media.Brushes;
 using System.IO;
 using WpfAapp04;
 using Microsoft.Extensions.Configuration;
+using System.Collections.ObjectModel;
 //using VideoLib;
 
 
@@ -48,7 +50,8 @@ namespace WpfApp04
         DbRoute route1 = new DbRoute();
         DbRoute toAddRoute = new DbRoute();
         DbRoute egisRoute1 = new DbRoute();
-        DbRoute routeToShowInDataGrids = new DbRoute();
+
+        public DbRoute routeToShowInDataGrids = new DbRoute();
 
         private List<PointOnTrack> pointOnTracksToShow = new List<PointOnTrack>(); // списко трочек на пути для показа в таблице PointOnTrackEditGrid
 
@@ -75,6 +78,9 @@ namespace WpfApp04
         
         double UsageDirectionToFind = 1; // направление для поиска обьектов возрастание или убывание
         private double SpeedKindToFind = 0; // вид движения для поиска скоростей и проб тормозов
+
+        // километры которые выбрал пользователь
+        public List<Kilometer> selectedKilometersToEdit = new List<Kilometer>();
 
         string fileName = "";
         string ConnectSrting1 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
@@ -128,7 +134,10 @@ namespace WpfApp04
         SpeedComparerToshow scts = new SpeedComparerToshow(); 
         InclineComparer inclc = new InclineComparer();
         StationComparer stationsByroute = new StationComparer();
-        
+
+        private PlatformsTabControlViewModel _platformsVm;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -138,13 +147,23 @@ namespace WpfApp04
             egisconnectionString = connectionString;
             egisconnection = new SqlConnection(egisconnectionString);
 
+            routeToShowInDataGrids = egisRoute1;
             SpeedEditTabControl1.SpeedDataGrid.ItemsSource = route1.SpeedRestrictions;
             KmEditTabControl1.KmGrid.ItemsSource = route1.Kilometers;
             EgisSearchControl1.EgisStationsGrid.ItemsSource= EgisSelectedStations;
-            EgisSearchControl1.StationDataGridSourceRadioButtonEgis.IsChecked = true;
             EgisSearchControl1.EgisTrackGrid.ItemsSource = EgisSelectedTracks;
+
             KmEditTabControl1.EgisKmGrid.ItemsSource = egisRoute1.Kilometers;
-            PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = egisRoute1.Platforms;
+
+            //PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = egisRoute1.Platforms;
+            // Создаем ViewModel
+            _platformsVm = new PlatformsTabControlViewModel();
+            // Привязываем к контролу
+            PlatformsTabControl1.DataContext = _platformsVm;
+            // Заполняем данными
+            _platformsVm.Platforms = new ObservableCollection<Platform>(routeToShowInDataGrids.Platforms);
+            //EgisSearchControl1.StationDataGridSourceRadioButtonEgis.IsChecked = true;
+
             TabImportControl1.SegmentsToFillFromEgisGrid.ItemsSource = route1.Segments;
             ObjectSearchTabControl1.EgisFoundPointObjectsGrid.ItemsSource = EgisFoundPointObjects;
             TrafficLightsTabControl1.EgisToExportTrafficLightsGrid.ItemsSource = egisRoute1.TrafficLights;
@@ -153,7 +172,7 @@ namespace WpfApp04
             BrakeChecksTabControl1.EgisPtGrid.ItemsSource = egisRoute1.BrakeCheckPlaces;
 
             DbRouteEmapControl_1.dbElectronicMap = routesElectronicMap;
-            DbRouteEmapControl_1._window = this;
+            //DbRouteEmapControl_1._window = this;
             DbRouteEmapControl_1.RouteSelected += OnRouteSelected;
 
 
@@ -265,7 +284,11 @@ namespace WpfApp04
             LoadData(ConnectString2, egisRoute1);
 
 
-            PlatformsTabControl1.EgisPlatformsGrid.Items.Refresh();
+            //PlatformsTabControl1.EgisPlatformsGrid.Items.Refresh();
+            // Вместо прямого доступа к контролу:
+            // Обновляем через ViewModel:
+            //_platformsVm.Platforms = new ObservableCollection<Platform>(egisRoute1.Platforms);
+
             InclinesTabControl1.EgisToExportInclinesGrid.ItemsSource = egisRoute1.Inclines;
             InclinesTabControl1.EgisToExportInclinesGrid.Items.Refresh();
             StationsTabControl1.EgisToExportStationsGrid.Items.Refresh();
@@ -330,6 +353,7 @@ namespace WpfApp04
             wrapPanel.ClearVisuals();
             segmentsToFillFromEgis.Clear();
             route1.DbRouteClear();
+            selectedKilometersToEdit.Clear();
             ClearToAddLists();
         }
 
@@ -350,13 +374,10 @@ namespace WpfApp04
             DbDataLoader loader = new DbDataLoader(cstring, route);
             loader.LoadData();
             // для каждого км в маршруте из базы подписаться на событие для корректировки длины километра
-
             if (route == route1)
             {
                 foreach (Kilometer k in route1.Kilometers) { k.KmLengthSet += KmLengthChangedPerform; }
             }
-            
-            
             EgisPtNormsGridLock = false;
         }
 
@@ -487,12 +508,7 @@ namespace WpfApp04
 
             routeDrawer.DrawSpeedrestrictions(wrapPanel, route1, false);
             routeDrawer.DrawSpeedrestrictions(wrapPanel, toAddRoute, true);
-
-            //DrawSpeedrestrictions(wrapPanel, route1.SpeedRestrictions,false);
-            //DrawSpeedrestrictions(wrapPanel, toAddRoute.SpeedRestrictions,true);
-
-
-
+            
         }
 
 
@@ -735,9 +751,34 @@ namespace WpfApp04
             }
         }
 
+        public void KmLengthChangedPerform(Kilometer k)
+        {
+            DbRouteQuery.KmLengthSetPerform(ConnectString, k, route1);
+
+            MessageBox.Show("Изменения внесены в " + fileName);
+            ClearDataAndCanvas();
+            LoadData(ConnectString, route1);
+            DrawRoute(wrapPanel, route1, toAddRoute);
+
+        }
+
+
+        private void DbKmSetLengthButton_Click(object sender, RoutedEventArgs e)
+        {
+            // задать длину для выбранного километра
+            Kilometer klm = (Kilometer)KmEditTabControl1.KmGrid.SelectedItem;
+            if (klm is null) return;
+            klm.Length = Convert.ToDouble(KmEditTabControl1.DbKmTextBox.Text);
+            klm.KmLengthBeenSet();
+        }
 
         private void KmGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // при изменении выделения в таблице KmGrid
+
+            // километры которые выбрал пользователь очистить список
+            selectedKilometersToEdit.Clear();
+
             if (EgisPtNormsGridLock == true) return;
 
             Kilometer item = (Kilometer)KmEditTabControl1.KmGrid.SelectedItem;
@@ -764,65 +805,69 @@ namespace WpfApp04
 
             KmEditTabControl1.DbKmTextBox.Text = item?.Length.ToString();
 
+
+            // если выбрано несколько километров посчитать среднюю длину
+
+            
+
+            foreach (var km_item in KmEditTabControl1.KmGrid.SelectedItems)
+            {
+                Kilometer k = (Kilometer)km_item;
+                selectedKilometersToEdit.Add(k);
+            }
+
+            //int selectedkmsCount = KmEditTabControl1.KmGrid.SelectedItems.Count;
+            //int selectedkmsCount = selectedKilometersToEdit.Count;
+            
+            if (selectedKilometersToEdit.Count > 0)
+            {
+                double SelectedKmsTotalLength = 0;
+
+                for (int i = 0; i < selectedKilometersToEdit.Count; i++)
+                {
+                    SelectedKmsTotalLength += selectedKilometersToEdit[i].Length;
+                }
+
+                double avgLength = SelectedKmsTotalLength / selectedKilometersToEdit.Count;
+                KmEditTabControl1.DbKmTextBox.Text = Math.Round(avgLength, 2).ToString();
+            }
         }
-
-        public void KmLengthChangedPerform(Kilometer k)
+        
+        private void SetKmGroupLengthWithEgisButton_Click(object sender, RoutedEventArgs e)
         {
-            DbRouteQuery.KmLengthSetPerform(ConnectString,k,route1);
+            // задать общую длину для выбранных километров с учётом длины километров из егис
 
-            MessageBox.Show("Изменения внесены в " + fileName);
+            List<Kilometer> egisSourseKmlist = new List<Kilometer>();
+            double egisKmtotalLength = 0; // суммарная длина соотвесттвующих километров из егис
+            double selectedKmsTotalLength = 0; // суммарная длина выбранных км из базы
+
+            for (int i = 0; i < selectedKilometersToEdit.Count; i++)
+            {
+                Kilometer EgisKm = egisRoute1.Kilometers.Find(x => x.Km == selectedKilometersToEdit[i].Km);
+                egisSourseKmlist.Add(EgisKm);
+
+                selectedKmsTotalLength += selectedKilometersToEdit[i].Length;
+                egisKmtotalLength += EgisKm.Length;
+
+            }
+
+            for (int i = 0; i < selectedKilometersToEdit.Count; i++)
+            {
+                selectedKilometersToEdit[i].Length = egisSourseKmlist[i].Length * (selectedKmsTotalLength / egisKmtotalLength);
+                DbRouteQuery.KmLengthSetPerform(ConnectString, selectedKilometersToEdit[i], route1);
+            }
             ClearDataAndCanvas();
             LoadData(ConnectString, route1);
             DrawRoute(wrapPanel, route1, toAddRoute);
-
-        }
-
-
-        private void DbKmSetLengthButton_Click(object sender, RoutedEventArgs e)
-        {
-            Kilometer klm = (Kilometer)KmEditTabControl1.KmGrid.SelectedItem;
-            if (klm is null) return; 
-            klm.Length = Convert.ToDouble(KmEditTabControl1.DbKmTextBox.Text);
-            klm.KmLengthBeenSet();
-                //
         }
 
         private void DbKmSegmentGroupSetLengthButton_Click(object sender, RoutedEventArgs e)
         {
-            Kilometer klm = (Kilometer)KmEditTabControl1.KmGrid.SelectedItem;
-            if (klm is null) return;
+            //задать общую длину для выбранных километров
+            
+            if ((Kilometer)KmEditTabControl1.KmGrid.SelectedItem is null) return;
 
-
-            //double klmLength = 995;
             double klmLength = Convert.ToDouble(KmEditTabControl1.DbKmTextBox.Text);
-
-            double segmentid = klm.Start.SegmentID;
-            double kindex = route1.Kilometers.IndexOf(klm);
-
-
-
-                //выбор километров с длиной 1000 метров в данном сегменте
-            List<Kilometer> KilometersToEdit = route1.Kilometers.FindAll(k =>
-                k.Start.RouteCoordinate>=klm.Start.RouteCoordinate&&
-                k.Length == 1000 && 
-                k.Start.SegmentID == segmentid && 
-                k.End.SegmentID == segmentid &&
-                k.Start.SegmentID == k.End.SegmentID &&
-                k.Start.DicPointOnTrackKindID == 0 && k.End.DicPointOnTrackKindID == 0);
-
-
-
-                // километры которые выбрал пользователь
-            List<Kilometer> selectedKilometersToEdit = new List<Kilometer>();
-
-            foreach (var item in KmEditTabControl1.KmGrid.SelectedItems)
-            {
-                Kilometer k = (Kilometer)item;
-                selectedKilometersToEdit.Add(k);
-            }
-
-            int KilometersToEditCount = KilometersToEdit.Count;
-            int selectedKilometersToEditCount = selectedKilometersToEdit.Count;
 
             foreach (Kilometer k in selectedKilometersToEdit)
             {
@@ -836,33 +881,7 @@ namespace WpfApp04
             ClearDataAndCanvas();
             LoadData(ConnectString, route1);
             DrawRoute(wrapPanel, route1, toAddRoute);
-
-            //Kilometer k1 = route1.Kilometers.Find(k1 => (k1.Length == 1000)&&(k1.Start.SegmentID == segmentid));
-
-
-            //if (k1 is null) return;
-
-            //while (k1 != null)
-            //{
-            //    if (k1.Start.SegmentID == segmentid && k1.Length == 1000)
-            //    {
-            //        klm.Length = klmLength;
-            //        klm.KmLengthBeenSet();
-            //    }
-            //}
-
-
-
-
-            //foreach (Kilometer k in route1.Kilometers)
-            //{
-            //    if (k.Start.SegmentID == segmentid && k.Length == 1000)
-            //    {
-            //        klm.Length = klmLength;
-            //        klm.KmLengthBeenSet();
-            //    }
-            //}
-
+            
         }
 
         #endregion
@@ -891,15 +910,11 @@ namespace WpfApp04
         private void EgisFindStationButton_Click(object sender, RoutedEventArgs e)
         {
             EgisSearchControl1.StaitonToFindTextBox.Text = DbRouteHelper.ConvertEngToRus(EgisSearchControl1.StaitonToFindTextBox.Text);
-            EgisSelectStations();
-
-        }
-        void EgisSelectStations()
-        {
             EgisImporter.SelectStations(EgisSearchControl1.StaitonToFindTextBox.Text, egisconnection, EgisSelectedStations);
             EgisSearchControl1.EgisStationsGrid.Items.Refresh();
             EgisSearchControl1.EgisStationsGrid.SelectedIndex = 0;
         }
+        
         void EgisSelectTrack()
         {
             Station item = (Station)EgisSearchControl1.EgisStationsGrid.SelectedItem;
@@ -949,7 +964,9 @@ namespace WpfApp04
                 EgisPtNormsGridLock = true;
                 egisImporter.LoadEgisData();
 
-                PlatformsTabControl1.EgisPlatformsGrid.Items.Refresh();
+                //PlatformsTabControl1.EgisPlatformsGrid.Items.Refresh();
+                //_platformsVm.Platforms = new ObservableCollection<Platform>(routeToShowInDataGrids.Platforms);
+
                 InclinesTabControl1.EgisToExportInclinesGrid.ItemsSource = egisRoute1.Inclines;
                 InclinesTabControl1.EgisToExportInclinesGrid.Items.Refresh();
                 StationsTabControl1.EgisToExportStationsGrid.Items.Refresh();
@@ -1244,10 +1261,12 @@ namespace WpfApp04
             TrafficLightsTabControl1.EgisToExportTrafficLightsGrid.Items.Refresh();
             InclinesTabControl1.EgisToExportInclinesGrid.ItemsSource = routeToShowInDataGrids.Inclines;
             InclinesTabControl1.EgisToExportInclinesGrid.Items.Refresh();
-            //EgisKmGrid.ItemsSource = Kilometers;
-            //EgisKmGrid.Items.Refresh();
-            PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = routeToShowInDataGrids.Platforms;
-            PlatformsTabControl1.EgisPlatformsGrid.Items.Refresh();
+
+            //PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = routeToShowInDataGrids.Platforms;
+            //PlatformsTabControl1.EgisPlatformsGrid.Items.Refresh();
+            //if(_platformsVm!=null)  _platformsVm.Platforms = new ObservableCollection<Platform>(routeToShowInDataGrids.Platforms);
+            _platformsVm.Platforms = new ObservableCollection<Platform>(routeToShowInDataGrids.Platforms);
+
             SpeedEditTabControl1.SpeedDataGrid.ItemsSource = routeToShowInDataGrids.SpeedRestrictions;
             SpeedEditTabControl1.SpeedDataGrid.Items.Refresh();
             SpeedEditTabControl1.SpeedDataGrid.Items.SortDescriptions.Clear();
@@ -1256,8 +1275,7 @@ namespace WpfApp04
             BrakeChecksTabControl1.EgisPtGrid.Items.Refresh();
             TabImportControl1.SegmentsToFillFromEgisGrid.ItemsSource = routeToShowInDataGrids.Segments;
             TabImportControl1.SegmentsToFillFromEgisGrid.Items.Refresh();
-
-
+            
 
             EgisPtNormsGridLock = false;
         }

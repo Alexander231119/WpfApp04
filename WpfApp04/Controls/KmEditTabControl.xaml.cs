@@ -23,6 +23,7 @@ namespace WpfApp04.Controls
         public event SelectionChangedEventHandler KmGridSelectionChanged;
         public event RoutedEventHandler DbKmSetLengthClicked;
         public event RoutedEventHandler DbKmSegmentGroupSetLengthClicked;
+        public event RoutedEventHandler SetKmGroupLengthWithEgisClicked;
 
         public string KmTextBlock1Text
         {
@@ -54,6 +55,11 @@ namespace WpfApp04.Controls
         private void DbKmSegmentGroupSetLengthButton_Click(object sender, RoutedEventArgs e)
         {
             DbKmSegmentGroupSetLengthClicked?.Invoke(sender, e);
+        }
+
+        private void SetKmGroupLengthWithEgisButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetKmGroupLengthWithEgisClicked?.Invoke(sender, e);
         }
     }
 }

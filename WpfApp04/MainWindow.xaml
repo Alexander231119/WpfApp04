@@ -119,7 +119,7 @@
                             </Grid>
 
                         </TabItem>
-                        <TabItem Header="PointOntrack">
+                        <TabItem Header="PointOnTrack">
                             <Grid >
                                 <local:PointOnTrackTabControl x:Name="PointOnTrackTabControl1"
                                     PointOnTrackEditGridSelectionChanged="PointOnTrackEditGrid_SelectionChanged"
@@ -150,7 +150,8 @@
                                 <local:KmEditTabControl x:Name="KmEditTabControl1"
                                     KmGridSelectionChanged="KmGrid_SelectionChanged"
                                     DbKmSetLengthClicked="DbKmSetLengthButton_Click"
-                                    DbKmSegmentGroupSetLengthClicked="DbKmSegmentGroupSetLengthButton_Click" />
+                                    DbKmSegmentGroupSetLengthClicked="DbKmSegmentGroupSetLengthButton_Click" 
+                                    SetKmGroupLengthWithEgisClicked="SetKmGroupLengthWithEgisButton_Click" />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Платформы">

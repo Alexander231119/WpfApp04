@@ -8,6 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <DataGrid x:Name="EgisPlatformsGrid"  
+                  ItemsSource="{Binding Platforms}"
                   AutoGenerateColumns="False" 
                   Background="#FFF0F0F0" 
                   HorizontalGridLinesBrush="Gray" 
