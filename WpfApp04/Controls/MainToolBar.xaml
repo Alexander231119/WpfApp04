@@ -40,7 +40,7 @@
                     <MenuItem x:Name="DelerteNoPointUksps" Header="Укспс" Click="DeleteNoPointUksps_Click" />
                     <MenuItem x:Name="DelerteNoPointKtsm" Header="Ктсм" Click="DeleteNoPointKtsm_Click" />
                     <MenuItem x:Name="DelerteNoPointCrossing" Header="Переезд" Click="DeleteNoPointCrossing_Click" />
-                    <MenuItem x:Name="DeleteNopointSign2" Header="знаки С" Click="DeleteNopointSign2_Click"/>
+                    <MenuItem x:Name="DeleteNopointSign2" Header="сигнальный знак" Click="DeleteNopointSign2_Click"/>
                 </MenuItem>
 
                 <MenuItem x:Name="DeleteAllInclines" Header="Удалить все уклоны" Click="DeleteAllInclines_Click"/>

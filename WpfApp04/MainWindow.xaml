@@ -148,7 +148,7 @@
                         <TabItem Header="Километры">
                             <Grid Background="#FFE5E5E5">
                                 <local:KmEditTabControl x:Name="KmEditTabControl1"
-                                    KmGridSelectionChanged="KmGrid_SelectionChanged"
+                                    
                                     DbKmSetLengthClicked="DbKmSetLengthButton_Click"
                                     DbKmSegmentGroupSetLengthClicked="DbKmSegmentGroupSetLengthButton_Click" 
                                     SetKmGroupLengthWithEgisClicked="SetKmGroupLengthWithEgisButton_Click" />

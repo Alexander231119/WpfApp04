@@ -141,6 +141,7 @@ namespace WpfApp04
         public MainWindow()
         {
             InitializeComponent();
+            
 
             var config = ConfigLoader.Load();
             string connectionString = config.GetConnectionString("RailDB");
@@ -148,12 +149,22 @@ namespace WpfApp04
             egisconnection = new SqlConnection(egisconnectionString);
 
             routeToShowInDataGrids = egisRoute1;
+
             SpeedEditTabControl1.SpeedDataGrid.ItemsSource = route1.SpeedRestrictions;
+
             KmEditTabControl1.KmGrid.ItemsSource = route1.Kilometers;
+            KmEditTabControl1.EgisKmGrid.ItemsSource = egisRoute1.Kilometers;
+
+            KmEditTabControl1.SelectedKilometersToEdit = selectedKilometersToEdit;
+            KmEditTabControl1.EgisPtNormsGridLock=EgisPtNormsGridLock;
+            KmEditTabControl1.EgisRoute1 = egisRoute1;
+            KmEditTabControl1.Route1 = route1;
+            KmEditTabControl1.ConnectString = ConnectString;
+
             EgisSearchControl1.EgisStationsGrid.ItemsSource= EgisSelectedStations;
             EgisSearchControl1.EgisTrackGrid.ItemsSource = EgisSelectedTracks;
 
-            KmEditTabControl1.EgisKmGrid.ItemsSource = egisRoute1.Kilometers;
+            
 
             //PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = egisRoute1.Platforms;
             // Создаем ViewModel
@@ -312,6 +323,7 @@ namespace WpfApp04
             fileName = openFileDialog.FileName;
             Title = fileName;
             ConnectString = ConnectSrting1 + fileName + ";";
+            KmEditTabControl1.ConnectString = ConnectString;
 
             ClearDataAndCanvas();
             LoadData(ConnectString, route1);
@@ -320,31 +332,15 @@ namespace WpfApp04
 
             // сортировка таблицы по координате по маршруту
 
-            SpeedEditTabControl1.SpeedDataGrid.Items.SortDescriptions.Clear();
-            SpeedEditTabControl1.SpeedDataGrid.Items.SortDescriptions.Add(new SortDescription("StartRouteCoordinate", ListSortDirection.Ascending));
-            //
-            SpeedEditTabControl1.SpeedDataGrid.Items.Refresh();
-            SpeedEditTabControl1.SpeedDataGrid.SelectedIndex = 0;
-            KmEditTabControl1.KmGrid.Items.Refresh();
+            //SpeedEditTabControl1.SpeedDataGrid.Items.SortDescriptions.Clear();
+            //SpeedEditTabControl1.SpeedDataGrid.Items.SortDescriptions.Add(new SortDescription("StartRouteCoordinate", ListSortDirection.Ascending));
+            
+            //SpeedEditTabControl1.SpeedDataGrid.Items.Refresh();
+            //SpeedEditTabControl1.SpeedDataGrid.SelectedIndex = 0;
+            //KmEditTabControl1.KmGrid.Items.Refresh();
 
-            foreach (var item in KmEditTabControl1.KmGrid.Items)
-            {
-                Kilometer k = (Kilometer)item;
-                if (k.Length > 1100 || k.Length < 950)
-                {
-                    int index = KmEditTabControl1.KmGrid.Items.IndexOf(item);
-
-                    if (index >= 0)
-                    {
-                        IList itemsSource = KmEditTabControl1.KmGrid.ItemsSource as IList;
-                        DataGridRow row = KmEditTabControl1.KmGrid.ItemContainerGenerator.ContainerFromItem(itemsSource[index]) as DataGridRow;
-                        Brush b = new SolidColorBrush(Colors.Yellow);
-                        if (row != null) row.Background = b;
-                    }
-                }
-            }
-
-            TabImportControl1.SegmentsToFillFromEgisGrid.Items.Refresh();
+            RefreshDataGridsItemsSources();
+            
         }
 
         void ClearDataAndCanvas() 
@@ -774,88 +770,87 @@ namespace WpfApp04
 
         private void KmGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // при изменении выделения в таблице KmGrid
+            //// при изменении выделения в таблице KmGrid
 
-            // километры которые выбрал пользователь очистить список
-            selectedKilometersToEdit.Clear();
+            //// километры которые выбрал пользователь очистить список
+            //selectedKilometersToEdit.Clear();
 
-            if (EgisPtNormsGridLock == true) return;
+            //if (EgisPtNormsGridLock == true) return;
 
-            Kilometer item = (Kilometer)KmEditTabControl1.KmGrid.SelectedItem;
+            //Kilometer item = (Kilometer)KmEditTabControl1.KmGrid.SelectedItem;
 
-            KmEditTabControl1.KmTextBlock1.Text = "Км " + item?.Km +
-                                                  "\nНачало: Segment: "
-                                                  + item?.Start.SegmentID.ToString() + " "
-                                                  + item?.Start.DicPointOnTrackKindName + " "
-                                                  + item?.Start.PointOnTrackKm + "-"
-                                                  + item?.Start.PointOnTrackPk.ToString() + "-"
-                                                  + item?.Start.PointOnTrackM.ToString() + " "
-                                                  + "TrackObject: " + item?.Start.TrackObjectID.ToString() + " "
-                                                  + "PointOntrack: " + item?.Start.PointOntrackID.ToString() + " "
+            //KmEditTabControl1.KmTextBlock1.Text = "Км " + item?.Km +
+            //                                      "\nНачало: Segment: "
+            //                                      + item?.Start.SegmentID.ToString() + " "
+            //                                      + item?.Start.DicPointOnTrackKindName + " "
+            //                                      + item?.Start.PointOnTrackKm + "-"
+            //                                      + item?.Start.PointOnTrackPk.ToString() + "-"
+            //                                      + item?.Start.PointOnTrackM.ToString() + " "
+            //                                      + "TrackObject: " + item?.Start.TrackObjectID.ToString() + " "
+            //                                      + "PointOntrack: " + item?.Start.PointOntrackID.ToString() + " "
 
-                                                  + "\nКонец: Segment: "
-                                                  + item?.End.SegmentID.ToString() + " "
-                                                  + item?.End.DicPointOnTrackKindName + " "
-                                                  + item?.End.PointOnTrackKm + "-"
-                                                  + item?.End.PointOnTrackPk.ToString() + "-"
-                                                  + item?.End.PointOnTrackM.ToString() + " "
-                                                  + "TrackObject: " + item?.End.TrackObjectID.ToString() + " "
-                                                  + "PointOntrack: " + item?.End.PointOntrackID.ToString() + " "
-                ;
+            //                                      + "\nКонец: Segment: "
+            //                                      + item?.End.SegmentID.ToString() + " "
+            //                                      + item?.End.DicPointOnTrackKindName + " "
+            //                                      + item?.End.PointOnTrackKm + "-"
+            //                                      + item?.End.PointOnTrackPk.ToString() + "-"
+            //                                      + item?.End.PointOnTrackM.ToString() + " "
+            //                                      + "TrackObject: " + item?.End.TrackObjectID.ToString() + " "
+            //                                      + "PointOntrack: " + item?.End.PointOntrackID.ToString() + " "
+            //    ;
 
-            KmEditTabControl1.DbKmTextBox.Text = item?.Length.ToString();
+            //KmEditTabControl1.DbKmTextBox.Text = item?.Length.ToString();
 
 
-            // если выбрано несколько километров посчитать среднюю длину
+            //// если выбрано несколько километров посчитать среднюю длину
 
             
 
-            foreach (var km_item in KmEditTabControl1.KmGrid.SelectedItems)
-            {
-                Kilometer k = (Kilometer)km_item;
-                selectedKilometersToEdit.Add(k);
-            }
+            //foreach (var km_item in KmEditTabControl1.KmGrid.SelectedItems)
+            //{
+            //    Kilometer k = (Kilometer)km_item;
+            //    selectedKilometersToEdit.Add(k);
+            //}
 
-            //int selectedkmsCount = KmEditTabControl1.KmGrid.SelectedItems.Count;
-            //int selectedkmsCount = selectedKilometersToEdit.Count;
+            ////int selectedkmsCount = KmEditTabControl1.KmGrid.SelectedItems.Count;
+            ////int selectedkmsCount = selectedKilometersToEdit.Count;
             
-            if (selectedKilometersToEdit.Count > 0)
-            {
-                double SelectedKmsTotalLength = 0;
+            //if (selectedKilometersToEdit.Count > 0)
+            //{
+            //    double SelectedKmsTotalLength = 0;
 
-                for (int i = 0; i < selectedKilometersToEdit.Count; i++)
-                {
-                    SelectedKmsTotalLength += selectedKilometersToEdit[i].Length;
-                }
+            //    for (int i = 0; i < selectedKilometersToEdit.Count; i++)
+            //    {
+            //        SelectedKmsTotalLength += selectedKilometersToEdit[i].Length;
+            //    }
 
-                double avgLength = SelectedKmsTotalLength / selectedKilometersToEdit.Count;
-                KmEditTabControl1.DbKmTextBox.Text = Math.Round(avgLength, 2).ToString();
-            }
+            //    double avgLength = SelectedKmsTotalLength / selectedKilometersToEdit.Count;
+            //    KmEditTabControl1.DbKmTextBox.Text = Math.Round(avgLength, 2).ToString();
+            //}
         }
         
         private void SetKmGroupLengthWithEgisButton_Click(object sender, RoutedEventArgs e)
         {
             // задать общую длину для выбранных километров с учётом длины километров из егис
 
-            List<Kilometer> egisSourseKmlist = new List<Kilometer>();
-            double egisKmtotalLength = 0; // суммарная длина соотвесттвующих километров из егис
-            double selectedKmsTotalLength = 0; // суммарная длина выбранных км из базы
+            //List<Kilometer> egisSourseKmlist = new List<Kilometer>();
+            //double egisKmtotalLength = 0; // суммарная длина соотвесттвующих километров из егис
+            //double selectedKmsTotalLength = 0; // суммарная длина выбранных км из базы
 
-            for (int i = 0; i < selectedKilometersToEdit.Count; i++)
-            {
-                Kilometer EgisKm = egisRoute1.Kilometers.Find(x => x.Km == selectedKilometersToEdit[i].Km);
-                egisSourseKmlist.Add(EgisKm);
+            //for (int i = 0; i < selectedKilometersToEdit.Count; i++)
+            //{
+            //    Kilometer EgisKm = egisRoute1.Kilometers.Find(x => x.Km == selectedKilometersToEdit[i].Km);
+            //    egisSourseKmlist.Add(EgisKm);
 
-                selectedKmsTotalLength += selectedKilometersToEdit[i].Length;
-                egisKmtotalLength += EgisKm.Length;
+            //    selectedKmsTotalLength += selectedKilometersToEdit[i].Length;
+            //    egisKmtotalLength += EgisKm.Length;
+            //}
 
-            }
-
-            for (int i = 0; i < selectedKilometersToEdit.Count; i++)
-            {
-                selectedKilometersToEdit[i].Length = egisSourseKmlist[i].Length * (selectedKmsTotalLength / egisKmtotalLength);
-                DbRouteQuery.KmLengthSetPerform(ConnectString, selectedKilometersToEdit[i], route1);
-            }
+            //for (int i = 0; i < selectedKilometersToEdit.Count; i++)
+            //{
+            //    selectedKilometersToEdit[i].Length = egisSourseKmlist[i].Length * (selectedKmsTotalLength / egisKmtotalLength);
+            //    DbRouteQuery.KmLengthSetPerform(ConnectString, selectedKilometersToEdit[i], route1);
+            //}
             ClearDataAndCanvas();
             LoadData(ConnectString, route1);
             DrawRoute(wrapPanel, route1, toAddRoute);
