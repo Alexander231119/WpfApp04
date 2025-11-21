@@ -13,7 +13,7 @@ namespace WpfApp04.ViewModels
 {
     // Единый источник данных (самое правильное)
     // класс-модель для общих данных
-    class AppDbRouteContextData : INotifyPropertyChanged
+    public class AppDbRouteContextData : INotifyPropertyChanged
     {
         // Строки подключения и файлы
         private string _connectString;

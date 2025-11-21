@@ -47,6 +47,8 @@ namespace WpfApp04
     public partial class MainWindow : Window
     {
 
+        private AppDbRouteContextData _appData = new AppDbRouteContextData();
+
         DbRoute route1 = new DbRoute();
         DbRoute toAddRoute = new DbRoute();
         DbRoute egisRoute1 = new DbRoute();
@@ -83,7 +85,7 @@ namespace WpfApp04
         public List<Kilometer> selectedKilometersToEdit = new List<Kilometer>();
 
         string fileName = "";
-        string ConnectSrting1 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
+        //string ConnectSrting1 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
         public static string ConnectString = "";
 
         // масштаб и положение элементов
@@ -141,16 +143,21 @@ namespace WpfApp04
         public MainWindow()
         {
             InitializeComponent();
-            
+            this.DataContext = _appData;
 
             var config = ConfigLoader.Load();
             string connectionString = config.GetConnectionString("RailDB");
+
+
             egisconnectionString = connectionString;
+            _appData.EgisConnectionString = connectionString;
+
             egisconnection = new SqlConnection(egisconnectionString);
 
             routeToShowInDataGrids = egisRoute1;
 
             SpeedEditTabControl1.SpeedDataGrid.ItemsSource = route1.SpeedRestrictions;
+
 
             KmEditTabControl1.KmGrid.ItemsSource = route1.Kilometers;
             KmEditTabControl1.EgisKmGrid.ItemsSource = egisRoute1.Kilometers;
@@ -159,7 +166,10 @@ namespace WpfApp04
             KmEditTabControl1.EgisPtNormsGridLock=EgisPtNormsGridLock;
             KmEditTabControl1.EgisRoute1 = egisRoute1;
             KmEditTabControl1.Route1 = route1;
-            KmEditTabControl1.ConnectString = ConnectString;
+
+            //KmEditTabControl1.ConnectString = ConnectString;
+
+            KmEditTabControl1.AppData = _appData;
 
             EgisSearchControl1.EgisStationsGrid.ItemsSource= EgisSelectedStations;
             EgisSearchControl1.EgisTrackGrid.ItemsSource = EgisSelectedTracks;
@@ -287,7 +297,7 @@ namespace WpfApp04
 
             string fileName2 = openFileDialog.FileName;
             //Title = fileName;
-            string ConnectString2 = ConnectSrting1 + fileName2 + ";";
+            string ConnectString2 = _appData.ConnectSrting1 + fileName2 + ";";
 
             EgisPtNormsGridLock = true;
             //ClearDataAndCanvas();
@@ -322,8 +332,12 @@ namespace WpfApp04
 
             fileName = openFileDialog.FileName;
             Title = fileName;
-            ConnectString = ConnectSrting1 + fileName + ";";
-            KmEditTabControl1.ConnectString = ConnectString;
+            ConnectString = _appData.ConnectSrting1 + fileName + ";";
+            _appData.ConnectString = _appData.ConnectSrting1 + fileName + ";";
+
+            //KmEditTabControl1.ConnectString = ConnectString;
+
+
 
             ClearDataAndCanvas();
             LoadData(ConnectString, route1);
@@ -479,9 +493,8 @@ namespace WpfApp04
 
             string fileName2 = openFileDialog2.FileName;
             //Title = fileName;
-            string ConnectString2 = ConnectSrting1 + fileName2 + ";";
-
-
+            string ConnectString2 = _appData.ConnectSrting1 + fileName2 + ";";
+            
             SaveSpeedrestrictions(ConnectString2);
 
         }

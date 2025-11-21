@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp04.ViewModels;
 
 namespace WpfApp04.Controls
 {
@@ -20,12 +21,25 @@ namespace WpfApp04.Controls
     /// </summary>
     public partial class KmEditTabControl : UserControl
     {
+        private AppDbRouteContextData _appData;
+        public AppDbRouteContextData AppData
+        {
+            get => _appData;
+            set
+            {
+                _appData = value;
+                // Подписываемся на изменения если нужно
+            }
+        }
+
+
+
         public List<Kilometer> SelectedKilometersToEdit = new List<Kilometer>();
         public bool EgisPtNormsGridLock;
 
         public DbRoute Route1 = new DbRoute();
         public DbRoute EgisRoute1 = new DbRoute();
-        public string ConnectString = String.Empty;
+        //public string ConnectString = String.Empty;
 
 
 
@@ -142,7 +156,8 @@ namespace WpfApp04.Controls
             for (int i = 0; i < SelectedKilometersToEdit.Count; i++)
             {
                 SelectedKilometersToEdit[i].Length = egisSourseKmlist[i].Length * (selectedKmsTotalLength / egisKmtotalLength);
-                DbRouteQuery.KmLengthSetPerform(ConnectString, SelectedKilometersToEdit[i], Route1);
+                
+                DbRouteQuery.KmLengthSetPerform(_appData.ConnectString, SelectedKilometersToEdit[i], Route1);
             }
 
             SetKmGroupLengthWithEgisClicked?.Invoke(sender, e);
