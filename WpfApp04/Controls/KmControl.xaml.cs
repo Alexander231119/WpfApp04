@@ -36,10 +36,6 @@ namespace WpfApp04
                 kmgrid.ScrollIntoView(klm);
                 kmgrid.Focus();
             }
-            
-
-            
-
             KmEditMenu editMenu = new KmEditMenu(klm);
             //editMenu.kmControl= this;
             editMenu.KmNameTextBox.Text = klm.Km;

@@ -34,11 +34,11 @@ namespace WpfApp04.Controls
 
 
 
-        public List<Kilometer> SelectedKilometersToEdit = new List<Kilometer>();
-        public bool EgisPtNormsGridLock;
+        //public List<Kilometer> SelectedKilometersToEdit = new List<Kilometer>();
+        //public bool EgisPtNormsGridLock;
 
-        public DbRoute Route1 = new DbRoute();
-        public DbRoute EgisRoute1 = new DbRoute();
+            //public DbRoute Route1 = new DbRoute();
+        //public DbRoute EgisRoute1 = new DbRoute();
         //public string ConnectString = String.Empty;
 
 
@@ -63,6 +63,8 @@ namespace WpfApp04.Controls
         public KmEditTabControl()
         {
             InitializeComponent();
+            
+
         }
 
         private void KmGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -71,9 +73,9 @@ namespace WpfApp04.Controls
             // при изменении выделения в таблице KmGrid
 
             // километры которые выбрал пользователь очистить список
-            SelectedKilometersToEdit.Clear();
+            _appData.SelectedKilometersToEdit.Clear();
 
-            if (EgisPtNormsGridLock == true) return;
+            if (_appData.EgisPtNormsGridLock == true) return;
 
             Kilometer item = (Kilometer)KmGrid.SelectedItem;
 
@@ -107,33 +109,60 @@ namespace WpfApp04.Controls
             foreach (var km_item in KmGrid.SelectedItems)
             {
                 Kilometer k = (Kilometer)km_item;
-                SelectedKilometersToEdit.Add(k);
+                _appData.SelectedKilometersToEdit.Add(k);
             }
 
             //int selectedkmsCount = KmEditTabControl1.KmGrid.SelectedItems.Count;
             //int selectedkmsCount = selectedKilometersToEdit.Count;
 
-            if (SelectedKilometersToEdit.Count > 0)
+            if (_appData.SelectedKilometersToEdit.Count > 0)
             {
                 double SelectedKmsTotalLength = 0;
 
-                for (int i = 0; i < SelectedKilometersToEdit.Count; i++)
+                for (int i = 0; i < _appData.SelectedKilometersToEdit.Count; i++)
                 {
-                    SelectedKmsTotalLength += SelectedKilometersToEdit[i].Length;
+                    SelectedKmsTotalLength += _appData.SelectedKilometersToEdit[i].Length;
                 }
 
-                double avgLength = SelectedKmsTotalLength / SelectedKilometersToEdit.Count;
+                double avgLength = SelectedKmsTotalLength / _appData.SelectedKilometersToEdit.Count;
                 DbKmTextBox.Text = Math.Round(avgLength, 2).ToString();
             }
         }
 
         private void DbKmSetLengthButton_Click(object sender, RoutedEventArgs e)
         {
+            // задать длину для выбранного километра
+
+            Kilometer klm = (Kilometer)KmGrid.SelectedItem;
+            if (klm is null) return;
+            klm.Length = Convert.ToDouble(DbKmTextBox.Text);
+
+
+            if (klm.Start.SegmentID == klm.End.SegmentID)
+            {
+                DbRouteQuery.KmLengthSetPerform(_appData.ConnectString, klm, _appData.Route1);
+                MessageBox.Show("Изменения внесены в " + _appData.FileName);
+            }
+
+
             DbKmSetLengthClicked?.Invoke(sender, e);
         }
 
         private void DbKmSegmentGroupSetLengthButton_Click(object sender, RoutedEventArgs e)
         {
+            //задать общую длину для выбранных километров
+
+            if ((Kilometer)KmGrid.SelectedItem is null) return;
+
+            double klmLength = Convert.ToDouble(DbKmTextBox.Text);
+
+            foreach (Kilometer k in _appData.SelectedKilometersToEdit)
+            {
+                if (k.Start.SegmentID == k.End.SegmentID)
+                    k.Length = klmLength;
+                DbRouteQuery.KmLengthSetPerform(_appData.ConnectString, k, _appData.Route1);
+            }
+
             DbKmSegmentGroupSetLengthClicked?.Invoke(sender, e);
         }
 
@@ -144,23 +173,25 @@ namespace WpfApp04.Controls
             double egisKmtotalLength = 0; // суммарная длина соотвесттвующих километров из егис
             double selectedKmsTotalLength = 0; // суммарная длина выбранных км из базы
 
-            for (int i = 0; i < SelectedKilometersToEdit.Count; i++)
+            for (int i = 0; i < _appData.SelectedKilometersToEdit.Count; i++)
             {
-                Kilometer EgisKm = EgisRoute1.Kilometers.Find(x => x.Km == SelectedKilometersToEdit[i].Km);
+                Kilometer EgisKm = _appData.EgisRoute1.Kilometers.Find(x => x.Km == _appData.SelectedKilometersToEdit[i].Km);
                 egisSourseKmlist.Add(EgisKm);
 
-                selectedKmsTotalLength += SelectedKilometersToEdit[i].Length;
+                selectedKmsTotalLength += _appData.SelectedKilometersToEdit[i].Length;
                 egisKmtotalLength += EgisKm.Length;
             }
 
-            for (int i = 0; i < SelectedKilometersToEdit.Count; i++)
+            for (int i = 0; i < _appData.SelectedKilometersToEdit.Count; i++)
             {
-                SelectedKilometersToEdit[i].Length = egisSourseKmlist[i].Length * (selectedKmsTotalLength / egisKmtotalLength);
+                _appData.SelectedKilometersToEdit[i].Length = egisSourseKmlist[i].Length * (selectedKmsTotalLength / egisKmtotalLength);
                 
-                DbRouteQuery.KmLengthSetPerform(_appData.ConnectString, SelectedKilometersToEdit[i], Route1);
+                DbRouteQuery.KmLengthSetPerform(_appData.ConnectString, _appData.SelectedKilometersToEdit[i], _appData.Route1);
             }
 
             SetKmGroupLengthWithEgisClicked?.Invoke(sender, e);
+
+            //KmGrid.Items.Refresh();
         }
     }
 }

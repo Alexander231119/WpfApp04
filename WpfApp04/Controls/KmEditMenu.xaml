@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:WpfApp04"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="KmEditMenu" Height="150" Width="250">
+        Title="KmEditMenu" Height="100" Width="140">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="КМ" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock x:Name="KmNameTextBox" HorizontalAlignment="Left" Margin="33,10,0,0" TextWrapping="Wrap" Text="9281" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Длина, м" VerticalAlignment="Top" FontSize="14"/>
-        <Button Name="SetLengthButton" Content="Задать длину" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Height="25" Click="SetLengthButton_Click"/>
+        <Button Name="SetLengthButton" Content="Задать длину" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Height="25" Click="SetLengthButton_Click" Visibility="Hidden"/>
         <TextBox x:Name="KmLengthTextBox" HorizontalAlignment="Left" Margin="72,31,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="62" FontSize="14" Height="19"/>
 
     </Grid>

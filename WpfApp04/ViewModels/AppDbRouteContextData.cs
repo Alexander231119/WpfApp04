@@ -13,10 +13,64 @@ namespace WpfApp04.ViewModels
 {
     // Единый источник данных (самое правильное)
     // класс-модель для общих данных
+
+
+    // Переменные заменены на использование _appData
+    // DbRoute route1 = new DbRoute(); -> _appData.Route1
+    // DbRoute toAddRoute = new DbRoute(); -> _appData.ToAddRoute
+    // DbRoute egisRoute1 = new DbRoute(); -> _appData.EgisRoute1
+    // public DbRoute routeToShowInDataGrids = new DbRoute(); -> _appData.RouteToShowInDataGrids
+    // private List<PointOnTrack> pointOnTracksToShow = new List<PointOnTrack>(); -> _appData.PointOnTracksToShow
+    // ElectonicMap map1 = new ElectonicMap(); -> _appData.Map1
+    // RoutesElectronicMap routesElectronicMap = new RoutesElectronicMap(); -> _appData.RoutesElectronicMap
+    // public DbRoute ekDbRoute = new DbRoute(); -> _appData.EkDbRoute
+    // private List<Segment> segmentsSourseFromEgis = new List<Segment>(); -> _appData.SegmentsSourseFromEgis
+    // List<Segment> segmentsToFillFromEgis = new List<Segment>(); -> _appData.SegmentsToFillFromEgis
+    // private List<PointOnTrack> PointOnTracksToAdd = new List<PointOnTrack>(); -> _appData.PointOnTracksToAdd
+    // static string egisconnectionString; -> _appData.EgisConnectionString
+    // SqlConnection egisconnection; -> _appData.EgisConnection
+    // List<Station> EgisSelectedStations= new List<Station>(); -> _appData.EgisSelectedStations
+    // List<Track> EgisSelectedTracks= new List<Track>(); -> _appData.EgisSelectedTracks
+    // List<PointOnTrack> EgisFoundPointObjects = new List<PointOnTrack>(); -> _appData.EgisFoundPointObjects
+    // Track egisSelectedTrack = new Track(); -> _appData.EgisSelectedTrack
+    // double UsageDirectionToFind = 1; -> _appData.UsageDirectionToFind
+    // private double SpeedKindToFind = 0; -> _appData.SpeedKindToFind
+    // public List<Kilometer> selectedKilometersToEdit = new List<Kilometer>(); -> _appData.SelectedKilometersToEdit
+    // string fileName = ""; -> _appData.FileName
+    // public static string ConnectString = ""; -> _appData.ConnectString
+    // Масштаб и положение элементов -> соответствующие свойства в _appData
+    // public double heighscale { get; set; } = 1; -> _appData.Heighscale
+    // public double widtscale = 0.1; -> _appData.Widtscale
+    // public double segmentsBottom = 0; -> _appData.SegmentsBottom
+    // public double segmentsHeight = 20; -> _appData.SegmentsHeight
+    // public double kilometersBottom = 20; -> _appData.KilometersBottom
+    // public double kilometersHeight = 30; -> _appData.KilometersHeight
+    // public double pkLineBottom = 50; -> _appData.PkLineBottom
+    // public double pkLineHeight = 10; -> _appData.PkLineHeight
+    // public double inclineControlBottom = 60; -> _appData.InclineControlBottom
+    // public double inclineControlHeight = 240; -> _appData.InclineControlHeight
+    // public double floorBottom = 100; -> _appData.FloorBottom
+    // public double trafficSignalsBottom = 255; -> _appData.TrafficSignalsBottom
+    // public double trackCircuitsBottom = 300; -> _appData.TrackCircuitsBottom
+    // public double trackCircuitsHeight = 15; -> _appData.TrackCircuitsHeight
+    // public double stationsBottom = 315; -> _appData.StationsBottom
+    // public double stationsHeight = 65; -> _appData.StationsHeight
+    // public double speedBottom = 400; -> _appData.SpeedBottom
+    // public double maxSpeed = 300; -> _appData.MaxSpeed
+    // public double kscale=1; -> _appData.Kscale
+    // public double lscale=1; -> _appData.Lscale
+    // public double maxElev=0; -> _appData.MaxElev
+    // public double minElev=0; -> _appData.MinElev
+    // public double lastX = 0; -> _appData.LastX
+    // public double lastY = 0; -> _appData.LastY
+    // public bool rowchanged = false; -> _appData.RowChanged
+    // private bool EgisPtNormsGridLock = false; -> _appData.EgisPtNormsGridLock
+    // private OleDbConnection myConnection; -> _appData.MyConnection
+    // Компараторы -> соответствующие свойства в _appData
+
     public class AppDbRouteContextData : INotifyPropertyChanged
     {
-        // Строки подключения и файлы
-        private string _connectString;
+        private string _connectString = "";
         public string ConnectString
         {
             get => _connectString;
@@ -38,9 +92,18 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        public string ConnectSrting1 { get; set; } = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
+        private string _connectString1 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
+        public string ConnectString1
+        {
+            get => _connectString1;
+            set
+            {
+                _connectString1 = value;
+                OnPropertyChanged();
+            }
+        }
 
-        // Маршруты
+        // Основные маршруты
         private DbRoute _route1 = new DbRoute();
         public DbRoute Route1
         {
@@ -85,20 +148,9 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        private DbRoute _ekDbRoute = new DbRoute();
-        public DbRoute EkDbRoute
-        {
-            get => _ekDbRoute;
-            set
-            {
-                _ekDbRoute = value;
-                OnPropertyChanged();
-            }
-        }
-
-        // Коллекции
-        private ObservableCollection<PointOnTrack> _pointOnTracksToShow = new ObservableCollection<PointOnTrack>();
-        public ObservableCollection<PointOnTrack> PointOnTracksToShow
+        // Списко трочек на пути для показа в таблице PointOnTrackEditGrid
+        private List<PointOnTrack> _pointOnTracksToShow = new List<PointOnTrack>();
+        public List<PointOnTrack> PointOnTracksToShow
         {
             get => _pointOnTracksToShow;
             set
@@ -108,84 +160,7 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        private ObservableCollection<Segment> _segmentsSourseFromEgis = new ObservableCollection<Segment>();
-        public ObservableCollection<Segment> SegmentsSourseFromEgis
-        {
-            get => _segmentsSourseFromEgis;
-            set
-            {
-                _segmentsSourseFromEgis = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<Segment> _segmentsToFillFromEgis = new ObservableCollection<Segment>();
-        public ObservableCollection<Segment> SegmentsToFillFromEgis
-        {
-            get => _segmentsToFillFromEgis;
-            set
-            {
-                _segmentsToFillFromEgis = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<PointOnTrack> _pointOnTracksToAdd = new ObservableCollection<PointOnTrack>();
-        public ObservableCollection<PointOnTrack> PointOnTracksToAdd
-        {
-            get => _pointOnTracksToAdd;
-            set
-            {
-                _pointOnTracksToAdd = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<Station> _egisSelectedStations = new ObservableCollection<Station>();
-        public ObservableCollection<Station> EgisSelectedStations
-        {
-            get => _egisSelectedStations;
-            set
-            {
-                _egisSelectedStations = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<Track> _egisSelectedTracks = new ObservableCollection<Track>();
-        public ObservableCollection<Track> EgisSelectedTracks
-        {
-            get => _egisSelectedTracks;
-            set
-            {
-                _egisSelectedTracks = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<PointOnTrack> _egisFoundPointObjects = new ObservableCollection<PointOnTrack>();
-        public ObservableCollection<PointOnTrack> EgisFoundPointObjects
-        {
-            get => _egisFoundPointObjects;
-            set
-            {
-                _egisFoundPointObjects = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<Kilometer> _selectedKilometersToEdit = new ObservableCollection<Kilometer>();
-        public ObservableCollection<Kilometer> SelectedKilometersToEdit
-        {
-            get => _selectedKilometersToEdit;
-            set
-            {
-                _selectedKilometersToEdit = value;
-                OnPropertyChanged();
-            }
-        }
-
-        // Электронные карты
+        // Файл электронной карты
         private ElectonicMap _map1 = new ElectonicMap();
         public ElectonicMap Map1
         {
@@ -197,6 +172,7 @@ namespace WpfApp04.ViewModels
             }
         }
 
+        // Файл электронной карты сконвертированный в списки DbRoute
         private RoutesElectronicMap _routesElectronicMap = new RoutesElectronicMap();
         public RoutesElectronicMap RoutesElectronicMap
         {
@@ -208,7 +184,112 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        // Выбранные объекты
+        // Выбранная карта или pos в карте
+        private DbRoute _ekDbRoute = new DbRoute();
+        public DbRoute EkDbRoute
+        {
+            get => _ekDbRoute;
+            set
+            {
+                _ekDbRoute = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private List<Segment> _segmentsSourseFromEgis = new List<Segment>();
+        public List<Segment> SegmentsSourseFromEgis
+        {
+            get => _segmentsSourseFromEgis;
+            set
+            {
+                _segmentsSourseFromEgis = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Сегменты в целевом маршруте для выбора для экспорта обьектов например route1
+        private List<Segment> _segmentsToFillFromEgis = new List<Segment>();
+        public List<Segment> SegmentsToFillFromEgis
+        {
+            get => _segmentsToFillFromEgis;
+            set
+            {
+                _segmentsToFillFromEgis = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Отдельный список точек на пути для добавления без создания новых обьектов
+        private List<PointOnTrack> _pointOnTracksToAdd = new List<PointOnTrack>();
+        public List<PointOnTrack> PointOnTracksToAdd
+        {
+            get => _pointOnTracksToAdd;
+            set
+            {
+                _pointOnTracksToAdd = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _egisConnectionString;
+        public string EgisConnectionString
+        {
+            get => _egisConnectionString;
+            set
+            {
+                _egisConnectionString = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private SqlConnection _egisConnection;
+        public SqlConnection EgisConnection
+        {
+            get => _egisConnection;
+            set
+            {
+                _egisConnection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Найденные станции
+        private List<Station> _egisSelectedStations = new List<Station>();
+        public List<Station> EgisSelectedStations
+        {
+            get => _egisSelectedStations;
+            set
+            {
+                _egisSelectedStations = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Пути проходящие через станцию
+        private List<Track> _egisSelectedTracks = new List<Track>();
+        public List<Track> EgisSelectedTracks
+        {
+            get => _egisSelectedTracks;
+            set
+            {
+                _egisSelectedTracks = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Для поиска по имени обьекта
+        private List<PointOnTrack> _egisFoundPointObjects = new List<PointOnTrack>();
+        public List<PointOnTrack> EgisFoundPointObjects
+        {
+            get => _egisFoundPointObjects;
+            set
+            {
+                _egisFoundPointObjects = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Выбранный путь
         private Track _egisSelectedTrack = new Track();
         public Track EgisSelectedTrack
         {
@@ -220,7 +301,7 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        // Параметры поиска и направления
+        // Направление для поиска обьектов возрастание или убывание
         private double _usageDirectionToFind = 1;
         public double UsageDirectionToFind
         {
@@ -232,6 +313,7 @@ namespace WpfApp04.ViewModels
             }
         }
 
+        // Вид движения для поиска скоростей и проб тормозов
         private double _speedKindToFind = 0;
         public double SpeedKindToFind
         {
@@ -243,7 +325,19 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        // Настройки отрисовки и масштабирования
+        // Километры которые выбрал пользователь
+        private List<Kilometer> _selectedKilometersToEdit = new List<Kilometer>();
+        public List<Kilometer> SelectedKilometersToEdit
+        {
+            get => _selectedKilometersToEdit;
+            set
+            {
+                _selectedKilometersToEdit = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Масштаб и положение элементов
         private double _heighscale = 1;
         public double Heighscale
         {
@@ -343,6 +437,7 @@ namespace WpfApp04.ViewModels
             }
         }
 
+        // Не используется
         private double _inclineControlHeight = 240;
         public double InclineControlHeight
         {
@@ -420,6 +515,7 @@ namespace WpfApp04.ViewModels
             }
         }
 
+        // Высота отрисовки ограничений скорости
         private double _speedBottom = 400;
         public double SpeedBottom
         {
@@ -442,7 +538,7 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        // Масштабирование уклонов
+        // Для масштабирования уклонов
         private double _kscale = 1;
         public double Kscale
         {
@@ -487,7 +583,6 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        // Состояние UI
         private double _lastX = 0;
         public double LastX
         {
@@ -532,19 +627,63 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        // Соединения с базами данных (не обязательно делать свойствами с уведомлением)
-        public string EgisConnectionString { get; set; }
-        public SqlConnection EgisConnection { get; set; }
-        public OleDbConnection MyConnection { get; set; }
+        private OleDbConnection _myConnection;
+        public OleDbConnection MyConnection
+        {
+            get => _myConnection;
+            set
+            {
+                _myConnection = value;
+                OnPropertyChanged();
+            }
+        }
 
-        // Компараторы (можно оставить как поля)
-        public PointOnTrackComparer Pcr { get; } = new PointOnTrackComparer();
-        public SpeedComparerToshow Scts { get; } = new SpeedComparerToshow();
-        public InclineComparer Inclc { get; } = new InclineComparer();
-        public StationComparer StationsByRoute { get; } = new StationComparer();
+        // Компараторы
+        private PointOnTrackComparer _pcr = new PointOnTrackComparer();
+        public PointOnTrackComparer Pcr
+        {
+            get => _pcr;
+            set
+            {
+                _pcr = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private SpeedComparerToshow _scts = new SpeedComparerToshow();
+        public SpeedComparerToshow Scts
+        {
+            get => _scts;
+            set
+            {
+                _scts = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private InclineComparer _inclc = new InclineComparer();
+        public InclineComparer Inclc
+        {
+            get => _inclc;
+            set
+            {
+                _inclc = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private StationComparer _stationsByRoute = new StationComparer();
+        public StationComparer StationsByRoute
+        {
+            get => _stationsByRoute;
+            set
+            {
+                _stationsByRoute = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

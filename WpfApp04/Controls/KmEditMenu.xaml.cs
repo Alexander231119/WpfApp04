@@ -23,9 +23,8 @@ namespace WpfApp04
 
         //public delegate void KmHandler(Kilometer k);
         //public event KmHandler? KmLengthSet;
-
-
         //public KmControl kmControl;
+
         public Kilometer klm;
 
         public KmEditMenu(Kilometer _klm)
@@ -38,7 +37,7 @@ namespace WpfApp04
         {
             klm.Length = Convert.ToDouble(KmLengthTextBox.Text);
 
-            klm.KmLengthBeenSet();
+            //klm.KmLengthBeenSet();
             DialogResult = true;
             Close();
         }
