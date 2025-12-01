@@ -70,6 +70,10 @@ namespace WpfApp04.ViewModels
 
     public class AppDbRouteContextData : INotifyPropertyChanged
     {
+        //строка для подключения к основной базе данных
+        /// <summary>
+        /// Строка подключения к основной базе данных маршрутов
+        /// </summary>
         private string _connectString = "";
         public string ConnectString
         {
@@ -81,17 +85,25 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        private string _fileName = "";
-        public string FileName
+        //строка для подключения к БД для экспорта (скоростей)
+        /// <summary>
+        /// Строка подключения к целевой базе данных для экспорта данных (ограничений скорости)
+        /// </summary>
+        private string _connectString2 = "";
+        public string ConnectString2
         {
-            get => _fileName;
+            get => _connectString2;
             set
             {
-                _fileName = value;
+                _connectString2 = value;
                 OnPropertyChanged();
             }
         }
-
+        //основа для строки подключения 
+        /// <summary>
+        /// Базовый шаблон строки подключения к Access базе данных
+        /// Формат: "Provider=Microsoft.ACE.OLEDB.12.0;Data Source="
+        /// </summary>
         private string _connectString1 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
         public string ConnectString1
         {
@@ -103,7 +115,39 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        // Основные маршруты
+        private string _fileName = "";
+        public string FileName
+        {
+            get => _fileName;
+            set { _fileName = value; OnPropertyChanged(); }
+        }
+        
+        //имя обьекта для поиска в егис
+        private string _objectNameToFind = "";
+        public string ObjectNameToFind
+        {
+            get => _objectNameToFind;
+            set
+            {
+                _objectNameToFind = value;
+                OnPropertyChanged();
+            }
+        }
+
+        //имя станции для поиска в егис - текст введённый пользователем
+        private string _stationNameToFind = "";
+        public string StationNameToFind
+        {
+            get => _stationNameToFind;
+            set
+            {
+                _stationNameToFind = value;
+                OnPropertyChanged();
+            }
+        }
+        
+
+        // Основной маршрут
         private DbRoute _route1 = new DbRoute();
         public DbRoute Route1
         {
@@ -156,6 +200,18 @@ namespace WpfApp04.ViewModels
             set
             {
                 _pointOnTracksToShow = value;
+                OnPropertyChanged();
+            }
+        }
+
+        //выбранное ограничение скорости
+        private SpeedRestriction _speedRestrictionToEdit;
+        public SpeedRestriction SpeedRestrictionToEdit
+        {
+            get=> _speedRestrictionToEdit;
+            set
+            {
+                _speedRestrictionToEdit=value;
                 OnPropertyChanged();
             }
         }
@@ -265,6 +321,19 @@ namespace WpfApp04.ViewModels
             }
         }
 
+        // Выбранная станция для поиска путей и обьектов
+        private Station _egisSelectedStation=new Station();
+        public Station EgisSelectedStation
+        {
+            get=> _egisSelectedStation;
+            set
+            {
+                _egisSelectedStation = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         // Пути проходящие через станцию
         private List<Track> _egisSelectedTracks = new List<Track>();
         public List<Track> EgisSelectedTracks
@@ -285,6 +354,19 @@ namespace WpfApp04.ViewModels
             set
             {
                 _egisFoundPointObjects = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // выбранная точка на пути при поиске обьектов по названию обьекта
+        private PointOnTrack _egisFoundPointOnTrack=new PointOnTrack();
+
+        public PointOnTrack EgisFoundPointOnTrack
+        {
+            get=> _egisFoundPointOnTrack;
+            set
+            {
+                _egisFoundPointOnTrack = value;
                 OnPropertyChanged();
             }
         }
@@ -336,6 +418,8 @@ namespace WpfApp04.ViewModels
                 OnPropertyChanged();
             }
         }
+
+
 
         // Масштаб и положение элементов
         private double _heighscale = 1;
@@ -582,6 +666,8 @@ namespace WpfApp04.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        // положение курсора на экране
 
         private double _lastX = 0;
         public double LastX

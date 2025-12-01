@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp04.ViewModels;
 
 namespace WpfApp04.Controls
 {
@@ -20,6 +21,16 @@ namespace WpfApp04.Controls
     /// </summary>
     public partial class StationsTabControl : UserControl
     {
+        private AppDbRouteContextData _appData;
+        public AppDbRouteContextData AppData
+        {
+            get => _appData;
+            set
+            {
+                _appData = value;
+                // Подписываемся на изменения если нужно
+            }
+        }
         public event RoutedEventHandler ImportInitialStationNamesToBaseClicked;
 
         public StationsTabControl()
@@ -28,6 +39,14 @@ namespace WpfApp04.Controls
         }
         private void ImportInitialStationNamesToBaseButton_Click(object sender, RoutedEventArgs e)
         {
+            List<Station> StationsToInsert = new List<Station>();
+
+            foreach (var item in EgisToExportStationsGrid.SelectedItems)
+            {
+                StationsToInsert.Add((Station)item);
+            }
+
+            DbRouteQuery.ImportInitialStationsToDb(_appData.ConnectString, StationsToInsert);
             ImportInitialStationNamesToBaseClicked?.Invoke(sender, e);
         }
     }

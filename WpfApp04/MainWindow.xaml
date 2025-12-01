@@ -32,7 +32,7 @@
                            TestClicked="Test_Click"
                            EgisConnectClicked="EgisConnectMenuItem_Click"
                            EgisDisconnectClicked="EgisDisconnectMenuItem_Click"
-                           ExportSpeedsClicked="ExportSpeedsClick"
+                           
                            ScaleKeyDown="ScaletextBox_KeyDown"
                            ShowInclineControlClicked="ShowInclineItemCLick"
                            DeleteNopointSignClicked="DeleteNopointSign_Click"
@@ -74,24 +74,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <local:EgisSearchControl x:Name="EgisSearchControl1"
-                                             StationToFindKeyDown="StaitonToFindTextBox_KeyDown"
-                                             EgisFindStationClicked="EgisFindStationButton_Click"
                                              EgisLoadDataClicked="EgisLoadDataButton_Click"
-                                             ShowEgisPreviewClicked="ShowEgisPreviewButton_Click"
-                                             EgisStationsGridDoubleClick="EgisStationsGrid_MouseDoubleClick"
-                                             EgisTrackGridDoubleClick="EgisTrackGrid_MouseDoubleClick"
-                                             EgisTrackGridSelectionChanged="EgisTrackGrid_SelectionChanged"
-                                             MaintrackRadioButtonChecked="MaintrackRadioButton_Checked"
-                                             SideTrackRadioButtonChecked="SideTrackRadioButton_Checked"
-                                             UpUsageDirectionToFindRadioButtonChecked="UpUsageDirectionToFindRadioButton_Checked"
-                                             DownUsageDirectionToFindRadioButtonChecked="DownUsageDirectionToFindRadioButton_Checked"
-                                             FreightSpeedRadioButtonChecked="FreightSpeedRadioButton_Checked"
-                                             PassSpeedRadioButtonChecked="PassSpeedRadioButton_Copy1_Checked"
-                                             HighSpeedRadioButtonChecked="HighSpeedRadioButton_Checked"
-                                             VeryHighSpeedRadioButtonChecked="VeryHighSpeedRadioButton_Checked"
-                                             EtrainSpeedRadioButtonChecked="EtrainSpeedRadioButton_Checked"
-                                             MvpsSpeedRadioButtonChecked="MvpsSpeedRadioButton_Checked"
-                                             PrigSpeedRadioButtonChecked="PrigSpeedRadioButton_Checked"
                                              StationDataGridSourceRadioButtonEgisChecked="StationDataGridSourceRadioButtonEgis_Checked"
                                              StationDataGridSourceRadioButtonDbChecked="StationDataGridSourceRadioButtonDb_Checked"
                                              StationDataGridSourceRadioButtonToAddChecked="StationDataGridSourceRadioButtonToAdd_Checked"
@@ -131,15 +114,16 @@
                         <TabItem Header="Скорость">
                             <Grid  Background="#FFE5E5E5">
                                 <local:SpeedEditTabControl x:Name="SpeedEditTabControl1"
-                                    SpeedDataGridSelectionChanged="SpeedDataGrid_SelectionChanged"
-                                    SpeedDataGridRowEditEnding="SpeedDataGrid_RowEditEnding"
+
+                                    
+                                    SpeedDataGridSpeedChanged="SpeedDataGrid_SpeedChanged"
+                                    
                                     AddSpeedClicked="AddSpeedButton_Click"
                                     DeleteSpeedClicked="DeleteSpeedButton_Click"
                                     DeleteAllSpeedClicked="DeleteAllSpeedButton_Click"
-                                    RouteCoordinateCheckBoxChecked="RouteCoordinateCheckBox_Checked"
-                                    RouteCoordinateCheckBoxUnchecked="RouteCoordinateCheckBox_Unchecked"
-                                    SegmentIdTextBoxKeyDown="SegmentIdTextBox_KeyDown"
-                                    SetSpeedSegmentIdClicked="SetSpeedSegmentIdButton_Click"
+                                    
+                                    
+                                    
                                     FillEmptySpeedsClicked="FillEmptySpeedsButton_Click"
                                     SaveSpeedClicked="SaveSpeedButton_Click" />
                             </Grid>
@@ -177,15 +161,13 @@
                         <TabItem Header="Уклоны">
 
                             <Grid >
-                                <local:InclinesTabControl x:Name="InclinesTabControl1"
-                                    ExportInclinesToExcelClicked="ExportInclinesToExcelButton_Click" />
+                                <local:InclinesTabControl x:Name="InclinesTabControl1" />
                             </Grid>
 
                         </TabItem>
                         <TabItem Header="ПТ">
                             <Grid>
-                                <local:BrakeChecksTabControl x:Name="BrakeChecksTabControl1"
-                                    EgisPtGridSelectionChanged="EgisPtGrid_SelectionChanged" />
+                                <local:BrakeChecksTabControl x:Name="BrakeChecksTabControl1" />
 
                             </Grid>
                         </TabItem>

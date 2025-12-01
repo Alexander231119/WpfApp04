@@ -32,8 +32,6 @@ namespace WpfApp04.Controls
             }
         }
 
-
-
         //public List<Kilometer> SelectedKilometersToEdit = new List<Kilometer>();
         //public bool EgisPtNormsGridLock;
 

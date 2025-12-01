@@ -12,6 +12,8 @@ namespace WpfApp04
 {
     public class DbRouteDrawer
     {
+
+
         // Масштаб и положение элементов (можно сделать свойствами или передавать как параметры)
         public double widtscale { get; set; } = 0.1;
         public double heighscale { get; set; } = 1;

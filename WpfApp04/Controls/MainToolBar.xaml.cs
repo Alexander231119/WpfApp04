@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp04.ViewModels;
 
 namespace WpfApp04.Controls
 {
@@ -20,6 +22,15 @@ namespace WpfApp04.Controls
     /// </summary>
     public partial class MainToolBar : UserControl
     {
+        private AppDbRouteContextData _appData;
+        public AppDbRouteContextData AppData
+        {
+            get => _appData;
+            set
+            {
+                _appData = value;
+            }
+        }
         public event RoutedEventHandler OpenFileClicked;
         public event RoutedEventHandler OpenForImport_menuItemClicked;
         public event RoutedEventHandler CloseFileClicked;
@@ -88,6 +99,22 @@ namespace WpfApp04.Controls
 
         private void ExportSpeedsClick(object sender, RoutedEventArgs e)
         {
+            // экспорт скоростей для базы с теми же
+            var openFileDialog2 = new OpenFileDialog { };
+            var result = openFileDialog2.ShowDialog();
+            if (result != true) return;
+
+            string fileName2 = openFileDialog2.FileName;
+            //Title = fileName;
+            _appData.ConnectString2 = _appData.ConnectString1 + fileName2 + ";";
+
+            DbRouteDataExporter.SaveSpeedRestrictions(_appData.ConnectString2, _appData.Route1);
+            
+            MessageBox.Show("Экспортированы ограничения скорости" +
+                            "\n " + fileName2 +
+                            " \n всего: " + _appData.Route1.SpeedRestrictions.Count.ToString(), "постоянные ограничения скорости");
+
+
             ExportSpeedsClicked?.Invoke(sender, e);
         }
 

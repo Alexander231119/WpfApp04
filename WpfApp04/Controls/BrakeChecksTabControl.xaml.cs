@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp04.ViewModels;
 
 namespace WpfApp04.Controls
 {
@@ -20,7 +21,19 @@ namespace WpfApp04.Controls
     /// </summary>
     public partial class BrakeChecksTabControl : UserControl
     {
+        private AppDbRouteContextData _appData;
+        public AppDbRouteContextData AppData
+        {
+            get => _appData;
+            set
+            {
+                _appData = value;
+                // Подписываемся на изменения если нужно
+            }
+        }
+
         public event SelectionChangedEventHandler EgisPtGridSelectionChanged;
+
 
         public BrakeChecksTabControl()
         {
@@ -29,6 +42,14 @@ namespace WpfApp04.Controls
 
         private void EgisPtGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_appData.EgisPtNormsGridLock == true) return;
+
+            var item = EgisPtGrid.SelectedItem;
+            BrakeCheckPlace bcp = (BrakeCheckPlace)item;
+            EgisPtNormsGrid.ItemsSource = bcp.BrakeCheckNormList;
+            EgisPtNormsGrid.Items.Refresh();
+
+
             EgisPtGridSelectionChanged?.Invoke(sender, e);
         }
     }

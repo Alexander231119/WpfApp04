@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp04.ViewModels;
 
 namespace WpfApp04.Controls
 {
@@ -20,6 +21,18 @@ namespace WpfApp04.Controls
     /// </summary>
     public partial class InclinesTabControl : UserControl
     {
+        private AppDbRouteContextData _appData;
+        public AppDbRouteContextData AppData
+        {
+            get => _appData;
+            set
+            {
+                _appData = value;
+                // Подписываемся на изменения если нужно
+            }
+        }
+
+
         public event RoutedEventHandler ExportInclinesToExcelClicked;
 
         public InclinesTabControl()
@@ -29,6 +42,7 @@ namespace WpfApp04.Controls
 
         private void ExportInclinesToExcelButton_Click(object sender, RoutedEventArgs e)
         {
+            DbRouteQuery.SaveInclinesToCsvFile(EgisToExportInclinesGrid.ItemsSource);
             ExportInclinesToExcelClicked?.Invoke(sender, e);
         }
     }
