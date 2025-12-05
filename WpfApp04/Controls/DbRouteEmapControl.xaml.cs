@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VideoLib;
+using WpfApp04.ViewModels;
 
 namespace WpfApp04.Controls
 {
@@ -21,6 +22,16 @@ namespace WpfApp04.Controls
     /// </summary>
     public partial class DbRouteEmapControl : UserControl
     {
+        private AppDbRouteContextData _appData;
+        public AppDbRouteContextData AppData
+        {
+            get => _appData;
+            set
+            {
+                _appData = value;
+            }
+        }
+
         bool listlock = false;
         public RoutesElectronicMap dbElectronicMap = new();
         public int mapId; 
@@ -135,7 +146,21 @@ namespace WpfApp04.Controls
                 var item = (ListBoxItem)dbEmapRoutesListBox.SelectedItem;
                 routeId = Convert.ToInt32(item?.Tag);
 
+                _appData.EkDbRoute = dbElectronicMap.RoutesEkklubsList[mapId].RoutesList[routeId];
+
+
+                waywrapPanel.Children.Clear();
                 //_window.DrawRouteWay(waywrapPanel, dbElectronicMap.RoutesEkklubsList[mapId].RoutesList[routeId]);
+                DbRouteDrawer routeDrawer = new DbRouteDrawer()
+                {
+                    widtscale = _appData.Widtscale,
+                    heighscale = _appData.Heighscale,
+                    kscale = _appData.Kscale,
+                    lscale = _appData.Lscale
+
+                };
+                routeDrawer.DrawRouteWay(waywrapPanel, _appData.EkDbRoute);
+
                 RouteSelected?.Invoke(mapId, routeId);
             }
         }

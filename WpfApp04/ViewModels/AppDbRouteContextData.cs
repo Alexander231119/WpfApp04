@@ -216,7 +216,7 @@ namespace WpfApp04.ViewModels
             }
         }
 
-        // Файл электронной карты
+        //Текущий Файл электронной карты
         private ElectonicMap _map1 = new ElectonicMap();
         public ElectonicMap Map1
         {

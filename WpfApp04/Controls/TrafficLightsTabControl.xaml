@@ -50,13 +50,13 @@
                 VerticalAlignment="Top" 
                 Width="117" 
                 Click="AddTrafficLightToAddList_Click" Height="20"/>
-        <Button Name="InsertTrafficLightsToDb_button" Grid.Column="2" Content="внести в БД" HorizontalAlignment="Left" Margin="137,10,0,0" VerticalAlignment="Top" Width="90" Click="InsertTrafficLightsToDb_button_Click"/>
+        <Button Name="InsertTrafficLightsToDb_button" Grid.Column="2" Content="внести огр. скорости в БД" HorizontalAlignment="Left" Margin="132,10,0,0" VerticalAlignment="Top" Width="173" Click="InsertTrafficLightsToDb_button_Click"/>
         <Grid Name="Trafficlightgrid2" Grid.Column="2" 
           Background="White" 
           Margin="0,53,0,0">
             <local:TrafficLightEditControl  x:Name="trafficLightEditControlMenu" HorizontalAlignment="Left"></local:TrafficLightEditControl>
         </Grid >
-        <Button x:Name="SetAll4AbValue_button" Grid.Column="2" Content="Задать 4АБ" HorizontalAlignment="Left" Margin="242,10,0,0" VerticalAlignment="Top" Width="90" Click="SetAll4AbValue_button_Click"/>
+        <Button x:Name="SetAll4AbValue_button" Grid.Column="2" Content="Задать 4АБ" HorizontalAlignment="Left" Margin="310,10,0,0" VerticalAlignment="Top" Width="90" Click="SetAll4AbValue_button_Click"/>
 
     </Grid>
 </UserControl>

@@ -20,10 +20,7 @@
             <MenuItem Header="Инструменты">
                 <MenuItem Name="EmapShowMenuItem" Header="показать Екарту" Click="EmapShowMenuItem_Click"/>
                 <MenuItem Header="Проверить" Click="Test_Click"/>
-                <MenuItem Header="ЕГИСТПС">
-                    <MenuItem Name="EgisConnectMenuItem" Header="Connect" Click="EgisConnectMenuItem_Click" />
-                    <MenuItem Name="EgisDisconnectMenuItem" Header="Disconnect" Click="EgisDisconnectMenuItem_Click" />
-                </MenuItem>
+                
                 <MenuItem Header="Экспорт Скорости" Click ="ExportSpeedsClick" />
                 <StackPanel Orientation="Horizontal" >
                     <TextBlock Text="масштаб " />

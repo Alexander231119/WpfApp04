@@ -47,7 +47,9 @@ namespace WpfApp04.Controls
             }
 
             DbRouteQuery.ImportInitialStationsToDb(_appData.ConnectString, StationsToInsert);
+
             ImportInitialStationNamesToBaseClicked?.Invoke(sender, e);
+            MessageBox.Show("ok");
         }
     }
 }

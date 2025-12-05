@@ -338,7 +338,8 @@ namespace WpfApp04
 
         public static void InsertTrafficLightsToDb(string connectionstring, IEnumerable items)
         {
-
+            //сохранение только tlispeedrestrictions
+            // без изменения самих светофоров
 
             string ConnectString = connectionstring;
             OleDbConnection _myConnection;
@@ -356,8 +357,8 @@ namespace WpfApp04
             string query72 = "DELETE FROM PointOnTrack " +
                              "WHERE DicPointOnTrackKindID = 1 ";
             OleDbCommand command7 = new OleDbCommand(query7, _myConnection);
-            OleDbCommand command71 = new OleDbCommand(query71, _myConnection);
-            OleDbCommand command72 = new OleDbCommand(query72, _myConnection);
+            OleDbCommand command71 = new OleDbCommand(query71, _myConnection);//эти команды не исполняются
+            OleDbCommand command72 = new OleDbCommand(query72, _myConnection);//
 
             command7.ExecuteNonQuery();
 

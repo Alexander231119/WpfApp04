@@ -29,21 +29,18 @@
                            CloseFileClicked="CloseFile_Click"
                            ElectonicMapClicked="ElectonicMap_menuItem_Click"
                            EmapShowClicked="EmapShowMenuItem_Click"
-                           TestClicked="Test_Click"
-                           EgisConnectClicked="EgisConnectMenuItem_Click"
-                           EgisDisconnectClicked="EgisDisconnectMenuItem_Click"
                            
-                           ScaleKeyDown="ScaletextBox_KeyDown"
-                           ShowInclineControlClicked="ShowInclineItemCLick"
+                           
+                           
+                           ScaleEnterKeyDown="ScaletextBox_KeyDown"
+
+                           
                            DeleteNopointSignClicked="DeleteNopointSign_Click"
-                           DelerteNoPointUkspsClicked="DelerteNoPointUksps_Click"
+                           DelerteNoPointUkspsClicked="DeleteNoPointUksps_Click"
                            DelerteNoPointKtsmClicked="DelerteNoPointKtsm_Click"
                            DelerteNoPointCrossingClicked="DelerteNoPointCrossing_Click"
                            DeleteNopointSign2Clicked="DeleteNopointSign2_Click"
-                           DeleteAllInclinesClicked="DeleteAllInclines_Click"
-                           FrogModelMenuItemClicked="FrogModelMenuItem_Click"
-                           AutoBlockFrequency1Clicked="AutoBlockFrequency1_Click"
-                           AutoBlockFrequency2Clicked="AutoBlockFrequency2_Click" />
+                           DeleteAllInclinesClicked="DeleteAllInclines_Click" />
 
 
         <GridSplitter x:Name="HorisontalSplitter" Grid.Column="0"  Grid.Row="2" Grid.ColumnSpan="3" ShowsPreview="False" Height="6"
@@ -105,8 +102,8 @@
                         <TabItem Header="PointOnTrack">
                             <Grid >
                                 <local:PointOnTrackTabControl x:Name="PointOnTrackTabControl1"
-                                    PointOnTrackEditGridSelectionChanged="PointOnTrackEditGrid_SelectionChanged"
-                                    SaveToDbClicked="SaveToDbButton1_Click"
+                                    
+                                    SaveToDbClicked="SavePointOntracksToDbButton1_Click"
                                     AddPointOnTrackClicked="AddPointOnTrackButton1_Click" />
 
                             </Grid>
@@ -146,10 +143,9 @@
                         <TabItem Header="Светофоры">
                             <Grid Background="#FFE5E5E5">
                                 <local:TrafficLightsTabControl x:Name="TrafficLightsTabControl1"
-                                    EgisToExportTrafficLightsGridSelectionChanged="EgisToExportTrafficLightsGrid_SelectionChanged"
+                                    
                                     AddTrafficLightToAddListClicked="AddTrafficLightToAddList_Click"
-                                    InsertTrafficLightsToDbClicked="InsertTrafficLightsToDb_button_Click"
-                                    SetAll4AbValueClicked="SetAll4AbValue_button_Click" />
+                                    InsertTrafficLightsToDbClicked="InsertTrafficLightsToDb_button_Click" />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Станции">
