@@ -70,7 +70,8 @@ namespace WpfApp04.Controls
             _appData.FileName = openFileDialog.FileName;
             
             _appData.ConnectString = _appData.ConnectString1 + _appData.FileName + ";";
-            OpenFileClicked?.Invoke(sender, e);
+            //OpenFileClicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
         }
         private void OpenForImport_menuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -210,25 +211,27 @@ namespace WpfApp04.Controls
         private void DeleteNopointSign_Click(object sender, RoutedEventArgs e)
         {
             DbRouteQuery.DeleteNoPointSigns(_appData.ConnectString);
-
+            _appData.DbData_Changed();
             MessageBox.Show("удалены сигнальные знаки без точки на пути");
 
-            DeleteNopointSignClicked?.Invoke(sender, e);
+            //DeleteNopointSignClicked?.Invoke(sender, e);
         }
 
         private void DeleteNoPointUksps_Click(object sender, RoutedEventArgs e)
         {
             DbRouteQuery.DeleteNoFrameObjects(_appData.ConnectString, "", 16, 25);
+            _appData.DbData_Changed();
             MessageBox.Show("удалены непроставленные укспс");
-            DelerteNoPointUkspsClicked?.Invoke(sender, e);
+            //DelerteNoPointUkspsClicked?.Invoke(sender, e);
         }
 
         private void DeleteNoPointKtsm_Click(object sender, RoutedEventArgs e)
         {
             // удалить непроставленные КТСМ
             DbRouteQuery.DeleteNoFrameObjects(_appData.ConnectString, "", 15, 24);
+            _appData.DbData_Changed();
             MessageBox.Show("удалены непроставленные КТСМ");
-            DelerteNoPointKtsmClicked?.Invoke(sender, e);
+            //DelerteNoPointKtsmClicked?.Invoke(sender, e);
         }
 
         private void DeleteNoPointCrossing_Click(object sender, RoutedEventArgs e)
@@ -236,8 +239,9 @@ namespace WpfApp04.Controls
             // удалить непроставленные переезды
 
             DbRouteQuery.DeleteNoFrameObjects(_appData.ConnectString, "Crossing", 9, 23);
+            _appData.DbData_Changed();
             MessageBox.Show("удалены непроставленные переезды");
-            DelerteNoPointCrossingClicked?.Invoke(sender, e);
+            //DelerteNoPointCrossingClicked?.Invoke(sender, e);
         }
 
         private void DeleteNopointSign2_Click(object sender, RoutedEventArgs e)
@@ -245,9 +249,12 @@ namespace WpfApp04.Controls
             // удалить непроставленные знаки С
 
             DbRouteQuery.DeleteNoFrameObjects(_appData.ConnectString, "TrafficSignal", 21, 37);
+
+            _appData.DbData_Changed();
             MessageBox.Show("удалены непроставленные знаки С");
 
-            DeleteNopointSign2Clicked?.Invoke(sender, e);
+
+            //DeleteNopointSign2Clicked?.Invoke(sender, e);
         }
 
         private void DeleteAllInclines_Click(object sender, RoutedEventArgs e)
@@ -255,27 +262,37 @@ namespace WpfApp04.Controls
             // удалить все уклоны
             string tok = "Incline";
             DbRouteQuery.DeleteAllObjectsByKind(_appData.ConnectString, tok, 10, 32);
+
+            _appData.DbData_Changed();
             MessageBox.Show("удалены все уклоны");
 
-            DeleteAllInclinesClicked?.Invoke(sender, e);
+            //DeleteAllInclinesClicked?.Invoke(sender, e);
+            
         }
 
         private void FrogModelMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            //установить марку крестовины 22 для всех стрелок
             DbRouteQuery.UpdateFrogModels(_appData.ConnectString);
-            FrogModelMenuItemClicked?.Invoke(sender, e);
+            //FrogModelMenuItemClicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
         }
 
         private void AutoBlockFrequency1_Click(object sender, RoutedEventArgs e)
         {
+            // частота алс 25
             DbRouteQuery.UpdateAutoBlockFrequency(_appData.ConnectString, 1);
-            AutoBlockFrequency1Clicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
+            //AutoBlockFrequency1Clicked?.Invoke(sender, e);
+
         }
 
         private void AutoBlockFrequency2_Click(object sender, RoutedEventArgs e)
         {
+            //частота алс 50
             DbRouteQuery.UpdateAutoBlockFrequency(_appData.ConnectString, 2);
-            AutoBlockFrequency2Clicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
+            //AutoBlockFrequency2Clicked?.Invoke(sender, e);
         }
     }
 }

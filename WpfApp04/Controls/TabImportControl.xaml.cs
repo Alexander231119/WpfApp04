@@ -147,7 +147,8 @@ namespace WpfApp04.Controls
             SegmentsSourceFromEgisTextBlock.Text = "";
             SegmentsToFillFromEgisTextBlock.Text = "";
 
-            InsertFromEgisToBaseClicked?.Invoke(sender, e);
+            //InsertFromEgisToBaseClicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
         }
 
         private void ClearToAddListsButtony_Click(object sender, RoutedEventArgs e)

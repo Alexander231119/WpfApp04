@@ -43,8 +43,10 @@ namespace WpfApp04.Controls
         public event RoutedEventHandler FillEmptySpeedsClicked;
         public event RoutedEventHandler SaveSpeedClicked; // клик по кнопке Сохранить скорости
 
-        
-        public event EventHandler SpeedDataGridSpeedChanged;// при переходе на новую строку в случае если пользователь внёс изменения
+        //изменилась скорость при переходе на новую строку в случае если пользователь внёс изменения
+        //универсальное событие которое вызывается если скорость была изменена
+        // и если нужно перерисовать заново скорости в Canvas
+        public event EventHandler SpeedDataGridSpeedChanged;
 
         public bool RouteCoordinateChecked
         {
@@ -175,10 +177,11 @@ namespace WpfApp04.Controls
                     _appData.Route1.PointOnTracks.Add(spdin.End);
                     _appData.Route1.SpeedRestrictions.Add(spdin);
 
+                    //_appData.Route1.SpeedRestrictions.Sort(_appData.Scts);
                     RefreshSpeedDataGrid();
 
-                    AddSpeedClicked?.Invoke(sender, e);
-
+                    //AddSpeedClicked?.Invoke(sender, e);
+                    SpeedDataGridSpeedChanged?.Invoke(sender, e);
                 }
 
             }
@@ -193,14 +196,16 @@ namespace WpfApp04.Controls
 
             RefreshSpeedDataGrid();
 
-            DeleteSpeedClicked?.Invoke(sender, e);
+            //DeleteSpeedClicked?.Invoke(sender, e);
+            SpeedDataGridSpeedChanged?.Invoke(sender, e);
         }
 
         private void DeleteAllSpeedButton_Click(object sender, RoutedEventArgs e)
         {
             _appData.RouteToShowInDataGrids.SpeedRestrictions.Clear();
             RefreshSpeedDataGrid();
-            DeleteAllSpeedClicked?.Invoke(sender, e);
+            //DeleteAllSpeedClicked?.Invoke(sender, e);
+            SpeedDataGridSpeedChanged?.Invoke(sender, e);
         }
 
         private void RouteCoordinateCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -260,17 +265,21 @@ namespace WpfApp04.Controls
             }
 
             RefreshSpeedDataGrid();
-            FillEmptySpeedsClicked?.Invoke(sender, e);
+            //FillEmptySpeedsClicked?.Invoke(sender, e);
+            SpeedDataGridSpeedChanged?.Invoke(sender, e);
         }
 
         private void SaveSpeedButton_Click(object sender, RoutedEventArgs e)
         {
             DbRouteDataExporter.SaveSpeedRestrictions(_appData.ConnectString, _appData.Route1);
 
+            
+
+            //SaveSpeedClicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
+
             MessageBox.Show("Сохранены ограничения скорости \n всего: " +
                             _appData.Route1.SpeedRestrictions.Count.ToString(), "постоянные ограничения скорости");
-
-            SaveSpeedClicked?.Invoke(sender, e);
         }
 
         void RefreshSpeedDataGrid()

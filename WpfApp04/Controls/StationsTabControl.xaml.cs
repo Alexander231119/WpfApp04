@@ -48,8 +48,10 @@ namespace WpfApp04.Controls
 
             DbRouteQuery.ImportInitialStationsToDb(_appData.ConnectString, StationsToInsert);
 
-            ImportInitialStationNamesToBaseClicked?.Invoke(sender, e);
-            MessageBox.Show("ok");
+
+            _appData.DbData_Changed();
+                //ImportInitialStationNamesToBaseClicked?.Invoke(sender, e);
+            MessageBox.Show("внесено "+StationsToInsert.Count.ToString()+" имён станций");
         }
     }
 }

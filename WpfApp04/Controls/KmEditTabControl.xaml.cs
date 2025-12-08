@@ -143,7 +143,8 @@ namespace WpfApp04.Controls
             }
 
 
-            DbKmSetLengthClicked?.Invoke(sender, e);
+            //DbKmSetLengthClicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
         }
 
         private void DbKmSegmentGroupSetLengthButton_Click(object sender, RoutedEventArgs e)
@@ -161,7 +162,8 @@ namespace WpfApp04.Controls
                 DbRouteQuery.KmLengthSetPerform(_appData.ConnectString, k, _appData.Route1);
             }
 
-            DbKmSegmentGroupSetLengthClicked?.Invoke(sender, e);
+            //DbKmSegmentGroupSetLengthClicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
         }
 
         private void SetKmGroupLengthWithEgisButton_Click(object sender, RoutedEventArgs e)
@@ -187,8 +189,8 @@ namespace WpfApp04.Controls
                 DbRouteQuery.KmLengthSetPerform(_appData.ConnectString, _appData.SelectedKilometersToEdit[i], _appData.Route1);
             }
 
-            SetKmGroupLengthWithEgisClicked?.Invoke(sender, e);
-
+            //SetKmGroupLengthWithEgisClicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
             //KmGrid.Items.Refresh();
         }
     }

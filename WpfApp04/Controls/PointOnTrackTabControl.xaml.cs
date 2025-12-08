@@ -102,7 +102,8 @@ namespace WpfApp04.Controls
             // экспорт обьектов
             drde.AddTrackObjectsFromDbRouteToBase();
 
-            SaveToDbClicked?.Invoke(sender, e);
+            _appData.DbData_Changed();
+            //SaveToDbClicked?.Invoke(sender, e);
         }
 
         private void AddPointOnTrackButton1_Click(object sender, RoutedEventArgs e)

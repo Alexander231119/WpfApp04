@@ -51,6 +51,7 @@ namespace WpfApp04.Controls
         public event RoutedEventHandler StationDataGridSourceRadioButtonEgisChecked;
         public event RoutedEventHandler StationDataGridSourceRadioButtonDbChecked;
         public event RoutedEventHandler StationDataGridSourceRadioButtonToAddChecked;
+        public event EventHandler DataGridSorceRadioButtonChanged;
 
         public EgisSearchControl()
         {
@@ -191,19 +192,22 @@ namespace WpfApp04.Controls
         private void StationDataGridSourceRadioButtonEgis_Checked(object sender, RoutedEventArgs e)
         {
             _appData.RouteToShowInDataGrids = _appData.EgisRoute1;
-            StationDataGridSourceRadioButtonEgisChecked?.Invoke(sender, e);
+            //StationDataGridSourceRadioButtonEgisChecked?.Invoke(sender, e);
+            DataGridSorceRadioButtonChanged?.Invoke(sender, e);
         }
 
         private void StationDataGridSourceRadioButtonDb_Checked(object sender, RoutedEventArgs e)
         {
             _appData.RouteToShowInDataGrids = _appData.Route1;
-            StationDataGridSourceRadioButtonDbChecked?.Invoke(sender, e);
+            //StationDataGridSourceRadioButtonDbChecked?.Invoke(sender, e);
+            DataGridSorceRadioButtonChanged?.Invoke(sender, e);
         }
 
         private void StationDataGridSourceRadioButtonToAdd_Checked(object sender, RoutedEventArgs e)
         {
             _appData.RouteToShowInDataGrids = _appData.ToAddRoute;
-            StationDataGridSourceRadioButtonToAddChecked?.Invoke(sender, e);
+            //StationDataGridSourceRadioButtonToAddChecked?.Invoke(sender, e);
+            DataGridSorceRadioButtonChanged?.Invoke(sender,e);
         }
 
         private void StaitonToFindTextBox_TextChanged(object sender, TextChangedEventArgs e)

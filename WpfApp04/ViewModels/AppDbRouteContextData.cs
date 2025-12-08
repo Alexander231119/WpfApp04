@@ -774,5 +774,14 @@ namespace WpfApp04.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+        // вызывается если были внесены изменения в mdb, например после сохранения
+        public event EventHandler DbDataChanged;
+
+        public void DbData_Changed()
+        {
+            DbDataChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

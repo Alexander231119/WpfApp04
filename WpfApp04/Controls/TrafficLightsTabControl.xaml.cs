@@ -68,7 +68,9 @@ namespace WpfApp04.Controls
             DbRouteQuery.InsertTrafficLightsToDb(_appData.ConnectString, _appData.Route1.TrafficLights);
             //DbRouteQuery.InsertTrafficLightsToDb(_appData.ConnectString, EgisToExportTrafficLightsGrid.ItemsSource);
             EgisToExportTrafficLightsGrid.Items.Refresh();
-            InsertTrafficLightsToDbClicked?.Invoke(sender, e);
+
+            _appData.DbData_Changed();
+            //InsertTrafficLightsToDbClicked?.Invoke(sender, e);
         }
 
         private void SetAll4AbValue_button_Click(object sender, RoutedEventArgs e)

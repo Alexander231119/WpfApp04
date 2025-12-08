@@ -24,23 +24,18 @@
         </Grid.RowDefinitions>
 
         <local:MainToolBar x:Name="MainToolBarControl"
-                           OpenFileClicked="OpenFile_Click"
+                           
                            OpenForImport_menuItemClicked="OpenForImport_menuItem_Click"
                            CloseFileClicked="CloseFile_Click"
                            ElectonicMapClicked="ElectonicMap_menuItem_Click"
-                           EmapShowClicked="EmapShowMenuItem_Click"
+                           
                            
                            
                            
                            ScaleEnterKeyDown="ScaletextBox_KeyDown"
 
                            
-                           DeleteNopointSignClicked="DeleteNopointSign_Click"
-                           DelerteNoPointUkspsClicked="DeleteNoPointUksps_Click"
-                           DelerteNoPointKtsmClicked="DelerteNoPointKtsm_Click"
-                           DelerteNoPointCrossingClicked="DelerteNoPointCrossing_Click"
-                           DeleteNopointSign2Clicked="DeleteNopointSign2_Click"
-                           DeleteAllInclinesClicked="DeleteAllInclines_Click" />
+                            />
 
 
         <GridSplitter x:Name="HorisontalSplitter" Grid.Column="0"  Grid.Row="2" Grid.ColumnSpan="3" ShowsPreview="False" Height="6"
@@ -72,9 +67,7 @@
                     </Grid.RowDefinitions>
                     <local:EgisSearchControl x:Name="EgisSearchControl1"
                                              EgisLoadDataClicked="EgisLoadDataButton_Click"
-                                             StationDataGridSourceRadioButtonEgisChecked="StationDataGridSourceRadioButtonEgis_Checked"
-                                             StationDataGridSourceRadioButtonDbChecked="StationDataGridSourceRadioButtonDb_Checked"
-                                             StationDataGridSourceRadioButtonToAddChecked="StationDataGridSourceRadioButtonToAdd_Checked"
+                                             DataGridSorceRadioButtonChanged="EgisSearchControl1_DataGridSorceRadioButtonChanged"
                                              ></local:EgisSearchControl>
 
                     <GridSplitter Grid.Column="1"  Grid.Row="0" ShowsPreview="False" Width="6" HorizontalAlignment="Center" />
@@ -86,7 +79,7 @@
                                 <local:TabImportControl x:Name="TabImportControl1"
                                     AddSegmentsToFillFromEgisClicked="AddSegmentsToFillFromEgisButton_Click"
                                     FillFromEgisClicked="FillFromEgisButton_Click"
-                                    InsertFromEgisToBaseClicked="InsertFromEgisToBaseButton_Click"
+                                    
                                     ClearToAddListsClicked="ClearToAddListsButtony_Click" />
                             </Grid>
                         </TabItem>
@@ -103,7 +96,7 @@
                             <Grid >
                                 <local:PointOnTrackTabControl x:Name="PointOnTrackTabControl1"
                                     
-                                    SaveToDbClicked="SavePointOntracksToDbButton1_Click"
+                                    
                                     AddPointOnTrackClicked="AddPointOnTrackButton1_Click" />
 
                             </Grid>
@@ -115,14 +108,8 @@
                                     
                                     SpeedDataGridSpeedChanged="SpeedDataGrid_SpeedChanged"
                                     
-                                    AddSpeedClicked="AddSpeedButton_Click"
-                                    DeleteSpeedClicked="DeleteSpeedButton_Click"
-                                    DeleteAllSpeedClicked="DeleteAllSpeedButton_Click"
                                     
-                                    
-                                    
-                                    FillEmptySpeedsClicked="FillEmptySpeedsButton_Click"
-                                    SaveSpeedClicked="SaveSpeedButton_Click" />
+                                     />
                             </Grid>
 
                         </TabItem>
@@ -130,9 +117,7 @@
                             <Grid Background="#FFE5E5E5">
                                 <local:KmEditTabControl x:Name="KmEditTabControl1"
                                     
-                                    DbKmSetLengthClicked="DbKmSetLengthButton_Click"
-                                    DbKmSegmentGroupSetLengthClicked="DbKmSegmentGroupSetLengthButton_Click" 
-                                    SetKmGroupLengthWithEgisClicked="SetKmGroupLengthWithEgisButton_Click" />
+                                     />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Платформы">
@@ -145,13 +130,13 @@
                                 <local:TrafficLightsTabControl x:Name="TrafficLightsTabControl1"
                                     
                                     AddTrafficLightToAddListClicked="AddTrafficLightToAddList_Click"
-                                    InsertTrafficLightsToDbClicked="InsertTrafficLightsToDb_button_Click" />
+                                     />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Станции">
                             <Grid Background="#FFE5E5E5">
                                 <local:StationsTabControl  x:Name="StationsTabControl1"
-                                    ImportInitialStationNamesToBaseClicked="ImportInitialStationNamesToBaseButton_Click" />
+                                     />
                             </Grid>
                         </TabItem>
                         <TabItem Header="Уклоны">
