@@ -122,17 +122,26 @@ namespace WpfApp04
             {
                 while (reader.Read())
                 {
+                    //var point = new PointOnTrack(
+                    //    Convert.ToDouble(reader[0]),
+                    //    Convert.ToDouble(reader[1]),
+                    //    Convert.ToDouble(reader[2]),
+                    //    Convert.ToDouble(reader[3]),
+                    //    Convert.ToDouble(reader[4]),
+                    //    reader[5].ToString(),
+                    //    Convert.ToDouble(reader[6]),
+                    //    Convert.ToDouble(reader[7]),
+                    //    Convert.ToDouble(reader[8]));
                     var point = new PointOnTrack(
-                        Convert.ToDouble(reader[0]),
-                        Convert.ToDouble(reader[1]),
-                        Convert.ToDouble(reader[2]),
-                        Convert.ToDouble(reader[3]),
-                        Convert.ToDouble(reader[4]),
-                        reader[5].ToString(),
-                        Convert.ToDouble(reader[6]),
-                        Convert.ToDouble(reader[7]),
-                        Convert.ToDouble(reader[8]));
-
+                        reader.IsDBNull(0) ? 0 : Convert.ToDouble(reader[0]),
+                        reader.IsDBNull(1) ? 0 : Convert.ToDouble(reader[1]),
+                        reader.IsDBNull(2) ? 0 : Convert.ToDouble(reader[2]),
+                        reader.IsDBNull(3) ? 0 : Convert.ToDouble(reader[3]),
+                        reader.IsDBNull(4) ? 0 : Convert.ToDouble(reader[4]),
+                        reader.IsDBNull(5) ? "" : reader[5].ToString(),
+                        reader.IsDBNull(6) ? 0 : Convert.ToDouble(reader[6]),
+                        reader.IsDBNull(7) ? 0 : Convert.ToDouble(reader[7]),
+                        reader.IsDBNull(8) ? 0 : Convert.ToDouble(reader[8]));
                     point.RefreshRouteCoordinate(_route.Segments);
                     _route.PointOnTracks.Add(point);
                 }

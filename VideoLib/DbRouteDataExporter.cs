@@ -18,7 +18,7 @@ namespace WpfApp04
         private List<PointOnTrack> _pointOnTracksToAdd = new List<PointOnTrack>();
         string _connectstring = string.Empty;
 
-
+        
         public RouteExportCheckBoxList _routeExportCheckBoxList = new();
         
         public DbRouteDataExporter(string connectString, DbRoute toAddRoute, DbRoute targetRoute, List<PointOnTrack> pointOnTracksToAdd)
@@ -31,6 +31,8 @@ namespace WpfApp04
             _targetRoute = targetRoute;
             _pointOnTracksToAdd = pointOnTracksToAdd;
         }
+
+        
 
         public void AddTrackObjectsFromDbRouteToBase()
         {
@@ -62,27 +64,7 @@ namespace WpfApp04
 
             if (_routeExportCheckBoxList._DeleteTrackCircuitsChickBox is true)
             {
-
-
                 DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection,"TrackCircuit",22,38);
-
-
-                //string query7 = "DELETE " +
-                //"FROM TrackCircuit ";
-
-                //string query71 = "DELETE FROM TrackObject " +
-                //    "WHERE DicTrackObjectKindID = 22 ";
-
-                //string query72 = "DELETE FROM PointOnTrack " +
-                //    "WHERE DicPointOnTrackKindID = 38 ";
-                //OleDbCommand command7 = new OleDbCommand(query7, _myConnection);
-                //OleDbCommand command71 = new OleDbCommand(query71, _myConnection);
-                //OleDbCommand command72 = new OleDbCommand(query72, _myConnection);
-
-                //command7.ExecuteNonQuery();
-                //command71.ExecuteNonQuery();
-                //command72.ExecuteNonQuery();
-
             }
 
             if (_routeExportCheckBoxList._ImportInclinesCheckBox is true)
@@ -557,7 +539,7 @@ namespace WpfApp04
 
             if ((_routeExportCheckBoxList._ImportCurrentKindChangeCheckBox == true) && (_toAddRoute.CurrentKindChanges.Count > 0))
             {
-                if(_toAddRoute == _targetRoute) { DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection,"CurrentKindChange",24,40);}
+                if(_toAddRoute == _targetRoute) { DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection,"CurrentKindChange",36,54);}
 
                 ExportCurrentKindChanges(_myConnection, _toAddRoute, _targetRoute, ref TrackObjectID, ref PointOnTrackID);
             }
@@ -955,11 +937,11 @@ namespace WpfApp04
 
                 // внести в таблицу TrackObject
                 TrackObjectID += 1;
-                string TrackObjectName = "Токораздел на пути " + tr.TrackNumber + " " + tr.TrackName + " на " +
+                string TrackObjectName = "Точка смены рода тока " + tr.TrackNumber + " " + tr.TrackName + " на " +
                                          s.StartPointOnTrackKm + " км " + s.StartPointOnTrackPk + " пк " + s.StartPointOnTrackM + " м";
 
                 string query = "INSERT INTO TrackObject ( TrackObjectID, DicTrackObjectKindID, TrackObjectName) " +
-                    "VALUES (" + TrackObjectID + ", 24, '" + TrackObjectName + "' )";
+                    "VALUES (" + TrackObjectID + ", 36, '" + TrackObjectName + "' )";
                 OleDbCommand command = new OleDbCommand(query, _myConnection);
                 command.ExecuteNonQuery();
 
@@ -983,14 +965,14 @@ namespace WpfApp04
                     {
                         PointOnTrackID += 1;
                         PointOnTrackUsageDirection = 1;
-                        InsertPointOntrack(TrackObjectID, 40, PointOnTrackID, s.Start, PointOnTrackUsageDirection, _myConnection);
+                        InsertPointOntrack(TrackObjectID, 54, PointOnTrackID, s.Start, PointOnTrackUsageDirection, _myConnection);
 
                     }
                     else
                     {
                         PointOnTrackID += 1;
                         PointOnTrackUsageDirection = -1;
-                        InsertPointOntrack(TrackObjectID, 40, PointOnTrackID, s.Start, PointOnTrackUsageDirection, _myConnection);
+                        InsertPointOntrack(TrackObjectID, 54, PointOnTrackID, s.Start, PointOnTrackUsageDirection, _myConnection);
                     }
                 }
             }

@@ -65,9 +65,10 @@ namespace WpfApp04.Controls
             _appData.EgisFoundPointObjects.Clear();
 
             EgisImporter.EgisFindPointObject(EgisStationID, _appData.ObjectNameToFind, _appData.StationNameToFind, _appData.EgisConnectionString, _appData.EgisSelectedTracks, _appData.EgisFoundPointObjects);
-            
+
             //EgisSearchControl1.EgisTrackGrid.Items.Refresh();
 
+            EgisFoundPointObjectsGrid.ItemsSource = _appData.EgisFoundPointObjects;
             EgisFoundPointObjectsGrid.Items.Refresh();
 
             EgisFindPointObjectsClicked?.Invoke(sender, e);

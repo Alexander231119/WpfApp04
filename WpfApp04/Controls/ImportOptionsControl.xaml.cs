@@ -77,9 +77,10 @@ namespace WpfApp04.Controls
             if (ImportStationBorders)
                 filteredPoints.AddRange(points.Where(p => p.DicPointOnTrackKindID == 8)); // Границы станций
 
+            //if (ImportCurrentChange)
+            //    filteredPoints.AddRange(points.Where(p => p.DicPointOnTrackKindID == 40)); // токораздел
             if (ImportCurrentChange)
-                filteredPoints.AddRange(points.Where(p => p.DicPointOnTrackKindID == 40)); // токораздел
-
+                filteredPoints.AddRange(points.Where(p => p.DicPointOnTrackKindID == 54)); // точка смены рода тока
 
             return filteredPoints.Distinct(); // На случай если точка попадает под несколько критериев
         }

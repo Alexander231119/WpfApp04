@@ -79,16 +79,12 @@ namespace WpfApp04
             TrafficLightsTabControl1.AppData= _appData;
             PointOnTrackTabControl1.AppData= _appData;
             DbRouteEmapControl_1.AppData= _appData;
-
-            //SpeedEditTabControl1.SpeedDataGrid.ItemsSource = _appData.Route1.SpeedRestrictions;
-
+            
             KmEditTabControl1.KmGrid.ItemsSource = _appData.Route1.Kilometers;
             KmEditTabControl1.EgisKmGrid.ItemsSource = _appData.EgisRoute1.Kilometers;
 
             EgisSearchControl1.EgisStationsGrid.ItemsSource = _appData.EgisSelectedStations;
             EgisSearchControl1.EgisTrackGrid.ItemsSource = _appData.EgisSelectedTracks;
-
-            
 
             //PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = _appData.EgisRoute1.Platforms;
             // Создаем ViewModel
@@ -97,21 +93,10 @@ namespace WpfApp04
             PlatformsTabControl1.DataContext = _platformsVm;
             // Заполняем данными
             _platformsVm.Platforms = new ObservableCollection<Platform>(_appData.RouteToShowInDataGrids.Platforms);
-            //EgisSearchControl1.StationDataGridSourceRadioButtonEgis.IsChecked = true;
-
-            //TabImportControl1.SegmentsToFillFromEgisGrid.ItemsSource = _appData.Route1.Segments;
-            //ObjectSearchTabControl1.EgisFoundPointObjectsGrid.ItemsSource = _appData.EgisFoundPointObjects;
-            //TrafficLightsTabControl1.EgisToExportTrafficLightsGrid.ItemsSource = _appData.EgisRoute1.TrafficLights;
-            //StationsTabControl1.EgisToExportStationsGrid.ItemsSource = _appData.EgisRoute1.Stations;
-            //InclinesTabControl1.EgisToExportInclinesGrid.ItemsSource = _appData.EgisRoute1.Inclines;
-
             
-            BrakeChecksTabControl1.EgisPtGrid.ItemsSource = _appData.EgisRoute1.BrakeCheckPlaces;
-
             DbRouteEmapControl_1.dbElectronicMap = _appData.RoutesElectronicMap;
-            
-            DbRouteEmapControl_1.RouteSelected += OnRouteSelected;
 
+            DbRouteEmapControl_1.RouteSelected += OnRouteSelected;
             _appData.DbDataChanged += OnDbDataChanged;// данные в mdb были изменены, например сохранение или выполнение отдельного запроса
 
             // В конструкторе MainWindow подписываемся на событие изменения фильтров 
@@ -134,7 +119,6 @@ namespace WpfApp04
         {
             // данные в mdb были изменены
             // загрузить данные заново и нарисовать маршрут
-
 
             ClearDataAndCanvas();
             LoadData(_appData.ConnectString, _appData.Route1);
@@ -195,18 +179,6 @@ namespace WpfApp04
             
         }
 
-        //private void OpenFile_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //после нажатия кнопки загрузить в MainTabControl
-
-        //    Title = _appData.FileName;
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
         void ClearDataAndCanvas() 
         {
             wrapPanel.Children.Clear();
@@ -265,56 +237,6 @@ namespace WpfApp04
 
         }
         
-
-        //private void SaveSpeedButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // считываем данные из базы заново после сохранения скоростей
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-        
-        //private void DeleteSpeedButton_Click(object sender, RoutedEventArgs e)
-        //{
-            //пользователь удалил ограничекние скорости нажатием кнопки SpeedrestrictionTabControl
-
-
-        //    RemoveAllSpeedControls();
-
-        //    DbRouteDrawer routeDrawer = new DbRouteDrawer();
-        //    routeDrawer.widtscale = _appData.Widtscale;
-        //    routeDrawer.heighscale = _appData.Heighscale;
-        //    routeDrawer.kscale = _appData.Kscale;
-        //    routeDrawer.lscale = _appData.Lscale;
-
-        //    routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.Route1, false);
-        //    routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.ToAddRoute, true);
-        //}
-        
-        //private void AddSpeedButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // ограничение скорости добавлено из SpeedEditTabControl1 нажатием кнопки AddSpeedButton
-
-
-        //            RemoveAllSpeedControls();
-        //            DbRouteDrawer routeDrawer = new DbRouteDrawer();
-        //            routeDrawer.widtscale = _appData.Widtscale;
-        //            routeDrawer.heighscale = _appData.Heighscale;
-        //            routeDrawer.kscale = _appData.Kscale;
-        //            routeDrawer.lscale = _appData.Lscale;
-
-        //            routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.Route1, false);
-        //            routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.ToAddRoute, true);
-
-        //}
-        
-        //private void DeleteAllSpeedButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // удалены все ограничения скорости из route1 
-        //    RemoveAllSpeedControls();
-        //}
-
         //удалить все SpeedrestrictionControl из canvas wrapPanel
         void RemoveAllSpeedControls()
         {
@@ -352,44 +274,10 @@ namespace WpfApp04
             routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.Route1, false);
             routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.ToAddRoute, true);
         }
-
-        //private void DbKmSetLengthButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // задать длину для выбранного километра
-            
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-
-        //}
-        
-        //private void SetKmGroupLengthWithEgisButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // задать общую длину для выбранных километров с учётом длины километров из егис
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        //private void DbKmSegmentGroupSetLengthButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //задать общую длину для выбранных километров
-            
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
         
         void LoadEgisData()
         {
             // используется двумя разными контролами
-            
-
 
             EgisImporter egisImporter = new EgisImporter(_appData.EgisConnectionString, _appData.EgisRoute1) ;
             egisImporter.EgisSelectedTrack = _appData.EgisSelectedTrack;
@@ -399,10 +287,8 @@ namespace WpfApp04
 
             if (_appData.EgisSelectedTrack != null)
             {
-                _appData.EgisPtNormsGridLock = true;
+                //_appData.EgisPtNormsGridLock = true;
                 egisImporter.LoadEgisData();
-
-                
                 RefreshDataGridsItemsSources();
 
                 // информация о пути (длина в км и кол-во точек на пути) в текстовом блоке
@@ -410,17 +296,14 @@ namespace WpfApp04
                 message1 = _appData.EgisRoute1.Kilometers.Count.ToString() + "  " + _appData.EgisRoute1.PointOnTracks.Count.ToString();
                 EgisSearchControl1.EgisTrackTextBlock.Text = message1;
                 message1 = "";
-                _appData.EgisPtNormsGridLock = false;
+                //_appData.EgisPtNormsGridLock = false;
             }
 
         }
         
         private void EgisLoadDataButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            
             LoadEgisData();
-
         }
         
         private void AddSegmentsToFillFromEgisButton_Click(object sender, RoutedEventArgs e)
@@ -437,18 +320,6 @@ namespace WpfApp04
             DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
             RefreshDataGridsItemsSources();
         }
-        
-        //private void InsertFromEgisToBaseButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //после импорта обьектов из toAddRoute в Базу данных
-            
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        
         
         private void EgisFindPointObjectsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -467,7 +338,7 @@ namespace WpfApp04
         private void ClearToAddListsButtony_Click(object sender, RoutedEventArgs e)
         {
 
-            // очистить списки обьектов и точек на добавление
+            // были очищены списки обьектов и точек на добавление
             //ClearToAddLists();
 
             wrapPanel.Children.Clear();
@@ -485,16 +356,6 @@ namespace WpfApp04
             // пользователь добавил точку на пути в PointOntrackTabControl
 
         }
-
-        //private void InsertTrafficLightsToDb_button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // сохранение tlispeedrestrictions cтранно
-            
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
         
         private void RefreshDataGridsItemsSources()
         {
@@ -531,122 +392,10 @@ namespace WpfApp04
 
             _appData.EgisPtNormsGridLock = false;
         }
-
-        //private void StationDataGridSourceRadioButtonEgis_Checked(object sender, RoutedEventArgs e)
-        //{
-
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        //private void StationDataGridSourceRadioButtonDb_Checked(object sender, RoutedEventArgs e)
-        //{
-
-        //    RefreshDataGridsItemsSources();
-        //}
-        //private void StationDataGridSourceRadioButtonToAdd_Checked(object sender, RoutedEventArgs e)
-        //{
-
-        //    RefreshDataGridsItemsSources();
-        //}
-
+        
         private void EgisSearchControl1_DataGridSorceRadioButtonChanged(object sender, EventArgs e)
         {
             RefreshDataGridsItemsSources();
         }
-
-
-
-        //private void ImportInitialStationNamesToBaseButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // внесены имена станций в базу
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        //private void DeleteNopointSign_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-
-        //private void DeleteNopointSign2_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        //private void DeleteNoPointUksps_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        //private void DelerteNoPointKtsm_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        //private void DelerteNoPointCrossing_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        //private void DeleteAllInclines_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
-        //private void FillEmptySpeedsButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // заполнение ограничения скоростей на пустых сегментах перенесено в TabControl
-
-
-        //    //перерисовать заново все ограничения скоростей
-        //    RemoveAllSpeedControls();
-
-        //    DbRouteDrawer routeDrawer = new DbRouteDrawer();
-        //    routeDrawer.widtscale = _appData.Widtscale;
-        //    routeDrawer.heighscale = _appData.Heighscale;
-        //    routeDrawer.kscale = _appData.Kscale;
-        //    routeDrawer.lscale = _appData.Lscale;
-        //    routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.Route1, false);
-
-        //}
-
-        //private void SavePointOntracksToDbButton1_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // сохранение в PoinOntrackControl
-
-        //    ClearDataAndCanvas();
-        //    LoadData(_appData.ConnectString, _appData.Route1);
-        //    DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-        //    RefreshDataGridsItemsSources();
-        //}
-
     }
 }

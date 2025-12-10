@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfAapp04;
+using WpfApp04;
 
 namespace WpfApp04
 {
@@ -29,7 +30,7 @@ namespace WpfApp04
             _egisConnection = new SqlConnection(connectionString);
             _egisRoute = route;
         }
-
+        
         public void LoadEgisData()
         {
 

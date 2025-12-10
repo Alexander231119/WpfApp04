@@ -9,7 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp04.ViewModels
+//namespace WpfApp04.ViewModels
+namespace WpfApp04
 {
     // Единый источник данных (самое правильное)
     // класс-модель для общих данных

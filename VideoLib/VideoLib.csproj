@@ -147,5 +147,8 @@
   <ItemGroup>
     <Content Include="DLL\DAO.DLL" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
