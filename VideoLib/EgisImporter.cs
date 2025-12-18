@@ -16,21 +16,30 @@ namespace WpfApp04
         private DbRoute _egisRoute;
         public double _usageDirectionToFind = 1;
         public double _speedKindToFind = 0;
-
+        public Track EgisSelectedTrack { get; set; } = new Track();
 
 
         //public List<Station> EgisSelectedStations { get; private set; } = new List<Station>();
         //public List<Track> EgisSelectedTracks { get; private set; } = new List<Track>();
         //public List<PointOnTrack> EgisFoundPointObjects { get; private set; } = new List<PointOnTrack>();
 
-        public Track EgisSelectedTrack { get; set; } = new Track();
+
 
         public EgisImporter(string connectionString, DbRoute route)
         {
             _egisConnection = new SqlConnection(connectionString);
             _egisRoute = route;
         }
-        
+
+        public EgisImporter(AppDbRouteContextData appData)
+        {
+            _egisConnection = new SqlConnection(appData.EgisConnectionString);
+            _egisRoute = appData.EgisRoute1;
+            EgisSelectedTrack = appData.EgisSelectedTrack;
+            _speedKindToFind = appData.SpeedKindToFind;
+            _usageDirectionToFind = appData.UsageDirectionToFind;
+        }
+
         public void LoadEgisData()
         {
 

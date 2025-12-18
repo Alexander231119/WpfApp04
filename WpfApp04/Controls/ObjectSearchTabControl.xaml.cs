@@ -79,6 +79,9 @@ namespace WpfApp04.Controls
             _appData.EgisFoundPointOnTrack = (PointOnTrack)EgisFoundPointObjectsGrid.SelectedItem;
             _appData.EgisSelectedTrack.TrackID = _appData.EgisFoundPointOnTrack.TrackID;
 
+            EgisImporter egisImporter = new EgisImporter(_appData);
+            if (_appData.EgisSelectedTrack != null) { egisImporter.LoadEgisData(); }
+
             EgisFoundPointObjectsGridDoubleClick?.Invoke(sender, e);
         }
     }

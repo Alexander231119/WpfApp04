@@ -14,10 +14,10 @@
             <RowDefinition Height="140"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button x:Name="OpenInputButton" Content="Открыть БД для импорта" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" Click="OpenInputButton_Click"/>
-        <Button x:Name="OpenOutputButton" Content="Открыть БД для экспорта" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="155" Click="OpenOutputButton_Click" />
-        <TextBlock Background="#FFEAEAEA" x:Name="Inputfilenametextblock" HorizontalAlignment="Left" Margin="170,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="620"/>
-        <TextBlock Background="#FFEAEAEA" x:Name="Outputfilenametextblock" HorizontalAlignment="Left" Margin="170,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="620"/>
+        <Button x:Name="OpenInputButton" Content="Открыть БД источник данных" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="170" Click="OpenInputButton_Click"/>
+        <Button x:Name="OpenOutputButton" Content="Открыть БД для экспорта" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="170" Click="OpenOutputButton_Click" />
+        <TextBlock Background="#FFEAEAEA" x:Name="Inputfilenametextblock" HorizontalAlignment="Left" Margin="185,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="620"/>
+        <TextBlock Background="#FFEAEAEA" x:Name="Outputfilenametextblock" HorizontalAlignment="Left" Margin="185,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="620"/>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
                         <DataGridTextColumn Header="tliCount" Width="20" Binding="{Binding Path=tliRestrictionsCount}" />
                         <DataGridTextColumn Header="routeCoordinate" Width="50" Binding="{Binding Path=StartRouteCoordinate}" />
                     </DataGrid.Columns>
-                    
+
                 </DataGrid>
 
                 <DataGrid x:Name="grid2" Grid.Column="1" AutoGenerateColumns="False" Width="Auto" CanUserResizeRows="False" CanUserAddRows="False">

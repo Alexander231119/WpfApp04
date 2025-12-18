@@ -176,8 +176,8 @@ namespace WpfApp04.Controls
                     _appData.Route1.PointOnTracks.Add(spdin.Start);
                     _appData.Route1.PointOnTracks.Add(spdin.End);
                     _appData.Route1.SpeedRestrictions.Add(spdin);
-
-                    //_appData.Route1.SpeedRestrictions.Sort(_appData.Scts);
+                    _appData.Route1.PointOnTracks.Sort(_appData.Pcr);
+                    _appData.Route1.SpeedRestrictions.Sort(_appData.Scts);
                     RefreshSpeedDataGrid();
 
                     //AddSpeedClicked?.Invoke(sender, e);
@@ -191,8 +191,12 @@ namespace WpfApp04.Controls
 
         private void DeleteSpeedButton_Click(object sender, RoutedEventArgs e)
         {
+
             SpeedRestriction item = (SpeedRestriction)SpeedDataGrid.SelectedItem;
             _appData.RouteToShowInDataGrids.SpeedRestrictions.Remove(item);
+            _appData.RouteToShowInDataGrids.PointOnTracks.Remove(item.Start);
+            _appData.RouteToShowInDataGrids.PointOnTracks.Remove(item.End);
+            _appData.Route1.PointOnTracks.Sort(_appData.Pcr);
 
             RefreshSpeedDataGrid();
 
@@ -263,7 +267,7 @@ namespace WpfApp04.Controls
                     _appData.Route1.PointOnTracks.Add(spd.End);
                 }
             }
-
+            _appData.Route1.PointOnTracks.Sort(_appData.Pcr);
             RefreshSpeedDataGrid();
             //FillEmptySpeedsClicked?.Invoke(sender, e);
             SpeedDataGridSpeedChanged?.Invoke(sender, e);
@@ -272,9 +276,6 @@ namespace WpfApp04.Controls
         private void SaveSpeedButton_Click(object sender, RoutedEventArgs e)
         {
             DbRouteDataExporter.SaveSpeedRestrictions(_appData.ConnectString, _appData.Route1);
-
-            
-
             //SaveSpeedClicked?.Invoke(sender, e);
             _appData.DbData_Changed();
 
@@ -294,6 +295,72 @@ namespace WpfApp04.Controls
 
             SpeedDataGrid.SelectedIndex = selectedrow;
 
+        }
+
+        private void AddSpeedToEmptySpaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            //заполнить пустое место ограничением скорости
+            
+
+            //PointOnTrack StartPoint = new PointOnTrack();
+            //PointOnTrack EndPoint = new PointOnTrack();
+
+            PointOnTrack StartPoint = _appData.Route1.PointOnTracks.FindLast(x => x.RouteCoordinate < _appData.ClickedRouteCoordinate &&
+                                                                     (x.DicPointOnTrackKindID == 8 ||
+                                                                      x.DicPointOnTrackKindID == 27 ||
+                                                                      x.DicPointOnTrackKindID == 28 ||
+                                                                      x.DicPointOnTrackKindID == 29 ||
+                                                                      x.DicPointOnTrackKindID == 2));
+            PointOnTrack EndPoint = _appData.Route1.PointOnTracks.Find(x => x.RouteCoordinate > _appData.ClickedRouteCoordinate &&
+                                                                           (x.DicPointOnTrackKindID == 8 ||
+                                                                            x.DicPointOnTrackKindID == 27 ||
+                                                                            x.DicPointOnTrackKindID == 28 ||
+                                                                            x.DicPointOnTrackKindID == 29 ||
+                                                                            x.DicPointOnTrackKindID == 2));
+
+            if (StartPoint == null || EndPoint == null) return;
+
+            SpeedRestriction spd = new SpeedRestriction(40, 0, 0);
+            spd.Start = new PointOnTrack(StartPoint);
+            spd.End = new PointOnTrack(EndPoint);
+            spd.Start.DicPointOnTrackKindID = spd.End.DicPointOnTrackKindID = 2;
+
+            _appData.Route1.SpeedRestrictions.Add(spd);
+            _appData.Route1.PointOnTracks.Add(spd.Start);
+            _appData.Route1.PointOnTracks.Add(spd.End);
+
+            _appData.Route1.PointOnTracks.Sort(_appData.Pcr);
+
+            RefreshSpeedDataGrid();
+            
+            SpeedDataGridSpeedChanged?.Invoke(sender, e);
+
+        }
+
+        public void ShowCoordinatesToFillEmptySpaceWithSpeedRestriction()
+        {
+
+            PointOnTrack StartPoint = new PointOnTrack();
+            PointOnTrack EndPoint = new PointOnTrack();
+
+            StartPoint = _appData.Route1.PointOnTracks.FindLast(x => x.RouteCoordinate < _appData.ClickedRouteCoordinate &&
+                                                                     (x.DicPointOnTrackKindID == 8 ||
+                                                                      x.DicPointOnTrackKindID == 27 ||
+                                                                      x.DicPointOnTrackKindID == 28 ||
+                                                                      x.DicPointOnTrackKindID == 29 ||
+                                                                      x.DicPointOnTrackKindID == 2));
+            EndPoint = _appData.Route1.PointOnTracks.Find(x => x.RouteCoordinate > _appData.ClickedRouteCoordinate &&
+                                                               (x.DicPointOnTrackKindID == 8 ||
+                                                                x.DicPointOnTrackKindID == 27 ||
+                                                                x.DicPointOnTrackKindID == 28 ||
+                                                                x.DicPointOnTrackKindID == 29 ||
+                                                                x.DicPointOnTrackKindID == 2));
+            if (StartPoint == null || EndPoint == null) return;
+
+            ClickedCoordinateTextBlock.Text =
+                StartPoint.PointOnTrackKm + "-" + StartPoint.PointOnTrackPk + "-" + StartPoint.PointOnTrackM + "\n "
+                + _appData.ClickedRouteCoordinate.ToString() + "\n "
+                + EndPoint.PointOnTrackKm + "-" + EndPoint.PointOnTrackPk + "-" + EndPoint.PointOnTrackM;
         }
     }
 }

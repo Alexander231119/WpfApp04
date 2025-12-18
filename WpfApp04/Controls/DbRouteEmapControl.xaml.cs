@@ -147,19 +147,10 @@ namespace WpfApp04.Controls
                 routeId = Convert.ToInt32(item?.Tag);
 
                 _appData.EkDbRoute = dbElectronicMap.RoutesEkklubsList[mapId].RoutesList[routeId];
-
-
+                
                 waywrapPanel.Children.Clear();
-                //_window.DrawRouteWay(waywrapPanel, dbElectronicMap.RoutesEkklubsList[mapId].RoutesList[routeId]);
-                DbRouteDrawer routeDrawer = new DbRouteDrawer()
-                {
-                    widtscale = _appData.Widtscale,
-                    heighscale = _appData.Heighscale,
-                    kscale = _appData.Kscale,
-                    lscale = _appData.Lscale
-
-                };
-                routeDrawer.DrawRouteWay(waywrapPanel, _appData.EkDbRoute);
+                
+                DbRouteDrawer.DrawRouteWayFromAppData(_appData,waywrapPanel,_appData.EkDbRoute);
 
                 RouteSelected?.Invoke(mapId, routeId);
             }

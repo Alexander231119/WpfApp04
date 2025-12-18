@@ -12,7 +12,12 @@ namespace WpfApp04
 {
     public class DbRouteDrawer
     {
-
+        private AppDbRouteContextData _appData;
+        public AppDbRouteContextData AppData
+        {
+            get => _appData;
+            set { _appData = value; }
+        }
 
         // Масштаб и положение элементов (можно сделать свойствами или передавать как параметры)
         public double widtscale { get; set; } = 0.1;
@@ -39,6 +44,32 @@ namespace WpfApp04
         public double kscale { get; set; } = 1;
         public double lscale { get; set; } = 1;
 
+        public DbRouteDrawer()
+        {
+
+        }
+        
+        public DbRouteDrawer(AppDbRouteContextData _dbAppData)
+        {
+            this.AppData= _dbAppData;
+            this.widtscale = AppData.Widtscale;
+            this.heighscale= AppData.Heighscale;
+            this.kscale= AppData.Kscale;
+            this.lscale= AppData.Lscale;
+        }
+
+        public static void DrawFromAppData(AppDbRouteContextData _dbAppData, DrawingCanvas _canvas, DbRoute _route1,
+            DbRoute _toAddRoute)
+        {
+            DbRouteDrawer drawer = new DbRouteDrawer(_dbAppData);
+            drawer.DrawRoute( _canvas,  _route1,  _toAddRoute);
+        }
+
+        public static void DrawRouteWayFromAppData(AppDbRouteContextData _dbAppData, DrawingCanvas _canvas, DbRoute _route)
+        {
+            DbRouteDrawer drawer = new DbRouteDrawer(_dbAppData);
+            drawer.DrawRouteWay(_canvas, _route);
+        }
         public void DrawRoute(DrawingCanvas _canvas, DbRoute _route1, DbRoute _toAddRoute)
         {
             CalculateRouteElevationScale(_route1.Inclines);

@@ -22,6 +22,7 @@ namespace WpfApp04
     public partial class SpeedRestrictionControl : UserControl
     {
         
+
         public delegate void SpeedHandler(double speedindex);
         public event SpeedHandler? SpeedChanged;
 
@@ -107,8 +108,9 @@ namespace WpfApp04
 
                     speedRestrictions.RemoveAt(index);
                     //var cindex = _wrapPanel.Children.IndexOf(this);
-
-
+                    pointOnTracks.Remove(spdin.Start);
+                    pointOnTracks.Remove(spdin.End);
+                    
                     _wrapPanel.Children.Remove(this);
 
                 }

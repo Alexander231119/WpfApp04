@@ -224,16 +224,15 @@ namespace LampFrame01
         {
             myConnection = new OleDbConnection(ConnectString2);
             myConnection.Open();
-            
-            foreach (var item1 in outputRoute.TrafficLights)
+
+            foreach (var griditem in grid1.Items)
             {
+                int index = grid1.Items.IndexOf(griditem);
+                TrafficLight trafficLight1 = (TrafficLight)griditem;
 
-                int index = inputRoute.TrafficLights.IndexOf(item1);
-                TrafficLight trafficLight1 = (TrafficLight)item1;
-
-                var item2 = outputRoute.TrafficLights[index];
+                var item2 = grid2.Items[index];
                 TrafficLight trafficLight2 = (TrafficLight)item2;
-                
+
 
                 foreach (TliRestriction tllf in trafficLight1.TliRestrictions)
                 {
@@ -243,15 +242,9 @@ namespace LampFrame01
             }
             myConnection.Close();
             MessageBox.Show("ok");
-
-            
             grid1.Items.Refresh();
-
-            
             LoadRouteDataBase(outputRoute, ref fileName2, ref ConnectString2, grid2);
             grid2.Items.Refresh();
-
-            
         }
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
@@ -261,8 +254,6 @@ namespace LampFrame01
             //foreach ( var item1 in TrafficLights1 ) 
             foreach (var griditem in grid1.Items)
             { 
-                
-
                 int index = grid1.Items.IndexOf(griditem);
                 TrafficLight trafficLight1 = (TrafficLight)griditem;
 
@@ -332,6 +323,32 @@ namespace LampFrame01
             myConnection.Close();
             MessageBox.Show("ok");
         }
-        
+        //private void ExportTliButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    myConnection = new OleDbConnection(ConnectString2);
+        //    myConnection.Open();
+
+        //    foreach (var item1 in outputRoute.TrafficLights)
+        //    {
+
+        //        int index = inputRoute.TrafficLights.IndexOf(item1);
+        //        TrafficLight trafficLight1 = (TrafficLight)item1;
+
+        //        var item2 = outputRoute.TrafficLights[index];
+        //        TrafficLight trafficLight2 = (TrafficLight)item2;
+
+
+        //        foreach (TliRestriction tllf in trafficLight1.TliRestrictions)
+        //        {
+        //            DbRouteDataExporter.InsertTliRestriction(tllf, trafficLight2.TrackObjectID, myConnection);
+        //        }
+
+        //    }
+        //    myConnection.Close();
+        //    MessageBox.Show("ok");
+        //    grid1.Items.Refresh();
+        //    LoadRouteDataBase(outputRoute, ref fileName2, ref ConnectString2, grid2);
+        //    grid2.Items.Refresh();
+        //}
     }
 }

@@ -122,16 +122,6 @@ namespace WpfApp04
             {
                 while (reader.Read())
                 {
-                    //var point = new PointOnTrack(
-                    //    Convert.ToDouble(reader[0]),
-                    //    Convert.ToDouble(reader[1]),
-                    //    Convert.ToDouble(reader[2]),
-                    //    Convert.ToDouble(reader[3]),
-                    //    Convert.ToDouble(reader[4]),
-                    //    reader[5].ToString(),
-                    //    Convert.ToDouble(reader[6]),
-                    //    Convert.ToDouble(reader[7]),
-                    //    Convert.ToDouble(reader[8]));
                     var point = new PointOnTrack(
                         reader.IsDBNull(0) ? 0 : Convert.ToDouble(reader[0]),
                         reader.IsDBNull(1) ? 0 : Convert.ToDouble(reader[1]),

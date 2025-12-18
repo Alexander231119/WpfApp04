@@ -77,17 +77,23 @@ HorizontalAlignment="Center" VerticalAlignment="Stretch" />
         <TextBox Grid.Column="2" Name="SegmentIdTextBox" HorizontalAlignment="Left" Margin="187,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="51" Height="20" KeyDown="SegmentIdTextBox_KeyDown"/>
         <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="119,35,0,0" TextWrapping="Wrap" Text="Segment Id:" VerticalAlignment="Top" Height="20"/>
         <Button x:Name="SetSpeedSegmentIdButton" Grid.Column="2" Content="Задать" HorizontalAlignment="Left" Margin="243,35,0,0" VerticalAlignment="Top" Width="47" Click="SetSpeedSegmentIdButton_Click"/>
+        <Button x:Name="AddSpeedToEmptySpaceButton" Grid.Column="2" 
+                HorizontalAlignment="Left" 
+                Margin="10,85,0,0" 
+                VerticalAlignment="Top" Content="Заполнить промежуток" Width="203" Click="AddSpeedToEmptySpaceButton_Click"></Button>
+        <TextBlock Grid.Column="2" x:Name="ClickedCoordinateTextBlock" HorizontalAlignment="Left" Margin="218,85,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="197" Height="70"/>
         <Button x:Name="FillEmptySpeedsButton" 
-                                        Grid.Column="2" 
-                                        HorizontalAlignment="Left" 
-                                        Margin="10,88,0,0" 
-                                        VerticalAlignment="Top" Width="203" 
-                                        Click="FillEmptySpeedsButton_Click" Height="22">
+                Grid.Column="2" 
+                HorizontalAlignment="Left" 
+                Margin="10,110,0,0" 
+                VerticalAlignment="Top" Width="203" 
+                Click="FillEmptySpeedsButton_Click" Height="22">
             <TextBlock Text="Заполнить пустые сегменты" 
                                                TextWrapping="Wrap" 
                                                TextAlignment="Center"/>
         </Button>
         <Button x:Name="SaveSpeedButton" Grid.Column="2" Content="Сохранить скорости" HorizontalAlignment="Left" Margin="323,10,0,0" VerticalAlignment="Top" Width="121" Click="SaveSpeedButton_Click"/>
+
 
 
     </Grid>

@@ -35,6 +35,7 @@ using System.IO;
 using WpfAapp04;
 using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
+using Microsoft.VisualBasic;
 //using VideoLib;
 
 
@@ -119,12 +120,15 @@ namespace WpfApp04
         {
             // данные в mdb были изменены
             // загрузить данные заново и нарисовать маршрут
+            //ClearDataAndCanvas();
+            wrapPanel.Children.Clear();
+            wrapPanel.ClearVisuals();
+            _appData.ClearDbData();
 
-            ClearDataAndCanvas();
-            LoadData(_appData.ConnectString, _appData.Route1);
-            DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
+            DbDataLoader loader = new DbDataLoader(_appData.ConnectString, _appData.Route1);
+            loader.LoadData();
+            DbRouteDrawer.DrawFromAppData(_appData, wrapPanel, _appData.Route1, _appData.ToAddRoute);
             RefreshDataGridsItemsSources();
-            //throw new NotImplementedException();
             Title = _appData.FileName;
         }
 
@@ -171,57 +175,23 @@ namespace WpfApp04
 
         private void OpenForImport_menuItem_Click(object sender, RoutedEventArgs e)
         {
-            
-            LoadData(_appData.ConnectString2, _appData.EgisRoute1);
-            RefreshDataGridsItemsSources();
-
-            EgisSearchControl1.EgisTrackTextBlock.Text = _appData.EgisRoute1.Kilometers.Count.ToString() + "  " + _appData.EgisRoute1.PointOnTracks.Count.ToString();
-            
-        }
-
-        void ClearDataAndCanvas() 
-        {
-            wrapPanel.Children.Clear();
-            wrapPanel.ClearVisuals();
-
-            _appData.SegmentsToFillFromEgis.Clear();
-            _appData.SegmentsSourseFromEgis.Clear();// добавлено при перенесении функций в контрол
-            _appData.Route1.DbRouteClear();
-            _appData.SelectedKilometersToEdit.Clear();
-
-            _appData.ToAddRoute.DbRouteClear();
-            _appData.PointOnTracksToAdd.Clear();
-        }
-        
-        void LoadData(string cstring, DbRoute route)
-        {
-            _appData.EgisPtNormsGridLock = true;
-            // загрузить с использованием метода из отдельного файла
-            DbDataLoader loader = new DbDataLoader(cstring, route);
+            DbDataLoader loader = new DbDataLoader(_appData.ConnectString2, _appData.EgisRoute1);
             loader.LoadData();
-            _appData.EgisPtNormsGridLock = false;
-        }
-        
-        void DrawRoute(DrawingCanvas _canvas, DbRoute _route1, DbRoute _toAddRoute)
-        {
-            // для отображения двух маршрутов
-            DbRouteDrawer routeDrawer = new DbRouteDrawer();
-            routeDrawer.widtscale = _appData.Widtscale;
-            routeDrawer.heighscale = _appData.Heighscale;
-            routeDrawer.kscale = _appData.Kscale;
-            routeDrawer.lscale = _appData.Lscale;
-
-            routeDrawer.DrawRoute(_canvas, _route1, _toAddRoute);
+            RefreshDataGridsItemsSources();
+            EgisSearchControl1.EgisTrackTextBlock.Text = _appData.EgisRoute1.Kilometers.Count.ToString() + "  " + _appData.EgisRoute1.PointOnTracks.Count.ToString();
         }
         
         private void wrapPanel_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             double mX = Mouse.GetPosition(wrapPanel).X;
             double mY = wrapPanel.ActualHeight - Mouse.GetPosition(wrapPanel).Y;
-
             _appData.LastX = mX;
             _appData.LastY = mY;
+
+            SpeedEditTabControl1.ShowCoordinatesToFillEmptySpaceWithSpeedRestriction();
+
         }
+
         private void wrapPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             
@@ -233,77 +203,16 @@ namespace WpfApp04
         private void ScaletextBox_KeyDown(object sender, KeyEventArgs e)
         {
             wrapPanel.Children.Clear();
-            DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
-
-        }
-        
-        //удалить все SpeedrestrictionControl из canvas wrapPanel
-        void RemoveAllSpeedControls()
-        {
-            bool scl = true;
-            while (scl == true)
-            {
-                scl = removfirstspeedcontrol();
-            }
-            
-
-            bool removfirstspeedcontrol()
-            {
-                foreach (UIElement child in wrapPanel.Children)
-                {
-                    if (child is SpeedRestrictionControl)
-                    {
-                        wrapPanel.Children.Remove(child);
-                        return true;
-                    }
-                }
-                return false;
-            }
+            DbRouteDrawer.DrawFromAppData(_appData, wrapPanel, _appData.Route1, _appData.ToAddRoute);
         }
         
         private void SpeedDataGrid_SpeedChanged(object sender, EventArgs e)
         {
             // вызывается когда пользователь внёс изменения скоростей например в SpeedTabControl
-            RemoveAllSpeedControls();
-            DbRouteDrawer routeDrawer = new DbRouteDrawer();
-            routeDrawer.widtscale = _appData.Widtscale;
-            routeDrawer.heighscale = _appData.Heighscale;
-            routeDrawer.kscale = _appData.Kscale;
-            routeDrawer.lscale = _appData.Lscale;
-
-            routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.Route1, false);
-            routeDrawer.DrawSpeedrestrictions(wrapPanel, _appData.ToAddRoute, true);
-        }
-        
-        void LoadEgisData()
-        {
-            // используется двумя разными контролами
-
-            EgisImporter egisImporter = new EgisImporter(_appData.EgisConnectionString, _appData.EgisRoute1) ;
-            egisImporter.EgisSelectedTrack = _appData.EgisSelectedTrack;
-            egisImporter._speedKindToFind = _appData.SpeedKindToFind;
-            egisImporter._usageDirectionToFind = _appData.UsageDirectionToFind;
-
-
-            if (_appData.EgisSelectedTrack != null)
-            {
-                //_appData.EgisPtNormsGridLock = true;
-                egisImporter.LoadEgisData();
-                RefreshDataGridsItemsSources();
-
-                // информация о пути (длина в км и кол-во точек на пути) в текстовом блоке
-                string message1 = "";
-                message1 = _appData.EgisRoute1.Kilometers.Count.ToString() + "  " + _appData.EgisRoute1.PointOnTracks.Count.ToString();
-                EgisSearchControl1.EgisTrackTextBlock.Text = message1;
-                message1 = "";
-                //_appData.EgisPtNormsGridLock = false;
-            }
-
-        }
-        
-        private void EgisLoadDataButton_Click(object sender, RoutedEventArgs e)
-        {
-            LoadEgisData();
+            DrawingCanvas.RemoveAllSpeedControls(wrapPanel);
+            DbRouteDrawer routeDrawer1 = new DbRouteDrawer(_appData);
+            routeDrawer1.DrawSpeedrestrictions(wrapPanel, _appData.Route1, false);
+            routeDrawer1.DrawSpeedrestrictions(wrapPanel, _appData.ToAddRoute, true);
         }
         
         private void AddSegmentsToFillFromEgisButton_Click(object sender, RoutedEventArgs e)
@@ -315,34 +224,30 @@ namespace WpfApp04
         {
             // после импорта обьектов из егис в toAddRoute
             // нарисовать всё заново но не загружать данные
-
             wrapPanel.Children.Clear();
-            DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
+            DbRouteDrawer.DrawFromAppData(_appData, wrapPanel, _appData.Route1, _appData.ToAddRoute);
             RefreshDataGridsItemsSources();
         }
         
         private void EgisFindPointObjectsButton_Click(object sender, RoutedEventArgs e)
         {
             //найти обьект в егис по названию обьекта и станции - перенесено в контрол
-
             EgisSearchControl1.EgisTrackGrid.Items.Refresh();
         }
 
         private void EgisFoundPointObjectsGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //загрузить обьекты по выбранному пути после поиска обьекта - перенесено в контрол
-
-            LoadEgisData();
+            // загружены обьекты egisroute
+            RefreshDataGridsItemsSources();
+            // информация о пути (длина в км и кол-во точек на пути) в текстовом блоке
+            EgisSearchControl1.EgisTrackTextBlock.Text = _appData.EgisRoute1.Kilometers.Count.ToString() + "  " + _appData.EgisRoute1.PointOnTracks.Count.ToString();
         }
 
         private void ClearToAddListsButtony_Click(object sender, RoutedEventArgs e)
         {
-
             // были очищены списки обьектов и точек на добавление
-            //ClearToAddLists();
-
             wrapPanel.Children.Clear();
-            DrawRoute(wrapPanel, _appData.Route1, _appData.ToAddRoute);
+            DbRouteDrawer.DrawFromAppData(_appData, wrapPanel, _appData.Route1, _appData.ToAddRoute);
         }
         
         private void AddTrafficLightToAddList_Click(object sender, RoutedEventArgs e)

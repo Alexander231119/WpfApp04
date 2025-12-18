@@ -668,7 +668,7 @@ namespace WpfApp04
             }
         }
 
-        // положение курсора на экране
+        // положение курсора на экране после клика на экран
 
         private double _lastX = 0;
         public double LastX
@@ -678,6 +678,8 @@ namespace WpfApp04
             {
                 _lastX = value;
                 OnPropertyChanged();
+                ClickedRouteCoordinate = LastX / Widtscale;
+                //LastXChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -691,6 +693,19 @@ namespace WpfApp04
                 OnPropertyChanged();
             }
         }
+
+        private double _clickedRouteCoordinate;
+
+        public double ClickedRouteCoordinate
+        {
+            get=> _clickedRouteCoordinate;
+            set
+            {
+                _clickedRouteCoordinate=value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private bool _rowChanged = false;
         public bool RowChanged
@@ -783,6 +798,19 @@ namespace WpfApp04
         public void DbData_Changed()
         {
             DbDataChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        //public event EventHandler LastXChanged;
+
+        public void ClearDbData()
+        {
+            SegmentsToFillFromEgis.Clear();
+            SegmentsSourseFromEgis.Clear();// добавлено при перенесении функций в контрол
+            Route1.DbRouteClear();
+            SelectedKilometersToEdit.Clear();
+
+            ToAddRoute.DbRouteClear();
+            PointOnTracksToAdd.Clear();
         }
     }
 }

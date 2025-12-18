@@ -74,5 +74,27 @@ namespace WpfApp04.Controls
             return HitTestResultBehavior.Continue;
         }
 
+        public static void RemoveAllSpeedControls(DrawingCanvas _canvas)
+        {
+            bool scl = true;
+            while (scl == true)
+            {
+                scl = removfirstspeedcontrol();
+            }
+
+
+            bool removfirstspeedcontrol()
+            {
+                foreach (UIElement child in _canvas.Children)
+                {
+                    if (child is SpeedRestrictionControl)
+                    {
+                        _canvas.Children.Remove(child);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
     }
 }

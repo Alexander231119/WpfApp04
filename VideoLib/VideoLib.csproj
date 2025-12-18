@@ -133,6 +133,7 @@
       <DependentUpon>VideoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="VideoGraph.cs" />
+    <Compile Include="ViewModels\AppDbRouteContextData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -147,8 +148,6 @@
   <ItemGroup>
     <Content Include="DLL\DAO.DLL" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

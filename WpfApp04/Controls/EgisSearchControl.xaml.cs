@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfAapp04;
 using WpfApp04.ViewModels;
+using VideoLib;
 
 namespace WpfApp04.Controls
 {
@@ -85,7 +86,11 @@ namespace WpfApp04.Controls
             if ((Track)EgisTrackGrid.SelectedItem != null)
             {
                 _appData.EgisSelectedTrack = (Track)EgisTrackGrid.SelectedItem;
-                EgisLoadDataClicked?.Invoke(sender, e);
+                EgisImporter egisImporter = new EgisImporter(_appData);
+                if (_appData.EgisSelectedTrack != null) { egisImporter.LoadEgisData(); }
+                EgisTrackTextBlock.Text = _appData.EgisRoute1.Kilometers.Count.ToString() + "  " + _appData.EgisRoute1.PointOnTracks.Count.ToString();
+                DataGridSorceRadioButtonChanged?.Invoke(sender, e);//чтобы обновились таблицы
+                //EgisLoadDataClicked?.Invoke(sender, e);
             }
         }
 
@@ -93,17 +98,8 @@ namespace WpfApp04.Controls
         {
             EgisPreview egisPreview = new EgisPreview();
             egisPreview.Title = _appData.EgisSelectedTrack?.TrackNumber;
-
-            DbRouteDrawer routeDrawer = new DbRouteDrawer()
-            {
-                widtscale = _appData.Widtscale,
-                heighscale = _appData.Heighscale,
-                kscale = _appData.Kscale,
-                lscale = _appData.Lscale
-            };
-            routeDrawer.DrawRouteWay(egisPreview.EgisCanvas, _appData.EgisRoute1);
+            DbRouteDrawer.DrawRouteWayFromAppData(_appData, egisPreview.EgisCanvas ,_appData.EgisRoute1);
             egisPreview.Show();
-
             ShowEgisPreviewClicked?.Invoke(sender, e);
         }
 
