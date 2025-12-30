@@ -30,7 +30,11 @@
                 </StackPanel>
                 <MenuItem Header="Incline Control" Click="ShowInclineItemCLick" />
 
-                <MenuItem x:Name="DeleteNopointSign" Header="Удалить знаки С без точек на пути" Click="DeleteNopointSign_Click"/>
+                <MenuItem Header="Удалить обьекты без точки на пути">
+                    <MenuItem x:Name="DeleteNopointSign" Header="Удалить знаки С без точек на пути" Click="DeleteNopointSign_Click"/>
+                    <MenuItem x:Name="DeleteNoPointTrafficLight" Header="Удалить светофоры без точки на пути" Click="DeleteNoPointTrafficLight_Click"/>
+                </MenuItem>
+                
 
 
                 <MenuItem Header="Удалить непроставленные обьекты">
@@ -38,6 +42,7 @@
                     <MenuItem x:Name="DelerteNoPointKtsm" Header="Ктсм" Click="DeleteNoPointKtsm_Click" />
                     <MenuItem x:Name="DelerteNoPointCrossing" Header="Переезд" Click="DeleteNoPointCrossing_Click" />
                     <MenuItem x:Name="DeleteNopointSign2" Header="сигнальный знак" Click="DeleteNopointSign2_Click"/>
+                    
                 </MenuItem>
 
                 <MenuItem x:Name="DeleteAllInclines" Header="Удалить все уклоны" Click="DeleteAllInclines_Click"/>

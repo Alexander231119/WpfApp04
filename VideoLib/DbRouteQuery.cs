@@ -107,16 +107,20 @@ namespace WpfApp04
             double dicTrackObjectKindID,
             double dicPointOnTrackKindID)
         {
-                //удалить все обьекты используя OleDbConnection
+            //удалить все обьекты используя OleDbConnection
 
 
-                // Удалить объекты из таблицы, соответствующей trackObjectTable
+            // Удалить объекты из таблицы, соответствующей trackObjectTable
+
+            if (trackObjectTable != "")
+            {
                 string query1 = $"DELETE FROM {trackObjectTable}";
                 OleDbCommand command1 = new OleDbCommand(query1, myConnection);
                 command1.ExecuteNonQuery();
+            }
 
-                // Удалить trackObject
-                string query2 = "DELETE FROM TrackObject WHERE TrackObject.DicTrackObjectKindID = @dicTrackObjectKindID";
+            // Удалить trackObject
+            string query2 = "DELETE FROM TrackObject WHERE TrackObject.DicTrackObjectKindID = @dicTrackObjectKindID";
                 OleDbCommand command2 = new OleDbCommand(query2, myConnection);
                 command2.Parameters.AddWithValue("@dicTrackObjectKindID", dicTrackObjectKindID);
                 command2.ExecuteNonQuery();
@@ -190,6 +194,31 @@ namespace WpfApp04
 
             //_myConnection.Close();
 
+
+        }
+
+        public static void DeleteNoPointTrafficLight(string connectstring)
+        {
+            //удалить светофоры которые не удалось удалить через редактор
+            string ConnectString = connectstring;
+
+
+            OleDbConnection _myConnection;
+
+            _myConnection = new OleDbConnection(ConnectString);
+            _myConnection.Open();
+            string query = "Delete FROM TrafficLight WHERE (((TrafficLight.TrackObjectID) NOT In (Select TrackObjectID FROM TrackObject)))";
+            string query1 = "Delete FROM ALSDevice WHERE (((ALSDevice.TrackObjectID) NOT In (Select TrackObjectID FROM TrackObject)))";
+            string query2 = "Delete FROM TrafficLightSpeedRestriction WHERE (((TrafficLightSpeedRestriction.TrafficLightID) NOT In (Select TrackObjectID FROM TrackObject)))";
+            OleDbCommand command = new OleDbCommand(query, _myConnection);
+            OleDbCommand command1 = new OleDbCommand(query1, _myConnection);
+            OleDbCommand command2 = new OleDbCommand(query2, _myConnection);
+
+            command.ExecuteNonQuery();
+            command1.ExecuteNonQuery();
+            command2.ExecuteNonQuery();
+
+            _myConnection.Close();
 
         }
 
@@ -383,5 +412,12 @@ namespace WpfApp04
             MessageBox.Show("ok");
         }
 
+        public static void DeleteAllFromTableConnected(string DbRouteTable, OleDbConnection myConnection)
+        {
+            //удалить всё содержимое таблицы в бд
+            string query1 = $"DELETE FROM {DbRouteTable}";
+            OleDbCommand command1 = new OleDbCommand(query1, myConnection);
+            command1.ExecuteNonQuery();
+        }
     }
 }

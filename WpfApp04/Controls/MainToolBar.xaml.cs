@@ -210,13 +210,20 @@ namespace WpfApp04.Controls
 
         private void DeleteNopointSign_Click(object sender, RoutedEventArgs e)
         {
+            //удалить знаки С без точки на пути
             DbRouteQuery.DeleteNoPointSigns(_appData.ConnectString);
             _appData.DbData_Changed();
             MessageBox.Show("удалены сигнальные знаки без точки на пути");
 
             //DeleteNopointSignClicked?.Invoke(sender, e);
         }
-
+        private void DeleteNoPointTrafficLight_Click(object sender, RoutedEventArgs e)
+        {
+            //удалить светофоры без точки на пути
+            DbRouteQuery.DeleteNoPointTrafficLight(_appData.ConnectString);
+            _appData.DbData_Changed();
+            MessageBox.Show("удалены светофоры без точки на пути");
+        }
         private void DeleteNoPointUksps_Click(object sender, RoutedEventArgs e)
         {
             DbRouteQuery.DeleteNoFrameObjects(_appData.ConnectString, "", 16, 25);
@@ -294,5 +301,7 @@ namespace WpfApp04.Controls
             _appData.DbData_Changed();
             //AutoBlockFrequency2Clicked?.Invoke(sender, e);
         }
+
+        
     }
 }

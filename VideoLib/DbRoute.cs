@@ -24,10 +24,10 @@ namespace WpfApp04
         public List<UncodedTrack> UncodedTracks = new List<UncodedTrack>();
         public List<Uksps> UkspsList = new List<Uksps>();
         public List<Ktsm> KtsmList = new List<Ktsm>();
-        public List<CrossingPiece> CrossingPieces = new List<CrossingPiece>();
+        public List<CrossingPiece> CrossingPieces = new List<CrossingPiece>();//стрелка
         public List<Platform> Platforms = new List<Platform>();
         public List<TrafficSignal> TrafficSignals = new List<TrafficSignal>();
-        public List<Crossing> Crossings = new List<Crossing>();
+        public List<Crossing> Crossings = new List<Crossing>();//переезд
         public List<NeutralSection> NeutralSections = new List<NeutralSection>();
         public List<RailBridge> RailBridges = new List<RailBridge>();
         public List<Tunnel> Tunnels = new List<Tunnel>();

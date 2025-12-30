@@ -59,11 +59,7 @@ namespace WpfApp04
             LoadEgisLongObjects();
             LoadEgisPt();
             
-            foreach (BrakeCheckPlace _brakeCheckPlace in _egisRoute.BrakeCheckPlaces)
-            {
-                _brakeCheckPlace.ReduceBrakeCheckNormList();
-            }
-
+            foreach (BrakeCheckPlace _brakeCheckPlace in _egisRoute.BrakeCheckPlaces) { _brakeCheckPlace.ReduceBrakeCheckNormList(); }
             foreach (PointOnTrack p in _egisRoute.PointOnTracks) { p.RefreshRouteCoordinate(_egisRoute.Segments); }
 
             _egisRoute.PointOnTracks.Sort(new PointOnTrackComparer());// без этого работает
@@ -71,7 +67,6 @@ namespace WpfApp04
             FillEgisKilometers(_egisRoute.PointOnTracks, _egisRoute.Segments);
             
             DbDataLoader.FillInclinesElevation(_egisRoute.Inclines);
-
             
             foreach (PointOnTrack p in _egisRoute.PointOnTracks) { p.FillElevation(_egisRoute.Inclines); }
             foreach (PointOnTrack p in _egisRoute.PointOnTracks) { p.FillStation(_egisRoute.Stations); }
@@ -1307,7 +1302,7 @@ namespace WpfApp04
 
         public void LoadEgisCrossingPieces()
         {
-
+            // загрузка стрелок
 
             string sql =
 
@@ -1317,7 +1312,7 @@ namespace WpfApp04
             "from TrackObject T " +
             "join PointOnTrack PP " +
             "on PP.TrackObjectID = T.TrackObjectID " +
-            "and PP.DicPointOnTrackKindID = 28 " +
+            "and PP.DicPointOnTrackKindID in (28) " + // = 28 " +
             "join Segment S " +
             "on S.SegmentID = PP.SegmentID " +
             "join TrackObjectProperty TP1 on TP1.TrackObjectID = T.TrackObjectID and TP1.DicTrackObjectPropertyKindID = 2 " +
@@ -1473,6 +1468,18 @@ namespace WpfApp04
 
         public void FillEgisKilometers(List<PointOnTrack> _PointOnTracks, List<Segment> _Segments)
         {
+            // точки на пути должны быть отсортированны
+
+            //найти первую точкиу маршрута
+            PointOnTrack p1 = new PointOnTrack();
+            p1 = _PointOnTracks.Find(x => x.RouteCoordinate == 0);
+            Kilometer Kmtoadd1 = new Kilometer();
+            Kmtoadd1.Start = p1;
+            Kmtoadd1.Km = p1.PointOnTrackKm;
+            _egisRoute.Kilometers.Add(Kmtoadd1);
+
+
+
             foreach (PointOnTrack p in _PointOnTracks)
             {
                 if ((p.EgisDicPointOnTrackKindID == 0))// || (p.RouteCoordinate == 0))
@@ -1487,6 +1494,7 @@ namespace WpfApp04
 
             }
 
+            // найти точку конца каждого километра и поредеить их длину
             for (int i = 0; i < _egisRoute.Kilometers.Count; i++)
             {
                 if (i < _egisRoute.Kilometers.Count - 1)
@@ -1495,6 +1503,7 @@ namespace WpfApp04
                     _egisRoute.Kilometers[i].End = _egisRoute.PointOnTracks[_egisRoute.PointOnTracks.Count - 1];
 
                 _egisRoute.Kilometers[i].Length = Math.Round((_egisRoute.Kilometers[i].End.RouteCoordinate - _egisRoute.Kilometers[i].Start.RouteCoordinate), 2);
+
             }
 
         }

@@ -49,14 +49,14 @@ namespace WpfApp04
     {
 
         public AppDbRouteContextData _appData = new AppDbRouteContextData();
-        
-        private PlatformsTabControlViewModel _platformsVm;
+        //private PlatformsTabControlViewModel _platformsVm;
 
 
         public MainWindow()
         {
 
             InitializeComponent();
+
             this.DataContext = _appData;
 
             var config = ConfigLoader.Load();
@@ -65,7 +65,6 @@ namespace WpfApp04
 
             _appData.EgisConnectionString = connectionString;
             _appData.EgisConnection = new SqlConnection(_appData.EgisConnectionString);
-
             _appData.RouteToShowInDataGrids = _appData.EgisRoute1;
 
             TabImportControl1.AppData=_appData;
@@ -89,11 +88,11 @@ namespace WpfApp04
 
             //PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = _appData.EgisRoute1.Platforms;
             // Создаем ViewModel
-            _platformsVm = new PlatformsTabControlViewModel();
+            //_platformsVm = new PlatformsTabControlViewModel();
             // Привязываем к контролу
-            PlatformsTabControl1.DataContext = _platformsVm;
+            //PlatformsTabControl1.DataContext = _platformsVm;
             // Заполняем данными
-            _platformsVm.Platforms = new ObservableCollection<Platform>(_appData.RouteToShowInDataGrids.Platforms);
+            //_platformsVm.Platforms = new ObservableCollection<Platform>(_appData.RouteToShowInDataGrids.Platforms);
             
             DbRouteEmapControl_1.dbElectronicMap = _appData.RoutesElectronicMap;
 
@@ -120,7 +119,6 @@ namespace WpfApp04
         {
             // данные в mdb были изменены
             // загрузить данные заново и нарисовать маршрут
-            //ClearDataAndCanvas();
             wrapPanel.Children.Clear();
             wrapPanel.ClearVisuals();
             _appData.ClearDbData();
@@ -278,11 +276,11 @@ namespace WpfApp04
             InclinesTabControl1.EgisToExportInclinesGrid.ItemsSource = _appData.RouteToShowInDataGrids.Inclines;
             InclinesTabControl1.EgisToExportInclinesGrid.Items.Refresh();
 
-            //PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = _appData.RouteToShowInDataGrids.Platforms;
-            //PlatformsTabControl1.EgisPlatformsGrid.Items.Refresh();
-            //if(_platformsVm!=null)  _platformsVm.Platforms = new ObservableCollection<Platform>(_appData.RouteToShowInDataGrids.Platforms);
+            PlatformsTabControl1.EgisPlatformsGrid.ItemsSource = _appData.RouteToShowInDataGrids.Platforms;
+            PlatformsTabControl1.EgisPlatformsGrid.Items.Refresh();
 
-            _platformsVm.Platforms = new ObservableCollection<Platform>(_appData.RouteToShowInDataGrids.Platforms);
+            //if(_platformsVm!=null)  _platformsVm.Platforms = new ObservableCollection<Platform>(_appData.RouteToShowInDataGrids.Platforms);
+            //_platformsVm.Platforms = new ObservableCollection<Platform>(_appData.RouteToShowInDataGrids.Platforms);
 
             SpeedEditTabControl1.SpeedDataGrid.ItemsSource = _appData.RouteToShowInDataGrids.SpeedRestrictions;
             SpeedEditTabControl1.SpeedDataGrid.Items.Refresh();

@@ -32,7 +32,85 @@ namespace WpfApp04
             _pointOnTracksToAdd = pointOnTracksToAdd;
         }
 
-        
+        public static void DeleteTrackObjectsFromBaseByCheckList(RouteExportCheckBoxList _routeExportCheckBoxList, OleDbConnection _myConnection)
+        {
+            // удалить из бд выбранные категории обьектов
+
+
+            //рц
+            if (_routeExportCheckBoxList._DeleteTrackCircuitsChickBox is true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "TrackCircuit", 22, 38);
+                DbRouteQuery.DeleteAllFromTableConnected("AlsControl", _myConnection);
+                DbRouteQuery.DeleteAllFromTableConnected("AlsDevice", _myConnection);
+            }
+            // уклоны
+            if (_routeExportCheckBoxList._ImportInclinesCheckBox is true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection,"Incline",10,32);
+            }
+            // скорости
+            if (_routeExportCheckBoxList._ImportSpeedCheckBox is true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "PermanentRestriction", 8, 2);
+            }
+            // платформы
+            if (_routeExportCheckBoxList._ImportPlatformsCheckBox is true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "Platform", 2, 9);
+            }
+            // нейтральная вставка
+            if (_routeExportCheckBoxList._ImportNeutralSectionsCheckBox is true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "NeutralSection", 19, 35);
+            }
+            // укспс
+            if (_routeExportCheckBoxList._ImportUkspsCheckBox is true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "", 16, 25);
+            }
+            //ктсм
+            if (_routeExportCheckBoxList._ImportKtsmCheckBox == true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "", 15, 24);
+            }
+            // светофоры
+            if (_routeExportCheckBoxList._ImportTrafficLightsCheckBox == true)
+            {
+                // так же удаляет все алс и рц
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "NeutralSection", 5, 1);
+                DbRouteQuery.DeleteAllFromTableConnected("TrafficLightInFrame", _myConnection);
+                DbRouteQuery.DeleteAllFromTableConnected("TrafficLightLampInFrame", _myConnection);
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "TrackCircuit", 22, 38);
+                DbRouteQuery.DeleteAllFromTableConnected("AlsControl", _myConnection);
+                DbRouteQuery.DeleteAllFromTableConnected("AlsDevice", _myConnection);
+            }
+            //сигнальные знаки
+            if (_routeExportCheckBoxList._ImportSignsCheckBox == true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "TrafficSignal", 5, 1);
+            }
+            //точка смены рода тока
+            if (_routeExportCheckBoxList._ImportCurrentKindChangeCheckBox == true)
+            {
+                try
+                {
+                    DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "CurrentKindChange", 36, 54);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+            //переезды
+            if (_routeExportCheckBoxList._ImportCrossingsCheckBox == true)
+            {
+                DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection, "Crossing", 9, 23);
+            }
+            //станции не трогаем
+            // 
+        }
 
         public void AddTrackObjectsFromDbRouteToBase()
         {
@@ -43,7 +121,7 @@ namespace WpfApp04
 
             //найти наибольший TrackObjectId
             double TrackObjectID;
-            TrackObjectID = SelectMaxTrackObjectFromBase(_connectstring);
+            //TrackObjectID = SelectMaxTrackObjectFromBase(_connectstring);
 
             OleDbConnection _myConnection;
             
@@ -51,21 +129,26 @@ namespace WpfApp04
             _myConnection.Open();
 
             //найти наибольший PointOntrackID
-            string query3 = "SELECT MAX(PointOnTrackID) FROM PointOnTrack";
-            OleDbCommand command3 = new OleDbCommand(query3, _myConnection);
-            OleDbDataReader reader3 = command3.ExecuteReader();
-            reader3.Read();
-            double PointOnTrackID = Convert.ToDouble(reader3[0]);
-            reader3.Close();
+            //string query3 = "SELECT MAX(PointOnTrackID) FROM PointOnTrack";
+            //OleDbCommand command3 = new OleDbCommand(query3, _myConnection);
+            //OleDbDataReader reader3 = command3.ExecuteReader();
+            //reader3.Read();
+            //double PointOnTrackID = Convert.ToDouble(reader3[0]);
+            //reader3.Close();
 
 
 
             //удалить рельсовые цепи из базы
-
             if (_routeExportCheckBoxList._DeleteTrackCircuitsChickBox is true)
             {
                 DbRouteQuery.DeleteAllObjectsByKindConnected(_myConnection,"TrackCircuit",22,38);
+                DbRouteQuery.DeleteAllFromTableConnected("AlsControl",_myConnection);
+                DbRouteQuery.DeleteAllFromTableConnected("AlsDevice", _myConnection);
             }
+
+            TrackObjectID = SelectMaxTrackObjectFromBaseConnection(_myConnection);
+            double PointOnTrackID = SelectMaxPointOntrackFromBaseConnected(_myConnection);
+
 
             if (_routeExportCheckBoxList._ImportInclinesCheckBox is true)
             {
@@ -487,15 +570,25 @@ namespace WpfApp04
                     var seg = _targetRoute.Segments[sindex];
                     int tindex = _targetRoute.Tracks.FindIndex(x => (x.TrackID == seg.TrackID));
                     var tr = _targetRoute.Tracks[tindex];
-                    string signName = "";
 
-                    if (s.DicTrafficSignalKindID == 21)
-                    { signName = "Подача свистка"; }
 
+
+                    //string signName = "";
+
+                    //if (s.DicTrafficSignalKindID == 16)
+                    //{ signName = "Подача свистка"; }
+                    //else
+                    //{ 
+                    //  signName = "сигнальный знак";
+                    //}
+
+                    string signName = TrafficSignal.trafficSignalNames.TryGetValue(s.DicTrafficSignalKindID, out var name)
+                        ? name
+                        : "сигнальный знак";
 
                     // внести в таблицу TrackObject
                     TrackObjectID += 1;
-                    string TrackObjectName = signName + tr.TrackNumber + " " + tr.TrackName + " на " +
+                    string TrackObjectName = signName + " путь " + tr.TrackNumber + " " + tr.TrackName + " на " +
                         s.StartPointOnTrackKm + " км " + s.StartPointOnTrackPk + " пк " + s.StartPointOnTrackM + " м";
 
                     string query = "INSERT INTO TrackObject ( TrackObjectID, DicTrackObjectKindID, TrackObjectName) " +
@@ -846,6 +939,7 @@ namespace WpfApp04
 
         public static double SelectMaxTrackObjectFromBaseConnected(OleDbConnection connection)
         {
+            // этот метод не работал корректно из за connection.Open();
             //найти наибольший TrackObjectId  connectionString
             double trackObjectId = 0;
 
@@ -855,7 +949,7 @@ namespace WpfApp04
 
                 try
                 {
-                    connection.Open();
+                    //connection.Open(); 
                     object result = command.ExecuteScalar();  // ExecuteScalar возвращает первый столбец первой строки
 
                     if (result != null && result != DBNull.Value)
@@ -885,7 +979,7 @@ namespace WpfApp04
 
             try
             {
-                connection.Open();
+                //connection.Open();
                 object result = command.ExecuteScalar();  // ExecuteScalar возвращает первый столбец первой строки
 
                 if (result != null && result != DBNull.Value)

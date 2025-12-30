@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -95,9 +96,11 @@ namespace WpfApp04.Controls
             DbRouteDataExporter drde = new DbRouteDataExporter(_appData.ConnectString, _appData.Route1, _appData.Route1, emptylist);
             ImportOptionsControl2.ApplyToCheckBoxList(drde._routeExportCheckBoxList);
 
-            // нужно дописать метод для удаления обьектов выбранной категории из базы
-            // drde.DeleteObjectsFromDb();
-            
+            // удаление обьектов выбранной категории из базы
+            OleDbConnection connection = new OleDbConnection(_appData.ConnectString);
+            connection.Open();
+             DbRouteDataExporter.DeleteTrackObjectsFromBaseByCheckList(drde._routeExportCheckBoxList,connection);
+            connection.Close();
 
             // экспорт обьектов
             drde.AddTrackObjectsFromDbRouteToBase();
