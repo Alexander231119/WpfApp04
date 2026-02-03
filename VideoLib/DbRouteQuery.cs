@@ -365,6 +365,8 @@ namespace WpfApp04
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+
+
         public static void InsertTrafficLightsToDb(string connectionstring, IEnumerable items)
         {
             //сохранение только tlispeedrestrictions

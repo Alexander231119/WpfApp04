@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WpfApp04
 {
@@ -137,19 +138,28 @@ namespace WpfApp04
 
         public string TrackToShow(List<Track> tracks, List<Segment> segments)
         {
+            string tracktoshow = "";
             int sindex = segments.FindIndex((Segment) => Segment.SegmentID == Start.SegmentID);
-            int tindex = tracks.FindIndex(x => (x.TrackID == segments[sindex].TrackID));
-            string tracktoshow = tracks[tindex].TrackNumber + " " + tracks[tindex].TrackName;
 
-            if (tracks[tindex].DicTrackKindID == 1)
+            if (sindex >= 0)
             {
-                //главный путь
-                tracktoshow = tracks[tindex].TrackNumber + " гл.   " + tracks[tindex].TrackName;
+                int tindex = tracks.FindIndex(x => (x.TrackID == segments[sindex].TrackID));
+                tracktoshow = tracks[tindex].TrackNumber + " " + tracks[tindex].TrackName;
+
+                if (tracks[tindex].DicTrackKindID == 1)
+                {
+                    //главный путь
+                    tracktoshow = tracks[tindex].TrackNumber + " гл.   " + tracks[tindex].TrackName;
+                }
+                else
+                {
+                    //боковой путь
+                    tracktoshow = tracks[tindex].TrackNumber + " бок   " + tracks[tindex].TrackName;
+                }
             }
             else
             {
-                //боковой путь
-                tracktoshow = tracks[tindex].TrackNumber + " бок   " + tracks[tindex].TrackName;
+                MessageBox.Show(" не найден сегмент "+ this.Start.SegmentID.ToString());
             }
 
             TrackNumber = tracktoshow;

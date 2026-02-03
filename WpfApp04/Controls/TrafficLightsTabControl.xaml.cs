@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp04.ViewModels;
+
 
 namespace WpfApp04.Controls
 {
@@ -88,6 +90,17 @@ namespace WpfApp04.Controls
             EgisToExportTrafficLightsGrid.Items.Refresh();
 
             SetAll4AbValueClicked?.Invoke(sender, e);
+        }
+
+        private void ImportTliFromExcel_button_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog { };
+            var result = openFileDialog.ShowDialog();
+            if (result != true) return;
+
+            _appData.TliExcelFileName = openFileDialog.FileName;
+
+
         }
     }
 }

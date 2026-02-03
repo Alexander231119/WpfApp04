@@ -122,7 +122,13 @@ namespace WpfApp04
             get => _fileName;
             set { _fileName = value; OnPropertyChanged(); }
         }
-        
+        //имя файла для импорта tlispeedrestrictions из excel
+        private string _tliExcelFileName = "";
+        public string TliExcelFileName
+        {
+            get => _tliExcelFileName;
+            set { _tliExcelFileName = value; OnPropertyChanged(); }
+        }
         //имя обьекта для поиска в егис
         private string _objectNameToFind = "";
         public string ObjectNameToFind

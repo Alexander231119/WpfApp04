@@ -4,6 +4,7 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace WpfApp04
@@ -731,6 +732,15 @@ namespace WpfApp04
                             s.Start = _route.PointOnTracks[index2];
                         }
                     }
+
+                }
+                if (index <0)
+                {
+                    MessageBox.Show("не найдена точка для TrackObjectID " + s.Start.TrackObjectID);
+                }
+                if (index < 0)
+                {
+                    MessageBox.Show("не найдена точка для TrackObjectID " + s.End.TrackObjectID);
                 }
 
                 s.TrackToShow(_route.Tracks, _route.Segments);
@@ -781,6 +791,8 @@ namespace WpfApp04
                 {
                     t.Start = _route.PointOnTracks[index];
                     t.Start.RefreshRouteCoordinate(_route.Segments);
+                    //t.RefreshStationMid(_route.Stations);
+                    t.Station = t.Start.station;
                 }
 
                 TrackObject trackobject = _route.TrackObjects.Find(y => y.TrackObjectID == t.TrackObjectID);

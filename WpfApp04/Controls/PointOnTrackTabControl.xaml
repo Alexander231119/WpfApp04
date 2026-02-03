@@ -9,9 +9,9 @@
     <Grid Background="White">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="491*"/>
+            <ColumnDefinition Width="500*"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="200*"/>
             <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="411*"/>
 
@@ -41,7 +41,7 @@
         <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.RowSpan="2" ShowsPreview="False" Width="5"
                   HorizontalAlignment="Center" />
 
-        <Button Grid.Column="2" Name="SaveToDbButton1" Content="Внести в базу данных" HorizontalAlignment="Left" Margin="10,30,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" Click="SaveToDbButton1_Click"/>
+        <Button Grid.Column="2" Name="SaveToDbButton1" Content="Сохранить базу данных" HorizontalAlignment="Left" Margin="10,30,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" Click="SaveToDbButton1_Click"/>
         <Button Grid.Column="2" Name="AddPointOnTrackButton1" Content="Добавить точку на пути" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="156" Click="AddPointOnTrackButton1_Click"/>
         <local:ImportOptionsControl x:Name="ImportOptionsControl2" 
                                 Grid.Column="2" 

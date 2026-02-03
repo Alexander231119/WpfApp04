@@ -22,11 +22,17 @@
                 CanUserResizeRows="False"
                 CanUserAddRows="False" SelectionChanged="EgisToExportTrafficLightsGrid_SelectionChanged" Margin="0,0,0,0" Grid.ColumnSpan="2"   >
             <DataGrid.Columns>
+                <DataGridTextColumn  Binding="{Binding Path=Station}" Width="70">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="станция / перегон" TextWrapping="Wrap" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
                 <DataGridTextColumn  Binding="{Binding Path=TrafficLightName}" Width="70">
                     <DataGridTextColumn.Header>
                         <TextBlock Text="Имя светофора" TextWrapping="Wrap" />
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
+
                 <DataGridTextColumn Header="тип" Binding="{Binding Path=DicTrafficLightKindName}" Width="100"/>
                 <DataGridTextColumn Header="Км" Binding="{Binding Path=StartPointOnTrackKm}" Width="40"/>
                 <DataGridTextColumn Header="Пк" Binding="{Binding Path=StartPointOnTrackPk}" Width="40"/>
@@ -52,10 +58,18 @@
                 Width="117" 
                 Click="AddTrafficLightToAddList_Click" Height="20"/>
         <Button Name="InsertTrafficLightsToDb_button" Grid.Column="2" Content="внести огр. скорости в БД" HorizontalAlignment="Left" Margin="132,10,0,0" VerticalAlignment="Top" Width="173" Click="InsertTrafficLightsToDb_button_Click"/>
+        <Button Name="ImportTliFromExcel_button" Grid.Column="2" Content="загрузить из excel" HorizontalAlignment="Left" Margin="132,40,0,0" VerticalAlignment="Top" Width="173" Click="ImportTliFromExcel_button_Click"/>
+        
         <Grid Name="Trafficlightgrid2" Grid.Column="2" 
-          Background="White" 
-          Margin="0,53,0,0">
-            <local:TrafficLightEditControl  x:Name="trafficLightEditControlMenu" HorizontalAlignment="Left"></local:TrafficLightEditControl>
+              Background="White" 
+              Margin="0,70,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <local:TrafficLightEditControl  x:Name="trafficLightEditControlMenu"/>
+            <GridSplitter Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="1" ShowsPreview="False" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
         </Grid >
         <Button x:Name="SetAll4AbValue_button" Grid.Column="2" Content="Задать 4АБ" HorizontalAlignment="Left" Margin="310,10,0,0" VerticalAlignment="Top" Width="90" Click="SetAll4AbValue_button_Click"/>
 

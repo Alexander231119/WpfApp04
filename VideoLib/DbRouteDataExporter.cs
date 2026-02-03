@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -454,10 +455,7 @@ namespace WpfApp04
                     // внести  PointOntrack
                     double PointOnTrackUsageDirection;
                     double predefinedRouteSegmentFromStartToEnd;
-
-
-
-
+                    
                     if (sindex >= 0)
                     {
 
@@ -1073,7 +1071,7 @@ namespace WpfApp04
         }
 
 
-        public static void SaveSpeedRestrictions(string connectstring, DbRoute route)
+        public static void SaveSpeedRestrictions1(string connectstring, DbRoute route)
         {
             //сохранить в базу только ограничения скорости
 
@@ -1150,11 +1148,17 @@ namespace WpfApp04
                     command2.ExecuteNonQuery();
 
                     // внести ограничения скоростей в таблицу PointOntrack
+
+                    //присвоить DicPointOnTrackID=2
+                    s.Start.DicPointOnTrackKindID = s.End.DicPointOnTrackKindID = 2;
+
                     double PointOnTrackUsageDirection;
                     double predefinedRouteSegmentFromStartToEnd;
 
 
                     int sindex = route.Segments.FindIndex(x => (x.SegmentID == s.Start.SegmentID));
+
+                    //InsertPointOnTracksLongObject(_myConnection, sindex, (TrackObject)s, TrackObjectID, ref PointOnTrackID, route);
 
                     if (sindex >= 0)
                     {
@@ -1186,12 +1190,179 @@ namespace WpfApp04
                             DbRouteDataExporter.InsertPointOntrack(TrackObjectID, 2, PointOnTrackID, s.Start,
                                 PointOnTrackUsageDirection, _myConnection);
                         }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show(" не найден сегмент " + s.Start.SegmentID.ToString());
                     }
                 }
             }
         }
+        public static void SaveSpeedRestrictions(string connectstring, DbRoute route)
+        {
+            //сохранить в базу только ограничения скорости
+
+            string _connectstring = connectstring;
+
+            OleDbConnection _myConnection;
+
+            _myConnection = new OleDbConnection(_connectstring);
+            _myConnection.Open();
+            //удалить ограничения скорости из базы
+
+            string query7 = "DELETE " +
+                            "FROM PermanentRestriction ";
+
+            string query71 = "DELETE FROM TrackObject " +
+                             "WHERE DicTrackObjectKindID = 8 ";
+
+            string query72 = "DELETE FROM PointOnTrack " +
+                             "WHERE DicPointOnTrackKindID = 2 ";
+            OleDbCommand command7 = new OleDbCommand(query7, _myConnection);
+            OleDbCommand command71 = new OleDbCommand(query71, _myConnection);
+            OleDbCommand command72 = new OleDbCommand(query72, _myConnection);
+
+            command7.ExecuteNonQuery();
+            command71.ExecuteNonQuery();
+            command72.ExecuteNonQuery();
+
+            
+            if (route.SpeedRestrictions.Count > 0)
+            {
+
+                //найти наибольший TrackObjectId
+                string query1 = "SELECT MAX(TrackObjectID) FROM TrackObject";
+                OleDbCommand command1 = new OleDbCommand(query1, _myConnection);
+                OleDbDataReader reader = command1.ExecuteReader();
+                reader.Read();
+                double TrackObjectID = Convert.ToDouble(reader[0]);
+                reader.Close();
+
+                //найти наибольший PointOntrackID
+                string query3 = "SELECT MAX(PointOnTrackID) FROM PointOnTrack";
+                OleDbCommand command3 = new OleDbCommand(query3, _myConnection);
+                OleDbDataReader reader3 = command3.ExecuteReader();
+                reader3.Read();
+                double PointOnTrackID = Convert.ToDouble(reader3[0]);
+                reader3.Close();
 
 
+
+                foreach (SpeedRestriction s in route.SpeedRestrictions)
+                {
+
+                    // внести ограничения скорости в таблицу TrackObject
+                    TrackObjectID += 1;
+                    string TrackObjectName = "огр. " + s.Value + " км/ч на " + s.Start.PointOnTrackKm + " км "
+                                             + s.Start.PointOnTrackPk + " пк " +
+                                             s.Start.PointOnTrackM.ToString("G", CultureInfo.InvariantCulture) + " м";
+
+                    string query = "INSERT INTO TrackObject ( TrackObjectID, DicTrackObjectKindID, TrackObjectName) " +
+                                   "VALUES (" + TrackObjectID + ", 8, '" + TrackObjectName + "' )";
+                    OleDbCommand command = new OleDbCommand(query, _myConnection);
+                    //command.ExecuteNonQuery();
+
+                    // внести ограничения скоростей в таблицу PermanentRestriction
+                    string query2 = "INSERT INTO PermanentRestriction (TrackObjectID, PermanentRestrictionSpeed, " +
+                                    "PermRestrictionOnlyHeader, PermRestrictionForEmptyTrain) VALUES ( " +
+                                    TrackObjectID + ", "
+                                    + s.Value + ", " + s.PermRestrictionOnlyHeader + ", " +
+                                    s.PermRestrictionForEmptyTrain + " )";
+                    OleDbCommand command2 = new OleDbCommand(query2, _myConnection);
+                    //command2.ExecuteNonQuery();
+
+                    // внести ограничения скоростей в таблицу PointOntrack
+                    double PointOnTrackUsageDirection;
+                    double predefinedRouteSegmentFromStartToEnd;
+
+
+                    int sindex = route.Segments.FindIndex(x => (x.SegmentID == s.Start.SegmentID));
+
+                    if (sindex >= 0)
+                    {
+                        command.ExecuteNonQuery();
+                        command2.ExecuteNonQuery();
+
+                        predefinedRouteSegmentFromStartToEnd =
+                            route.Segments[sindex].PredefinedRouteSegmentFromStartToEnd;
+
+                        if (predefinedRouteSegmentFromStartToEnd == 1) // если на этом отрезки возрастает километраж
+                        {
+                            PointOnTrackID += 1;
+                            PointOnTrackUsageDirection = 1;
+                            DbRouteDataExporter.InsertPointOntrack(TrackObjectID, 2, PointOnTrackID, s.Start,
+                                PointOnTrackUsageDirection, _myConnection);
+
+                            PointOnTrackID += 1;
+                            PointOnTrackUsageDirection = -1;
+                            DbRouteDataExporter.InsertPointOntrack(TrackObjectID, 2, PointOnTrackID, s.End,
+                                PointOnTrackUsageDirection, _myConnection);
+                        }
+                        else
+                        {
+                            PointOnTrackID += 1;
+                            PointOnTrackUsageDirection = 1;
+                            DbRouteDataExporter.InsertPointOntrack(TrackObjectID, 2, PointOnTrackID, s.End,
+                                PointOnTrackUsageDirection, _myConnection);
+
+                            PointOnTrackID += 1;
+                            PointOnTrackUsageDirection = -1;
+                            DbRouteDataExporter.InsertPointOntrack(TrackObjectID, 2, PointOnTrackID, s.Start,
+                                PointOnTrackUsageDirection, _myConnection);
+                        }
+                    }
+                    if (sindex < 0)
+                    {
+                        MessageBox.Show("не найден SegmentID " + s.Start.SegmentID.ToString());
+                    }
+                }
+
+                MessageBox.Show("Сохранены ограничения скорости \n всего: " +
+                                route.SpeedRestrictions.Count.ToString(), "постоянные ограничения скорости");
+            }
+        }
+        public static void InsertPointOnTracksLongObject(OleDbConnection _myConnection, int sindex, TrackObject s, double trackObjectID, ref double PointOnTrackID, DbRoute route)
+        {
+            // внести в таблицу PointOntrack
+            double PointOnTrackUsageDirection;
+            double predefinedRouteSegmentFromStartToEnd;
+            if (sindex >= 0)
+            {
+
+                predefinedRouteSegmentFromStartToEnd =
+                    route.Segments[sindex].PredefinedRouteSegmentFromStartToEnd;
+
+                if (predefinedRouteSegmentFromStartToEnd == 1) // если на этом отрезки возрастает километраж
+                {
+                    PointOnTrackID += 1;
+                    PointOnTrackUsageDirection = 1;
+                    DbRouteDataExporter.InsertPointOntrack(trackObjectID, s.Start.DicPointOnTrackKindID, PointOnTrackID, s.Start,
+                        PointOnTrackUsageDirection, _myConnection);
+
+                    PointOnTrackID += 1;
+                    PointOnTrackUsageDirection = -1;
+                    DbRouteDataExporter.InsertPointOntrack(trackObjectID, s.End.DicPointOnTrackKindID, PointOnTrackID, s.End,
+                        PointOnTrackUsageDirection, _myConnection);
+                }
+                else
+                {
+                    PointOnTrackID += 1;
+                    PointOnTrackUsageDirection = 1;
+                    DbRouteDataExporter.InsertPointOntrack(trackObjectID, s.End.DicPointOnTrackKindID, PointOnTrackID, s.End,
+                        PointOnTrackUsageDirection, _myConnection);
+
+                    PointOnTrackID += 1;
+                    PointOnTrackUsageDirection = -1;
+                    DbRouteDataExporter.InsertPointOntrack(trackObjectID, s.Start.DicPointOnTrackKindID, PointOnTrackID, s.Start,
+                        PointOnTrackUsageDirection, _myConnection);
+                }
+            }
+            else
+            {
+                MessageBox.Show(s.TrackObjectName+" "+s.TrackObjectID.ToString());
+            }
+        }
 
     }
 }

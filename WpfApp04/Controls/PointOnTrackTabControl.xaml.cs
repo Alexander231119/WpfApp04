@@ -96,7 +96,7 @@ namespace WpfApp04.Controls
             DbRouteDataExporter drde = new DbRouteDataExporter(_appData.ConnectString, _appData.Route1, _appData.Route1, emptylist);
             ImportOptionsControl2.ApplyToCheckBoxList(drde._routeExportCheckBoxList);
 
-            // удаление обьектов выбранной категории из базы
+            // удаление обьектов выбранных категорий из базы
             OleDbConnection connection = new OleDbConnection(_appData.ConnectString);
             connection.Open();
              DbRouteDataExporter.DeleteTrackObjectsFromBaseByCheckList(drde._routeExportCheckBoxList,connection);

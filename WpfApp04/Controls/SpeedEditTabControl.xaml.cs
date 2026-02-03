@@ -279,8 +279,8 @@ namespace WpfApp04.Controls
             //SaveSpeedClicked?.Invoke(sender, e);
             _appData.DbData_Changed();
 
-            MessageBox.Show("Сохранены ограничения скорости \n всего: " +
-                            _appData.Route1.SpeedRestrictions.Count.ToString(), "постоянные ограничения скорости");
+                //MessageBox.Show("Сохранены ограничения скорости \n всего: " +
+                                // _appData.Route1.SpeedRestrictions.Count.ToString(), "постоянные ограничения скорости");
         }
 
         void RefreshSpeedDataGrid()
